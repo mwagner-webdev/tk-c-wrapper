@@ -281,12 +281,19 @@ test treeview-1.1 {insert, children, parent, next/prev, exists, depth, delete} -
     set c [tkx::fn tkx_ttk_treeview_insert $t $a 0 $::tkx::omit]
     set r [list $b [tkx::fn tkx_ttk_treeview_children $t {}] [tkx::fn tkx_ttk_treeview_parent $t $c] \
 	[tkx::fn tkx_ttk_treeview_next $t $a] [tkx::fn tkx_ttk_treeview_prev $t $b] \
-	[tkx::fn tkx_ttk_treeview_exists $t $c] [tkx::fn tkx_ttk_treeview_depth $t $c] \
-	[tkx::fn tkx_ttk_treeview_haschildren $t $a]]
+	[tkx::fn tkx_ttk_treeview_exists $t $c]]
     tkx::fn tkx_ttk_treeview_delete $t [list $a]
     lappend r [tkx::fn tkx_ttk_treeview_exists $t $c] [tkx::fn tkx_ttk_treeview_children $t {}]
-    expr {$r eq [list myid [list $a myid] $a myid $a 1 2 1 0 myid]}
+    expr {$r eq [list myid [list $a myid] $a myid $a 1 0 myid]}
 } -result 1
+
+test treeview-1.1a {depth and haschildren (new in Tk 9.1)} -constraints {display tk91} -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    set a [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    set c [tkx::fn tkx_ttk_treeview_insert $t $a 0 $::tkx::omit]
+    list [tkx::fn tkx_ttk_treeview_depth $t $a] [tkx::fn tkx_ttk_treeview_depth $t $c] \
+	[tkx::fn tkx_ttk_treeview_haschildren $t $a] [tkx::fn tkx_ttk_treeview_haschildren $t $c]
+} -result {1 2 1 0}
 
 test treeview-1.2 {item values and text, selection, focus, see, bbox, tags} -constraints display -body {
     set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
@@ -346,10 +353,17 @@ test props-1.1 {generic typed property access} -constraints display -body {
     tkx::set_string $l -text $::UNI
     tkx::set_int $f -width 33
     tkx::set_string $f -height 1c
-    tkx::set_double $l -textangle 30
+    # A double-valued option: ttk::label -textangle exists from Tk 9.1 on;
+    # with older Tk the class metadata does not list it.
+    if {[testConstraint tk91]} {
+	tkx::set_double $l -textangle 30
+	set dbl [tkx::get_double $l -textangle]
+    } else {
+	set dbl [expr {[tkx_status {tkx::set_double $l -textangle 30}] eq "TKX_ERR_UNSUPPORTED" ? 30.0 : "?"}]
+    }
     list [expr {[tkx::get_string $l -text] eq $::UNI}] [tkx::get_int $f -width] \
 	[expr {[tkx::get_int $f -height] == [tkx_tk winfo pixels [tkx_path $f] 1c]}] \
-	[tkx::get_double $l -textangle] [tkx::get_string $f -bg] \
+	$dbl [tkx::get_string $f -bg] \
 	[expr {[tkx::get_string $f -bg] eq [tkx::fn tkx_frame_get_background $f]}]
 } -match glob -result {1 33 1 30.0 * 1}
 
@@ -428,14 +442,29 @@ test ttkcommon-1.1 {state, instate and style for every ttk class} -constraints d
     set fails
 } -result {}
 
-test treeview-2.1 {detach, visible, tag delete, column drag/drop} -constraints display -body {
+test treeview-2.0 {visible (new in Tk 9.1)} -constraints {display tk91} -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    tkx::fn tkx_grid $t 0 0
+    set i [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    tkx_settle
+    set r [tkx::fn tkx_ttk_treeview_visible $t $i]
+    tkx::fn tkx_grid_forget $t
+    set r
+} -result 1
+
+test treeview-2.1 {detach, tag delete, column drag/drop, index where generated} -constraints display -body {
     set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
     tkx::fn tkx_ttk_treeview_set_columns $t {a b}
     tkx::fn tkx_grid $t 0 0
     set i [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
     set j [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
     tkx_settle
-    set vis [tkx::fn tkx_ttk_treeview_visible $t $i]
+    # Tk 9.0's "index item" has complete evidence and is generated; Tk
+    # 9.1 added an optional argument (multi-form), so it is not.
+    set vis 1
+    if {"tkx_ttk_treeview_index" in [tkx::fnlist]} {
+	set vis [expr {[tkx::fn tkx_ttk_treeview_index $t $j] == 1}]
+    }
     tkx::fn tkx_ttk_treeview_detach $t [list $i]
     set after [list [tkx::fn tkx_ttk_treeview_children $t {}] [tkx::fn tkx_ttk_treeview_exists $t $i]]
     tkx::fn tkx_ttk_treeview_tag_add $t hot [list $j]

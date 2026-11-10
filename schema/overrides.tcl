@@ -186,14 +186,14 @@ namespace eval ::tkx::schema {
 	    params {{parent item} {index index} {id string optional}}
 	    words {parent index {-id id}}
 	    result item
-	    evidence {usage "?parent index?|?before|after item? ?-id id? ?-option value ...?"}
+	    evidence {usage "?parent index?|?before|after item? ?-id id? ?-option value ...?" usageAlternatives {"parent index ?-id id? -options..."}}
 	    why "Variable number of arguments with an option-value tail; item options are set through the generated item accessors instead."
 	}
 	{ttk::treeview focus} {
 	    name focus_get
 	    params {}
 	    result string
-	    evidence {usage "?item?"}
+	    evidence {usage "?item?" usageAlternatives {"?newFocus?"}}
 	    why "Multi-form command: no argument queries the focus item (empty if none)."
 	}
 	{ttk::treeview focus#set} {
@@ -201,7 +201,7 @@ namespace eval ::tkx::schema {
 	    name focus_set
 	    params {{item item}}
 	    result none
-	    evidence {usage "?item?"}
+	    evidence {usage "?item?" usageAlternatives {"?newFocus?"}}
 	    why "Multi-form command: one argument sets the focus item."
 	}
 	{ttk::treeview selection} {

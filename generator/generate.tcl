@@ -444,10 +444,19 @@ proc ::tkx::gen::CommandFunctions {cmd prefix kindMask cls} {
 	}
 	set ev [dict get $entry evidence]
 	set want [dict get $spec evidence]
+	# 'usage' names the expected Tcl_WrongNumArgs usage string;
+	# 'usageAlternatives' lists other strings reviewed as equivalent
+	# (e.g. the wording used by an older Tk release).
 	if {[dict exists $want usage]} {
 	    set have {}
 	    foreach us [dict get $ev usages] { lappend have [dict get $us usage] }
-	    if {[dict get $want usage] ni $have} {
+	    set accepted [list [dict get $want usage]]
+	    if {[dict exists $want usageAlternatives]} {
+		lappend accepted {*}[dict get $want usageAlternatives]
+	    }
+	    set ok 0
+	    foreach a $accepted { if {$a in $have} { set ok 1 } }
+	    if {!$ok} {
 		Fail "overlay drift: $cmd $path usage '[dict get $want usage]' not among extracted usages {$have}"
 	    }
 	}

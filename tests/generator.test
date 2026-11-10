@@ -262,7 +262,7 @@ proc opt {cmd name} {
     error "no option $name"
 }
 
-test tk-1.1 {all ttk widget classes are discovered from RegisterWidget calls} -constraints tksrc -body {
+test tk-1.1 {all ttk widget classes of Tk 9.1 are discovered from RegisterWidget calls} -constraints {tksrc tk91} -body {
     lsort [lmap r [dict get $::ir registrations] {dict get $r command}]
 } -result [lsort {ttk::label ttk::button ttk::checkbutton ttk::radiobutton ttk::menubutton ttk::entry ttk::combobox ttk::spinbox ttk::frame ttk::labelframe ttk::notebook ttk::panedwindow ttk::progressbar ttk::scale ttk::scrollbar ttk::separator ttk::sizegrip ttk::square ttk::toggleswitch ttk::treeview}]
 
