@@ -12,6 +12,8 @@
 #	    TKX_GEN_DIR  directory of the generated files under test (default .)
 #	    DISPLAY      (X11) tests that need a display are skipped without one
 #	    TKX_NO_DISPLAY  1: skip the display tests on every platform
+#	    TKX_TEST_VERBOSE  tcltest -verbose value (default "body error skip";
+#	                 CI adds "start" to log each test as it begins)
 #
 #	All test files run in this interpreter (-singleproc 1).  The exit
 #	status is non-zero if any test failed.  Skipped tests are reported
@@ -21,7 +23,15 @@ package require tcltest 2.5
 namespace import tcltest::*
 
 set here [file dirname [file normalize [info script]]]
-configure -testdir $here -singleproc 1 -verbose {body error skip} {*}$argv
+# Unbuffered output: if a test hangs, a CI log shows how far the suite got
+# (stdout to a pipe is otherwise fully buffered).
+fconfigure stdout -buffering line
+fconfigure stderr -buffering none
+set verbose {body error skip}
+if {[info exists env(TKX_TEST_VERBOSE)] && $env(TKX_TEST_VERBOSE) ne ""} {
+    set verbose $env(TKX_TEST_VERBOSE)
+}
+configure -testdir $here -singleproc 1 -verbose $verbose {*}$argv
 
 set ::tkx_total_failed 0
 set ::tkx_total_skipped 0

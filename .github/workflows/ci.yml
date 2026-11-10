@@ -37,8 +37,14 @@ jobs:
         run: make check-generated
       - name: tcltest suite (Xvfb)
         run: make test
+        timeout-minutes: 15
+        env:
+          TKX_TEST_VERBOSE: body error skip start
       - name: Compatibility with Tk 9.0.4
         run: make compat
+        timeout-minutes: 15
+        env:
+          TKX_TEST_VERBOSE: body error skip start
 
   macos:
     runs-on: macos-latest
@@ -68,6 +74,9 @@ jobs:
         run: make check-generated
       - name: tcltest suite (Aqua)
         run: make test
+        timeout-minutes: 15
+        env:
+          TKX_TEST_VERBOSE: body error skip start
 
   windows:
     runs-on: windows-latest
@@ -112,3 +121,6 @@ jobs:
         run: make check-generated
       - name: tcltest suite (desktop session)
         run: make test
+        timeout-minutes: 15
+        env:
+          TKX_TEST_VERBOSE: body error skip start

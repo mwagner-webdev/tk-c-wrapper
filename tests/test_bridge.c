@@ -801,6 +801,10 @@ ThreadMain(void *p)
     ThreadArgs *a = (ThreadArgs *)p;
     a->setStatus = tkx_ttk_label_set_text(a->widget, "from thread");
     a->postStatus = tkx_app_post(TaskCb, a->task);
+    /* Required, not just tidy: on Windows Tcl_JoinThread is woken only by
+     * Tcl_ExitThread (TclpThreadExit); a thread that simply returns leaves
+     * the joiner waiting forever.  (pthread_join on Unix does not care.) */
+    Tcl_ExitThread(0);
     TCL_THREAD_CREATE_RETURN;
 }
 

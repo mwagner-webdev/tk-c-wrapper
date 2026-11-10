@@ -31,7 +31,10 @@ proc exported_symbols {lib} {
 	    foreach line [split [exec objdump -p $lib] \n] {
 		if {[string match {*Ordinal/Name Pointer*Table*} $line]} { set inTable 1; continue }
 		if {$inTable} {
-		    if {[regexp {^\s*\[\s*\d+\]\s+(\S+)\s*$} $line -> name]} {
+		    # Rows look like "[   0] tkx_app_init" or, with current
+		    # binutils, "[   0] +base[   1] 0000 tkx_app_init": the name
+		    # is the last word.
+		    if {[regexp {^\s*\[\s*\d+\].*?(\S+)\s*$} $line -> name]} {
 			lappend names $name
 		    } elseif {[string trim $line] eq "" && [llength $names]} {
 			break
