@@ -20,9 +20,9 @@
 #	    handwritten implemented in src/tkx_*.c (Approach 3), listed in
 #	                docs/EXTRACTION.md with justification
 
-set ::tkx_gen_dir [file dirname [file normalize [info script]]]
-source [file join $::tkx_gen_dir extract.tcl]
-source [file join $::tkx_gen_dir json.tcl]
+set ::tkx_generator_dir [file dirname [file normalize [info script]]]
+source [file join $::tkx_generator_dir extract.tcl]
+source [file join $::tkx_generator_dir json.tcl]
 
 namespace eval ::tkx::gen {
     # Classes for which C functions are emitted.  The kind numbers are part
@@ -286,6 +286,7 @@ proc ::tkx::gen::ClassifyOption {cmd o {ovTable options} {subKey ""}} {
 	    }
 	    type {
 		dict set r vt [dict get $ov type]
+		if {[dict exists $ov literal]} { dict set r literal [dict get $ov literal] }
 		dict set r approach schema
 	    }
 	}
@@ -366,6 +367,7 @@ proc ::tkx::gen::OptionFunctions {cmd prefix kindMask o cls {sub ""} {subKey ""}
 			target $kindMask params [concat $lead [list [list value $vt 0]]] \
 			words [concat $setWords [list [list lit $name] [list param value]]] \
 			result none approach [dict get $c approach] prov $prov nullOk $nullOk \
+			literal [expr {[dict exists $c literal] ? [dict get $c literal] : ""}] \
 			option $name sub $sub \
 			doc "Set the $name option ([dict get $o type])."]
 	    }
@@ -788,6 +790,9 @@ proc ::tkx::gen::Body {f} {
 		lassign $p pn pt popt
 		set nullOk [expr {[dict exists $f nullOk] ? [dict get $f nullOk] : 0}]
 		set expr [ObjExpr $pt $pn $popt $nullOk]
+		if {$pt in {list itemlist} && [dict exists $f literal] && [dict get $f literal] ne ""} {
+		    set expr "tkx__strlist_lit($pn, ${pn}_count, [CStr [dict get $f literal]])"
+		}
 		if {$popt} {
 		    append b "    if ($pn != NULL) \{\n        if ((objv\[objc\] = $expr) == NULL) goto argfail;\n        objc++;\n    \}\n"
 		} else {
@@ -983,7 +988,7 @@ proc ::tkx::gen::EmitBridge {} {
 	    append c "    TkxId parent = 0, id;\n    if (objc < 1 || tkxb_get_id(ip, objv\[0\], &parent) != TCL_OK) return TCL_ERROR;\n"
 	    append c "    id = ${name}(parent);\n    if (id == TKX_NULL_ID) return tkxb_status(ip, tkx_last_error());\n"
 	    append c "    Tcl_SetObjResult(ip, Tcl_NewWideIntObj((Tcl_WideInt)id));\n    return TCL_OK;\n\}\n\n"
-	    lappend rows [list $name 1]
+	    lappend rows [list $name 1 [BridgeInfo $f]]
 	    continue
 	}
 	if {$kind eq "callback"} {
@@ -992,7 +997,7 @@ proc ::tkx::gen::EmitBridge {} {
 	    append c "    cb = tkxb_register_command(ip, wid, objc > 1 ? objv\[1\] : NULL, $name);\n"
 	    append c "    if (cb == TKX_NULL_ID && objc > 1) return tkxb_status(ip, tkx_last_error());\n"
 	    append c "    Tcl_SetObjResult(ip, Tcl_NewWideIntObj((Tcl_WideInt)cb));\n    return TCL_OK;\n\}\n\n"
-	    lappend rows [list $name 1]
+	    lappend rows [list $name 1 [BridgeInfo $f]]
 	    continue
 	}
 	foreach p [dict get $f params] {
@@ -1019,14 +1024,30 @@ proc ::tkx::gen::EmitBridge {} {
 	    if {[lindex $p 1] in {list itemlist}} { append c "    tkxb_free_strv(&[lindex $p 0]);\n" }
 	}
 	append c "    if (st != TKX_OK) return tkxb_status(ip, st);\n$rset$rclean    return TCL_OK;\n\}\n\n"
-	lappend rows [list $name [expr {[llength [dict get $f params]] + 1}]]
+	lappend rows [list $name [expr {[llength [dict get $f params]] + 1}] [BridgeInfo $f]]
     }
+    append c "const TkxbEnum tkxb_enums\[\] = \{\n"
+    foreach e [lsort [dict keys $enums]] {
+	append c "    \{\"$e\", tkxb_enum_$e, [llength [EnumValues $e]]\},\n"
+    }
+    append c "    \{NULL, NULL, 0\}\n\};\n\n"
     append c "const TkxbFunc tkxb_generated\[\] = \{\n"
     foreach r [lsort -index 0 $rows] {
-	append c "    \{\"[lindex $r 0]\", b_[lindex $r 0]\},\n"
+	append c "    \{\"[lindex $r 0]\", b_[lindex $r 0], [CStr [lindex $r 2]]\},\n"
     }
-    append c "    \{NULL, NULL\}\n\};\n"
+    append c "    \{NULL, NULL, NULL\}\n\};\n"
     return $c
+}
+
+# Machine-readable description of a function for data-driven tests.
+proc ::tkx::gen::BridgeInfo {f} {
+    set params {}
+    foreach p [dict get $f params] { lappend params $p }
+    return [list kind [dict get $f kind] group [dict get $f class] \
+	    option [expr {[dict exists $f option] ? [dict get $f option] : ""}] \
+	    sub [expr {[dict exists $f sub] ? [dict get $f sub] : ""}] \
+	    result [dict get $f result] params $params \
+	    approach [dict get $f approach]]
 }
 
 # ---------------------------------------------------------------------

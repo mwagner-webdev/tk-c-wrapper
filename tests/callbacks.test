@@ -1,0 +1,265 @@
+# callbacks.test -- C callbacks (option callbacks, event bindings, timers):
+# delivery, replacement, removal, release on destruction, reentrancy.
+#
+# The bridge registers C callbacks whose user data is a Tcl script run in
+# the test interpreter, and whose free function counts releases
+# (tkx::freed_count), so lifetime rules can be observed.
+
+source [file join [file dirname [file normalize [info script]]] common.tcl]
+
+tkx_stop
+if {[testConstraint display]} { tkx_start }
+
+# Callback scripts get extra arguments appended (widget handle, event
+# dict), so they are written as calls of these helpers.
+proc bump {var args} { incr $var }
+proc remember {var value args} { set $var $value }
+
+proc button {} {
+    set b [tkx::fn tkx_ttk_button_create [tkx::main_window]]
+    tkx::fn tkx_ttk_button_set_text $b press
+    return $b
+}
+
+test command-1.1 {command callback is delivered with the widget handle} -constraints display -body {
+    set b [button]
+    set ::got {}
+    set cb [tkx::fn tkx_ttk_button_set_command $b {lappend ::got}]
+    tkx::fn tkx_ttk_button_invoke $b
+    tkx::fn tkx_ttk_button_invoke $b
+    list [llength $::got] [expr {[lindex $::got 0] == $b}] [tkx::kind_name [tkx::kind $cb]]
+} -result {2 1 callback}
+
+test command-1.2 {the option holds a list-built trampoline, not user code} -constraints display -body {
+    set b [button]
+    set cb [tkx::fn tkx_ttk_button_set_command $b {set ::x 1}]
+    set script [tkx_tk [tkx_path $b] cget -command]
+    list [lindex $script 0] [expr {[lindex $script 1] == $cb}] [llength $script]
+} -result {::tkx::cb 1 2}
+
+test command-1.3 {replacing a callback releases the previous one exactly once} -constraints display -body {
+    set b [button]
+    set before [tkx::freed_count]
+    set ::which {}
+    set cb1 [tkx::fn tkx_ttk_button_set_command $b {remember ::which one}]
+    set cb2 [tkx::fn tkx_ttk_button_set_command $b {remember ::which two}]
+    set mid [tkx::freed_count]
+    tkx::fn tkx_ttk_button_invoke $b
+    list [expr {$mid - $before}] $::which [tkx::valid $cb1] [tkx::valid $cb2]
+} -result {1 two 0 1}
+
+test command-1.4 {clearing with a NULL function} -constraints display -body {
+    set b [button]
+    set ::n 0
+    tkx::fn tkx_ttk_button_set_command $b {bump ::n}
+    set before [tkx::freed_count]
+    set r [tkx::fn tkx_ttk_button_set_command $b]
+    tkx::fn tkx_ttk_button_invoke $b
+    list $r $::n [expr {[tkx::freed_count] - $before}] [tkx_tk [tkx_path $b] cget -command]
+} -result {0 0 1 {}}
+
+test command-1.5 {tkx_callback_remove deregisters and releases} -constraints display -body {
+    set b [button]
+    set ::n 0
+    set cb [tkx::fn tkx_ttk_button_set_command $b {bump ::n}]
+    set before [tkx::freed_count]
+    tkx::callback_remove $cb
+    tkx::fn tkx_ttk_button_invoke $b
+    list $::n [expr {[tkx::freed_count] - $before}] [tkx::valid $cb] \
+	[tkx_status {tkx::callback_remove $cb}] [tkx_tk [tkx_path $b] cget -command]
+} -result {0 1 0 TKX_ERR_STALE_HANDLE {}}
+
+test command-1.6 {destroying the widget releases its callbacks} -constraints display -body {
+    set b [button]
+    set cb [tkx::fn tkx_ttk_button_set_command $b {remember ::x 1}]
+    set bind [tkx::bind $b <<Poke>> {remember ::y 1}]
+    set before [tkx::freed_count]
+    tkx::destroy $b
+    list [expr {[tkx::freed_count] - $before}] [tkx::valid $cb] [tkx::valid $bind]
+} -result {2 0 0}
+
+test command-1.7 {a callback may destroy its own widget (deferred release)} -constraints display -body {
+    set b [button]
+    set ::self $b
+    tkx::fn tkx_ttk_button_set_command $b {apply {{w} {
+	tkx::destroy $w
+	set ::still [tkx::valid $w]
+    }}}
+    set before [tkx::freed_count]
+    tkx::fn tkx_ttk_button_invoke $b
+    list $::still [tkx::valid $b] [expr {[tkx::freed_count] - $before}]
+} -result {0 0 1}
+
+test command-1.8 {a callback may remove itself and keep running} -constraints display -body {
+    set b [button]
+    set ::steps {}
+    set ::cbid [tkx::fn tkx_ttk_button_set_command $b {apply {{w} {
+	lappend ::steps start
+	tkx::callback_remove $::cbid
+	lappend ::steps [tkx::valid $::cbid] end
+    }}}]
+    tkx::fn tkx_ttk_button_invoke $b
+    tkx::fn tkx_ttk_button_invoke $b
+    set ::steps
+} -result {start 0 end}
+
+test command-1.9 {reentrant tkx calls from inside a callback} -constraints display -body {
+    set m [tkx::main_window]
+    set b [button]
+    set l [tkx::fn tkx_ttk_label_create $m]
+    set ::label $l
+    tkx::fn tkx_ttk_button_set_command $b {apply {{w} {
+	tkx::fn tkx_ttk_label_set_text $::label "set from callback"
+	tkx::fn tkx_ttk_button_set_text $w "clicked"
+	set nb [tkx::fn tkx_ttk_button_create [tkx::main_window]]
+	tkx::destroy $nb
+    }}}
+    tkx::fn tkx_ttk_button_invoke $b
+    list [tkx::fn tkx_ttk_label_get_text $l] [tkx::fn tkx_ttk_button_get_text $b]
+} -result {{set from callback} clicked}
+
+test command-1.10 {disabled buttons do not invoke (Tk behaviour)} -constraints display -body {
+    set b [button]
+    set ::n 0
+    tkx::fn tkx_ttk_button_set_command $b {bump ::n}
+    tkx::fn tkx_ttk_button_state_set $b disabled
+    tkx::fn tkx_ttk_button_invoke $b
+    set ::n
+} -result 0
+
+test command-1.11 {a stale trampoline script is ignored} -constraints display -body {
+    set b [button]
+    set ::n 0
+    set cb [tkx::fn tkx_ttk_button_set_command $b {bump ::n}]
+    tkx::callback_remove $cb
+    # Simulate a leftover script evaluated by Tk after removal.
+    tkx_tk ::tkx::cb $cb
+    tkx_tk ::tkx::cb not-a-number
+    set ::n
+} -result 0
+
+test command-1.12 {key press triggers the button through Tk's own bindings} -constraints display -body {
+    set b [button]
+    tkx::fn tkx_pack $b
+    set ::n 0
+    tkx::fn tkx_ttk_button_set_command $b {bump ::n}
+    tkx_settle
+    tkx::focus $b
+    tkx_settle
+    tkx_tk focus -force [tkx_path $b]
+    tkx_settle
+    tkx_tk event generate [tkx_path $b] <KeyPress-space>
+    tkx_tk event generate [tkx_path $b] <KeyRelease-space>
+    # ttk::button's space binding invokes after a short "after" delay.
+    for {set i 0} {$i < 50 && !$::n} {incr i} { tkx::wait_event 20 }
+    tkx::fn tkx_pack_forget $b
+    set ::n
+} -result 1
+
+# --------------------------------------------------------------- bind
+
+test bind-1.1 {virtual event delivered with the widget handle} -constraints display -body {
+    set b [button]
+    set ::ev {}
+    tkx::bind $b <<Custom>> {set ::ev}
+    tkx_tk event generate [tkx_path $b] <<Custom>>
+    list [expr {[dict get $::ev widget] == $b}] [dict get $::ev sequence]
+} -result {1 <<Custom>>}
+
+test bind-1.2 {mouse event fields} -constraints display -body {
+    set f [tkx::fn tkx_frame_create [tkx::main_window]]
+    tkx::fn tkx_frame_set_width $f 50
+    tkx::fn tkx_frame_set_height $f 50
+    tkx::fn tkx_pack $f
+    tkx_settle
+    set ::ev {}
+    tkx::bind $f <ButtonPress-1> {set ::ev}
+    tkx_tk event generate [tkx_path $f] <ButtonPress-1> -x 7 -y 9
+    tkx::fn tkx_pack_forget $f
+    list [dict get $::ev x] [dict get $::ev y] [dict get $::ev button]
+} -result {7 9 1}
+
+test bind-1.3 {key event fields (keysym and text)} -constraints display -body {
+    set e [tkx::fn tkx_ttk_entry_create [tkx::main_window]]
+    tkx::fn tkx_pack $e
+    tkx_settle
+    tkx::focus $e
+    tkx_tk focus -force [tkx_path $e]
+    tkx_settle
+    set ::ev {}
+    tkx::bind $e <KeyPress> {set ::ev}
+    tkx_tk event generate [tkx_path $e] <KeyPress> -keysym a
+    tkx::fn tkx_pack_forget $e
+    list [dict get $::ev keysym] [dict get $::ev text]
+} -result {a a}
+
+test bind-1.4 {treeview selection virtual event} -constraints display -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    set i [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    set ::sel 0
+    tkx::bind $t <<TreeviewSelect>> {apply {{ev} { incr ::sel }}}
+    tkx::fn tkx_ttk_treeview_selection_set $t [list $i]
+    tkx_settle
+    set ::sel
+} -result 1
+
+test bind-1.5 {binding the same sequence again replaces and releases} -constraints display -body {
+    set b [button]
+    set ::which {}
+    set c1 [tkx::bind $b <<X>> {remember ::which one}]
+    set before [tkx::freed_count]
+    set c2 [tkx::bind $b <<X>> {remember ::which two}]
+    tkx_tk event generate [tkx_path $b] <<X>>
+    list $::which [expr {[tkx::freed_count] - $before}] [tkx::valid $c1] [tkx::valid $c2]
+} -result {two 1 0 1}
+
+test bind-1.6 {removing a binding} -constraints display -body {
+    set b [button]
+    set ::n 0
+    set c [tkx::bind $b <<Y>> {bump ::n}]
+    tkx::callback_remove $c
+    tkx_tk event generate [tkx_path $b] <<Y>>
+    list $::n [tkx_tk bind [tkx_path $b] <<Y>>]
+} -result {0 {}}
+
+test bind-1.7 {invalid sequences are reported by Tk} -constraints display -body {
+    set b [button]
+    list [tkx_status {tkx::bind $b <NoSuchEvent> {set ::x 1}}] [lindex [tkx::last_error] 1]
+} -match glob -result {TKX_ERR_TK {bad event type or keysym "NoSuchEvent"}}
+
+# --------------------------------------------------------------- after
+
+test after-1.1 {after fires once and is released} -constraints display -body {
+    set ::fired 0
+    set before [tkx::freed_count]
+    set id [tkx::after 10 {incr ::fired}]
+    for {set i 0} {$i < 50 && !$::fired} {incr i} { tkx::wait_event 20 }
+    tkx_settle
+    list $::fired [tkx::valid $id] [expr {[tkx::freed_count] - $before}]
+} -result {1 0 1}
+
+test after-1.2 {after can be cancelled} -constraints display -body {
+    set ::fired 0
+    set id [tkx::after 50 {incr ::fired}]
+    tkx::callback_remove $id
+    after 120
+    tkx_settle
+    set ::fired
+} -result 0
+
+# ----------------------------------------------------------- shutdown
+
+test shutdown-1.1 {shutdown releases every remaining callback} -constraints display -body {
+    set b [button]
+    tkx::fn tkx_ttk_button_set_command $b {remember ::x 1}
+    tkx::bind $b <<Z>> {remember ::y 1}
+    tkx::after 100000 {set ::z 1}
+    set before [tkx::freed_count]
+    tkx::app_shutdown
+    set r [expr {[tkx::freed_count] - $before >= 3}]
+    tkx_start
+    set r
+} -result 1
+
+tkx_stop
+cleanupTests

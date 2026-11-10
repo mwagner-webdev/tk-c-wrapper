@@ -1,0 +1,354 @@
+# layout.test -- Tk's grid and pack driven through the generated C API.
+#
+# Geometry is checked through Tk itself (grid info/bbox, winfo) after
+# update idletasks, comparing sizes relative to each other rather than to
+# fixed pixel values, so fonts/themes/DPI do not matter.
+
+source [file join [file dirname [file normalize [info script]]] common.tcl]
+
+tkx_stop
+if {[testConstraint display]} { tkx_start }
+
+proc newtop {{w 400} {h 300}} {
+    set t [tkx::window_create layout]
+    tkx::window_geometry $t $w $h
+    return $t
+}
+proc settle {} {
+    for {set i 0} {$i < 5} {incr i} { tkx_settle; tkx::wait_event 10 }
+}
+proc fr {parent {w 10} {h 10}} {
+    set f [tkx::fn tkx_frame_create $parent]
+    tkx::fn tkx_frame_set_width $f $w
+    tkx::fn tkx_frame_set_height $f $h
+    return $f
+}
+proc mklabel {parent text} {
+    set l [tkx::fn tkx_ttk_label_create $parent]
+    tkx::fn tkx_ttk_label_set_text $l $text
+    return $l
+}
+
+# ---------------------------------------------------------------- grid
+
+test grid-1.1 {tkx_grid places a widget; Tk agrees} -constraints display -body {
+    set t [newtop]
+    set l [mklabel $t hello]
+    tkx::fn tkx_grid $l 2 3
+    set info [tkx_tk grid info [tkx_path $l]]
+    set r [list [dict get $info -row] [dict get $info -column] \
+	[tkx::fn tkx_grid_get_row $l] [tkx::fn tkx_grid_get_column $l] [tkx::manager $l]]
+    tkx::destroy $t
+    set r
+} -result {2 3 2 3 grid}
+
+test grid-1.2 {every per-window grid option round-trips through Tk} -constraints display -body {
+    set t [newtop]
+    set c [fr $t]
+    tkx::fn tkx_grid $c 0 0
+    set w [mklabel $t x]
+    set fails {}
+    foreach {opt v expect tkexpect} {
+	row 1 1 1   column 2 2 2   rowspan 2 2 2   columnspan 3 3 3
+	ipadx 4 4 4   ipady 5 5 5   padx {3 7} {3 7} {3 7}   pady {2 2} {2 2} 2
+	sticky nsew 15 nesw   sticky w 8 w
+    } {
+	tkx::fn tkx_grid_set_$opt $w $v
+	set got [tkx::fn tkx_grid_get_$opt $w]
+	set tk [dict get [tkx_tk grid info [tkx_path $w]] -$opt]
+	if {$got ne $expect || $tk ne $tkexpect} { lappend fails "$opt: got $got Tk $tk" }
+    }
+    tkx::fn tkx_grid_set_in $w $c
+    lappend fails [expr {[tkx::fn tkx_grid_get_in $w] == $c}] \
+	[expr {[dict get [tkx_tk grid info [tkx_path $w]] -in] eq [tkx_path $c]}]
+    tkx::destroy $t
+    set fails
+} -result {1 1}
+
+test grid-1.3 {column weights distribute the extra space} -constraints display -body {
+    set t [newtop 400 100]
+    set a [fr $t]; set b [fr $t]
+    tkx::fn tkx_grid $a 0 0; tkx::fn tkx_grid_set_sticky $a ew
+    tkx::fn tkx_grid $b 0 1; tkx::fn tkx_grid_set_sticky $b ew
+    tkx::fn tkx_grid_columnconfigure_weight $t 0 1
+    tkx::fn tkx_grid_columnconfigure_weight $t 1 3
+    settle
+    set wa [lindex [tkx::geometry $a] 2]
+    set wb [lindex [tkx::geometry $b] 2]
+    # Both request 10 pixels; the remaining 380 are shared 1:3.
+    set r [list [tkx::fn tkx_grid_columnconfigure_get_weight $t 1] \
+	[expr {abs(($wb - 10) - 3*($wa - 10)) <= 3}] [expr {abs($wa + $wb - 400) <= 1}]]
+    tkx::destroy $t
+    set r
+} -result {3 1 1}
+
+test grid-1.4 {row weights and minsize} -constraints display -body {
+    set t [newtop 100 300]
+    set a [fr $t]; set b [fr $t]
+    tkx::fn tkx_grid $a 0 0; tkx::fn tkx_grid_set_sticky $a ns
+    tkx::fn tkx_grid $b 1 0; tkx::fn tkx_grid_set_sticky $b ns
+    tkx::fn tkx_grid_rowconfigure_weight $t 1 1
+    tkx::fn tkx_grid_rowconfigure_minsize $t 0 80
+    settle
+    set r [list [lindex [tkx::geometry $a] 3] [expr {[lindex [tkx::geometry $b] 3] == 300 - 80}] \
+	[tkx::fn tkx_grid_rowconfigure_get_minsize $t 0] [tkx_tk grid rowconfigure [tkx_path $t] 0 -minsize]]
+    tkx::destroy $t
+    set r
+} -result {80 1 80 80}
+
+test grid-1.5 {spanning covers both columns} -constraints display -body {
+    set t [newtop 300 100]
+    set a [fr $t 50 10]; set b [fr $t 70 10]; set s [fr $t 10 10]
+    tkx::fn tkx_grid $a 0 0
+    tkx::fn tkx_grid $b 0 1
+    tkx::fn tkx_grid $s 1 0
+    tkx::fn tkx_grid_set_columnspan $s 2
+    tkx::fn tkx_grid_set_sticky $s ew
+    settle
+    set r [list [lindex [tkx::geometry $s] 2] [lindex [tkx_tk grid bbox [tkx_path $t] 0 1 1 1] 2]]
+    tkx::destroy $t
+    expr {[lindex $r 0] == [lindex $r 1] && [lindex $r 0] == 120}
+} -result 1
+
+test grid-1.6 {external and internal padding change the requested size} -constraints display -body {
+    set t [newtop]
+    set c [tkx::fn tkx_frame_create $t]
+    tkx::fn tkx_grid $c 0 0
+    set w [fr $c 40 20]
+    tkx::fn tkx_grid $w 0 0
+    settle
+    set base [tkx::reqsize $c]
+    tkx::fn tkx_grid_set_padx $w {5 7}
+    tkx::fn tkx_grid_set_pady $w {3 3}
+    settle
+    set padded [tkx::reqsize $c]
+    tkx::fn tkx_grid_set_ipadx $w 10
+    settle
+    set ipadded [tkx::reqsize $c]
+    tkx::destroy $t
+    list $base [expr {[lindex $padded 0] - [lindex $base 0]}] \
+	[expr {[lindex $padded 1] - [lindex $base 1]}] \
+	[expr {[lindex $ipadded 0] - [lindex $padded 0]}]
+} -result {{40 20} 12 6 20}
+
+test grid-1.7 {geometry propagation on and off} -constraints display -body {
+    # Propagation on: the container shrinks to its content.  With
+    # propagation off (set before adding content, as Tk documents) it
+    # keeps its own -width/-height.
+    set t [newtop]
+    set c [fr $t 200 150]
+    tkx::fn tkx_grid $c 0 0
+    tkx::fn tkx_grid [fr $c 30 30] 0 0
+    settle
+    set on [tkx::reqsize $c]
+    set c2 [fr $t 200 150]
+    tkx::fn tkx_grid $c2 0 1
+    tkx::fn tkx_grid_propagate_set $c2 0
+    tkx::fn tkx_grid [fr $c2 30 30] 0 0
+    settle
+    set off [tkx::reqsize $c2]
+    set r [list $on $off [tkx::fn tkx_grid_propagate_get $c2] [tkx_tk grid propagate [tkx_path $c2]]]
+    tkx::destroy $t
+    set r
+} -result {{30 30} {200 150} 0 0}
+
+test grid-1.8 {size, bbox, anchor, uniform, pad} -constraints display -body {
+    set t [newtop]
+    set c [tkx::fn tkx_frame_create $t]
+    tkx::fn tkx_grid $c 0 0
+    tkx::fn tkx_grid [fr $c 20 20] 1 2
+    tkx::fn tkx_grid_anchor_set $c center
+    tkx::fn tkx_grid_columnconfigure_uniform $c 0 grp
+    tkx::fn tkx_grid_columnconfigure_pad $c 2 4
+    settle
+    set r [list [tkx::fn tkx_grid_size $c] [tkx::fn tkx_grid_bbox $c] [tkx::fn tkx_grid_anchor_get $c] \
+	[tkx::fn tkx_grid_columnconfigure_get_uniform $c 0] [tkx::fn tkx_grid_columnconfigure_get_pad $c 2] \
+	[tkx::fn tkx_grid_rowconfigure_get_pad $c 0] [tkx::fn tkx_grid_rowconfigure_get_uniform $c 0]]
+    tkx::destroy $t
+    set r
+} -result {{3 2} {0 0 24 20} center grp 4 0 {}}
+
+test grid-1.9 {forget and remove} -constraints display -body {
+    set t [newtop]
+    set a [mklabel $t a]; set b [mklabel $t b]
+    tkx::fn tkx_grid $a 0 0
+    tkx::fn tkx_grid $b 0 1
+    tkx::fn tkx_grid_set_padx $b {9 9}
+    tkx::fn tkx_grid_forget $a
+    tkx::fn tkx_grid_remove $b
+    set r [list [tkx::manager $a] [tkx::manager $b] [tkx_status {tkx::fn tkx_grid_get_row $a}]]
+    tkx::fn tkx_grid $b 0 1   ;# remove remembers the configuration
+    lappend r [tkx::fn tkx_grid_get_padx $b]
+    tkx::destroy $t
+    set r
+} -result {{} {} TKX_ERR_EMPTY {9 9}}
+
+test grid-1.10 {layout updates after a configuration change} -constraints display -body {
+    set t [newtop]
+    set c [tkx::fn tkx_frame_create $t]
+    tkx::fn tkx_grid $c 0 0
+    set l [mklabel $c short]
+    tkx::fn tkx_grid $l 0 0
+    settle
+    set w1 [lindex [tkx::reqsize $c] 0]
+    tkx::fn tkx_ttk_label_set_text $l "a considerably longer label text"
+    settle
+    set w2 [lindex [tkx::reqsize $c] 0]
+    tkx::destroy $t
+    expr {$w2 > $w1}
+} -result 1
+
+test grid-2.1 {Tk rejects mixing grid and pack in one container} -constraints display -body {
+    set t [newtop]
+    set a [mklabel $t a]; set b [mklabel $t b]
+    tkx::fn tkx_grid $a 0 0
+    set r [list [tkx_status {tkx::fn tkx_pack $b}] [lindex [tkx::last_error] 1]]
+    tkx::destroy $t
+    set r
+} -match glob -result {TKX_ERR_TK {cannot use geometry manager "pack" inside *: grid is already managing its content windows}}
+
+test grid-2.2 {Tk's value checks are preserved} -constraints display -body {
+    set t [newtop]
+    set a [mklabel $t a]
+    set other [newtop]
+    tkx::fn tkx_grid $a 0 0
+    set r [list [tkx_status {tkx::fn tkx_grid_columnconfigure_weight $t 0 -1}] \
+	[tkx_status {tkx::fn tkx_grid_set_row $a -1}] \
+	[tkx_status {tkx::fn tkx_grid_set_in $a $other}] \
+	[tkx_status {tkx::fn tkx_grid_set_sticky $a 16}] \
+	[tkx_status {tkx::fn tkx_grid_set_padx $a {-1 2}}]]
+    tkx::destroy $t; tkx::destroy $other
+    set r
+} -result {TKX_ERR_TK TKX_ERR_TK TKX_ERR_TK TKX_ERR_INVALID_ARGUMENT TKX_ERR_INVALID_ARGUMENT}
+
+# ---------------------------------------------------------------- pack
+
+test pack-1.1 {side, fill, expand} -constraints display -body {
+    set t [newtop 300 200]
+    set a [fr $t 40 40]; set b [fr $t 40 40]; set c [fr $t 40 40]
+    tkx::fn tkx_pack $a; tkx::fn tkx_pack_set_side $a left
+    tkx::fn tkx_pack $b; tkx::fn tkx_pack_set_side $b left
+    tkx::fn tkx_pack $c; tkx::fn tkx_pack_set_side $c top
+    tkx::fn tkx_pack_set_fill $c both
+    tkx::fn tkx_pack_set_expand $c 1
+    settle
+    lassign [tkx::geometry $a] ax ay aw ah
+    lassign [tkx::geometry $b] bx
+    lassign [tkx::geometry $c] cx cy cw ch
+    set r [list [expr {$ax < $bx}] [expr {$cx == 80 && $cw == 220 && $ch == 200}] \
+	[tkx::fn tkx_pack_get_side $c] [tkx::fn tkx_pack_get_fill $c] [tkx::fn tkx_pack_get_expand $c] \
+	[dict get [tkx_tk pack info [tkx_path $c]] -fill]]
+    tkx::destroy $t
+    set r
+} -result {1 1 top both 1 both}
+
+test pack-1.2 {every pack option round-trips; ordering with -before/-after} -constraints display -body {
+    set t [newtop]
+    set c [tkx::fn tkx_frame_create $t]
+    tkx::fn tkx_pack $c
+    set a [fr $t]; set b [fr $t]
+    tkx::fn tkx_pack $a
+    set fails {}
+    foreach {opt v expect} {
+	side right right   fill x x   expand 1 1   anchor nw nw
+	ipadx 3 3   ipady 4 4   padx {1 2} {1 2}   pady {5 5} {5 5}
+    } {
+	tkx::fn tkx_pack_set_$opt $a $v
+	set got [tkx::fn tkx_pack_get_$opt $a]
+	if {$got ne $expect} { lappend fails "$opt: $got" }
+    }
+    tkx::fn tkx_pack $b
+    tkx::fn tkx_pack_set_before $b $a
+    set order [tkx_tk pack content [tkx_path $t]]
+    lappend fails [expr {[lsearch $order [tkx_path $b]] < [lsearch $order [tkx_path $a]]}]
+    tkx::fn tkx_pack_set_after $b $a
+    set order [tkx_tk pack content [tkx_path $t]]
+    lappend fails [expr {[lsearch $order [tkx_path $b]] > [lsearch $order [tkx_path $a]]}]
+    tkx::fn tkx_pack_set_in $b $c
+    lappend fails [expr {[tkx::fn tkx_pack_get_in $b] == $c}] \
+	[tkx_status {tkx::fn tkx_pack_get_after $b}] [tkx_status {tkx::fn tkx_pack_get_before $b}]
+    tkx::destroy $t
+    set fails
+} -result {1 1 1 TKX_ERR_EMPTY TKX_ERR_EMPTY}
+
+test pack-1.3 {pack propagation and forget} -constraints display -body {
+    set t [newtop]
+    set c [fr $t 150 100]
+    tkx::fn tkx_pack $c
+    tkx::fn tkx_pack [fr $c 20 20]
+    settle
+    set on [tkx::reqsize $c]
+    set c2 [fr $t 150 100]
+    tkx::fn tkx_pack $c2
+    tkx::fn tkx_pack_propagate_set $c2 0
+    tkx::fn tkx_pack [fr $c2 20 20]
+    settle
+    set off [tkx::reqsize $c2]
+    set r [list $on $off [tkx::fn tkx_pack_propagate_get $c2]]
+    tkx::fn tkx_pack_forget $c2
+    lappend r [tkx::manager $c2]
+    tkx::destroy $t
+    set r
+} -result {{20 20} {150 100} 0 {}}
+
+test pack-2.1 {bad pack values: rejected by tkx or by Tk} -constraints display -body {
+    set t [newtop]
+    set a [fr $t]
+    tkx::fn tkx_pack $a
+    set other [newtop]
+    set r [list [tkx_status {tkx::fn tkx_pack_set_side $a 9}] \
+	[tkx_status {tkx::fn tkx_pack_set_in $a $other}] [tkx_status {tkx::fn tkx_pack_set_ipadx $a -3}]]
+    tkx::destroy $t
+    tkx::destroy $other
+    set r
+} -result {TKX_ERR_INVALID_ARGUMENT TKX_ERR_TK TKX_ERR_TK}
+
+# ---------------------------------------------- compare with plain Tk
+
+test compare-1.1 {the same grid layout through tkx and through Tcl/Tk gives the same sizes} -constraints display -setup {
+    # A plain Tcl/Tk application in a child interpreter (its own main
+    # window).  Tk is not loaded into the test interpreter itself, because
+    # tcltest exits from cleanupTests whenever ::tk_version exists there.
+    interp create plaintk
+    plaintk eval {package require Tk; wm withdraw .}
+} -body {
+    set plain [plaintk eval {
+	toplevel .cmp
+	ttk::label .cmp.a -text "Name:"
+	ttk::entry .cmp.b -width 25
+	ttk::button .cmp.c -text "OK"
+	ttk::label .cmp.d -text "A longer description that spans"
+	grid .cmp.a -row 0 -column 0 -sticky e -padx {4 2}
+	grid .cmp.b -row 0 -column 1 -sticky ew -pady 3
+	grid .cmp.c -row 0 -column 2 -ipadx 6
+	grid .cmp.d -row 1 -column 0 -columnspan 3 -sticky w
+	grid columnconfigure .cmp 1 -weight 1 -minsize 50
+	update idletasks
+	set r [list [winfo reqwidth .cmp] [winfo reqheight .cmp] [winfo reqwidth .cmp.d]]
+	destroy .cmp
+	set r
+    }]
+    # The same through the C API.
+    set t [tkx::window_create cmp]
+    set a [mklabel $t "Name:"]
+    set b [tkx::fn tkx_ttk_entry_create $t]
+    tkx::fn tkx_ttk_entry_set_width $b 25
+    set c [tkx::fn tkx_ttk_button_create $t]
+    tkx::fn tkx_ttk_button_set_text $c OK
+    set d [mklabel $t "A longer description that spans"]
+    tkx::fn tkx_grid $a 0 0; tkx::fn tkx_grid_set_sticky $a e; tkx::fn tkx_grid_set_padx $a {4 2}
+    tkx::fn tkx_grid $b 0 1; tkx::fn tkx_grid_set_sticky $b ew; tkx::fn tkx_grid_set_pady $b {3 3}
+    tkx::fn tkx_grid $c 0 2; tkx::fn tkx_grid_set_ipadx $c 6
+    tkx::fn tkx_grid $d 1 0; tkx::fn tkx_grid_set_columnspan $d 3; tkx::fn tkx_grid_set_sticky $d w
+    tkx::fn tkx_grid_columnconfigure_weight $t 1 1
+    tkx::fn tkx_grid_columnconfigure_minsize $t 1 50
+    settle
+    set viaTkx [list {*}[tkx::reqsize $t] [lindex [tkx::reqsize $d] 0]]
+    tkx::destroy $t
+    list [expr {$plain eq $viaTkx}] [expr {[lindex $plain 0] > 0}]
+} -result {1 1} -cleanup {
+    interp delete plaintk
+}
+
+tkx_stop
+cleanupTests

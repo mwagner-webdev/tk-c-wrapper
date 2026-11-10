@@ -21,9 +21,17 @@ typedef struct TkxbStrv {
 typedef struct TkxbFunc {
     const char *name;
     int (*fn)(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[]);
+    const char *info;   /* Tcl dict: kind group option sub result params approach */
 } TkxbFunc;
 
 extern const TkxbFunc tkxb_generated[];
+
+typedef struct TkxbEnum {
+    const char *name;
+    const char *const *values;
+    int count;
+} TkxbEnum;
+extern const TkxbEnum tkxb_enums[];
 
 int tkxb_status(Tcl_Interp *ip, TkxStatus st);
 int tkxb_is_omitted(Tcl_Obj *o);

@@ -1,0 +1,206 @@
+# handles.test -- application lifecycle, handle validity, errors, threads.
+
+source [file join [file dirname [file normalize [info script]]] common.tcl]
+
+tkx_stop   ;# start from a clean state
+
+test lifecycle-1.1 {calls before init fail with NOT_INITIALIZED} -constraints bridge -body {
+    list [tkx_status {tkx::main_window}] [tkx_status {tkx::fn tkx_ttk_label_create 0}] \
+	[tkx::valid 1] [tkx_status {tkx::process_events}]
+} -result {TKX_ERR_NOT_INITIALIZED TKX_ERR_NOT_INITIALIZED 0 TKX_ERR_NOT_INITIALIZED}
+
+test lifecycle-1.2 {init, main window, double init rejected} -constraints display -body {
+    tkx::app_init
+    set m [tkx::main_window]
+    list [tkx::valid $m] [tkx::kind_name [tkx::kind $m]] [tkx_path $m] \
+	[tkx_status {tkx::app_init}] [tkx::is_running]
+} -result {1 toplevel . TKX_ERR_ALREADY_INITIALIZED 1} -cleanup { tkx_stop }
+
+test lifecycle-1.3 {shutdown invalidates every handle; re-init gives new handles} -constraints display -body {
+    tkx::app_init
+    set m [tkx::main_window]
+    set l [tkx::fn tkx_ttk_label_create $m]
+    tkx::app_shutdown
+    tkx::app_init
+    set r [list [tkx::valid $m] [tkx::valid $l] [tkx_status {tkx::fn tkx_ttk_label_set_text $l x}]]
+    set m2 [tkx::main_window]
+    lappend r [expr {$m2 != $m}] [tkx::valid $m2]
+} -result {0 0 TKX_ERR_INVALID_HANDLE 1 1} -cleanup { tkx_stop }
+
+test lifecycle-1.4 {destroying the main window ends the application} -constraints display -body {
+    tkx::app_init
+    set m [tkx::main_window]
+    set l [tkx::fn tkx_ttk_label_create $m]
+    tkx::destroy $m
+    list [tkx::is_running] [tkx::valid $m] [tkx::valid $l] [tkx_status {tkx::main_window}]
+} -result {0 0 0 TKX_ERR_STALE_HANDLE} -cleanup { tkx_stop }
+
+test lifecycle-1.5 {quit stops the run loop state} -constraints display -body {
+    tkx::app_init
+    tkx::quit
+    set r [tkx::is_running]
+    tkx::app_shutdown
+    set r
+} -result 0 -cleanup { tkx_stop }
+
+# ------------------------------------------------------------- handles
+
+test handle-1.1 {null and garbage handles are invalid} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    list [tkx_status {tkx::fn tkx_ttk_label_set_text 0 x}] \
+	[tkx_status {tkx::fn tkx_ttk_label_set_text 12345 x}] \
+	[tkx_status {tkx::fn tkx_ttk_label_set_text -1 x}] \
+	[tkx::valid 0] [tkx::valid 0x0700000000000001]
+} -result {TKX_ERR_INVALID_HANDLE TKX_ERR_INVALID_HANDLE TKX_ERR_INVALID_HANDLE 0 0}
+
+test handle-1.2 {handle encodes kind, index and generation} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set b [tkx::fn tkx_ttk_button_create $m]
+    list [tkx::kind $b] [expr {($b >> 56) & 0xFF}] [expr {[tkx::generation $b] >= 1}] \
+	[expr {($b & 0xFFFFFF) == [tkx::index $b]}]
+} -result {5 5 1 1}
+
+test handle-1.3 {wrong-kind handles are rejected} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set l [tkx::fn tkx_ttk_label_create $m]
+    set e [tkx::fn tkx_ttk_entry_create $m]
+    list [tkx_status {tkx::fn tkx_ttk_button_set_text $l x}] \
+	[tkx_status {tkx::fn tkx_ttk_entry_get $l}] \
+	[tkx_status {tkx::fn tkx_ttk_label_set_text $e x}] \
+	[lindex [tkx::last_error] 1]
+} -match glob -result {TKX_ERR_WRONG_KIND TKX_ERR_WRONG_KIND TKX_ERR_WRONG_KIND {handle is a ttk::entry widget, not accepted here}}
+
+test handle-1.4 {stale handles after destroy, distinct from invalid} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set l [tkx::fn tkx_ttk_label_create $m]
+    tkx::destroy $l
+    list [tkx::valid $l] [tkx_status {tkx::fn tkx_ttk_label_set_text $l x}] \
+	[tkx_status {tkx::destroy $l}]
+} -result {0 TKX_ERR_STALE_HANDLE TKX_ERR_STALE_HANDLE}
+
+test handle-1.5 {slots are reused with a new generation; old handles stay stale} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set a [tkx::fn tkx_ttk_label_create $m]
+    set idx [tkx::index $a]
+    set gen [tkx::generation $a]
+    tkx::destroy $a
+    set b [tkx::fn tkx_ttk_label_create $m]
+    list [expr {[tkx::index $b] == $idx}] [expr {[tkx::generation $b] == $gen + 1}] \
+	[tkx::valid $a] [tkx::valid $b] [expr {$a != $b}]
+} -result {1 1 0 1 1}
+
+test handle-1.6 {repeated allocation and destruction} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set seen {}
+    set olds {}
+    for {set i 0} {$i < 200} {incr i} {
+	set f [tkx::fn tkx_ttk_frame_create $m]
+	set kids {}
+	for {set j 0} {$j < 3} {incr j} { lappend kids [tkx::fn tkx_ttk_button_create $f] }
+	lappend olds $f {*}$kids
+	tkx::destroy $f
+	dict set seen [tkx::index $f] 1
+    }
+    set stillValid 0
+    foreach h $olds { incr stillValid [tkx::valid $h] }
+    list $stillValid [expr {[dict size $seen] < 10}]
+} -result {0 1}
+
+test handle-1.7 {deletion through Tk itself invalidates the handle} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set f [tkx::fn tkx_ttk_frame_create $m]
+    set b [tkx::fn tkx_ttk_button_create $f]
+    tkx_tk destroy [tkx_path $f]
+    list [tkx::valid $f] [tkx::valid $b] [tkx_status {tkx::fn tkx_ttk_button_invoke $b}]
+} -result {0 0 TKX_ERR_STALE_HANDLE}
+
+test handle-1.8 {destroying a parent invalidates all descendants} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set t [tkx::window_create "child window"]
+    set f [tkx::fn tkx_frame_create $t]
+    set l [tkx::fn tkx_ttk_label_create $f]
+    set e [tkx::fn tkx_ttk_entry_create $f]
+    tkx::destroy $t
+    list [tkx::valid $t] [tkx::valid $f] [tkx::valid $l] [tkx::valid $e] [tkx::valid $m]
+} -result {0 0 0 0 1}
+
+test handle-1.9 {parent relationship and creation under a destroyed parent} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set f [tkx::fn tkx_ttk_frame_create $m]
+    set b [tkx::fn tkx_ttk_button_create $f]
+    set p [tkx::parent $b]
+    tkx::destroy $f
+    list [expr {$p == $f}] [tkx_status {tkx::fn tkx_ttk_button_create $f}] \
+	[expr {[tkx::parent $m] == 0}]
+} -result {1 TKX_ERR_STALE_HANDLE 1}
+
+test handle-1.10 {a callback handle is not a widget} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set b [tkx::fn tkx_ttk_button_create $m]
+    set cb [tkx::fn tkx_ttk_button_set_command $b {set ::dummy 1}]
+    list [tkx::kind_name [tkx::kind $cb]] [tkx_status {tkx::fn tkx_ttk_button_invoke $cb}] \
+	[tkx_status {tkx::callback_remove $b}]
+} -result {callback TKX_ERR_WRONG_KIND TKX_ERR_WRONG_KIND}
+
+# --------------------------------------------------------------- errors
+
+test error-1.1 {Tk errors carry Tk's message} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set l [tkx::fn tkx_ttk_label_create $m]
+    list [tkx_status {tkx::fn tkx_ttk_label_set_font $l "{no such font family} -999999999999"}] \
+	[tkx_status {tkx::set_string $l -relief bogus}] [lindex [tkx::last_error] 1]
+} -match glob -result {* TKX_ERR_TK {bad relief "bogus": must be *}}
+
+test error-1.2 {invalid arguments are rejected before reaching Tk} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set e [tkx::fn tkx_ttk_entry_create $m]
+    set l [tkx::fn tkx_ttk_label_create $m]
+    list [tkx_status {tkx::fn tkx_ttk_entry_icursor $e -5}] \
+	[tkx_status {tkx::fn tkx_ttk_label_set_relief $l 99}] \
+	[tkx_status {tkx::fn tkx_ttk_button_set_default [tkx::fn tkx_ttk_button_create $m] UNSET}]
+} -result {TKX_ERR_INVALID_ARGUMENT TKX_ERR_INVALID_ARGUMENT TKX_ERR_INVALID_ARGUMENT}
+
+test error-1.3 {successful calls reset the error state} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    catch {tkx::fn tkx_ttk_label_set_text 0 x}
+    set before [lindex [tkx::last_error] 0]
+    tkx::fn tkx_ttk_label_set_text [tkx::fn tkx_ttk_label_create $m] ok
+    list $before [tkx::last_error]
+} -result {TKX_ERR_INVALID_HANDLE {TKX_OK {}}}
+
+test error-1.4 {empty values are reported as TKX_ERR_EMPTY} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set l [tkx::fn tkx_ttk_label_create $m]
+    list [tkx_status {tkx::fn tkx_ttk_label_get_borderwidth $l}] \
+	[tkx::fn tkx_ttk_label_get_relief $l]
+} -result {TKX_ERR_EMPTY UNSET}
+
+# -------------------------------------------------------------- threads
+
+test thread-1.1 {calls from another thread are refused; posting works} -constraints display -setup {
+    set m [tkx_start]
+} -body {
+    set l [tkx::fn tkx_ttk_label_create $m]
+    tkx::fn tkx_ttk_label_set_text $l before
+    set ::posted 0
+    set r [tkx::thread_test $l {set ::posted 1}]
+    for {set i 0} {$i < 50 && !$::posted} {incr i} { tkx::wait_event 20 }
+    list $r $::posted [tkx::fn tkx_ttk_label_get_text $l]
+} -result {{TKX_ERR_WRONG_THREAD TKX_OK} 1 before}
+
+tkx_stop
+cleanupTests

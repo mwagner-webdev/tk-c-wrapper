@@ -1,0 +1,394 @@
+# generator.test -- tests of the source extractor and generator.
+#
+# These tests need no display.  Tests marked tksrc run against the pinned
+# Tk source tree; the others use tests/fixtures.
+
+source [file join [file dirname [file normalize [info script]]] common.tcl]
+source [file join $::tkx_root generator generate.tcl]
+source [file join $::tkx_root generator check.tcl]
+source [file join $::tkx_root generator resolve.tcl]
+
+set fixtk [file join $::tkx_root tests fixtures minitk]
+set fixtcl [file join $::tkx_root tests fixtures minitcl]
+
+proc fixture_unit {rel {plat unix}} {
+    set ::tkx::extract::tkRoot $::fixtk
+    set ::tkx::extract::tclRoot $::fixtcl
+    array unset ::tkx::extract::units
+    set ::tkx::extract::diags {}
+    ::tkx::extract::Unit $plat $rel
+}
+proc words {toks} { lmap t $toks {lindex $t 1} }
+
+# ---------------------------------------------------------------- lexer
+
+test lexer-1.1 {comments are whitespace, strings keep braces and commas} -body {
+    words [clex::tokenize {a /* { , } */ "x,{y}\"z" // tail
+	b}]
+} -result {a {"x,{y}\"z"} b}
+
+test lexer-1.2 {line numbers survive comments and continuations} -body {
+    lmap t [clex::tokenize "a\n/* two\nlines */ b\n#define X \\\n  1\nc"] {
+	list [lindex $t 0] [lindex $t 2]
+    }
+} -result {{id 1} {id 3} {pp 4} {id 6}}
+
+test lexer-1.3 {directives are grouped with their arguments} -body {
+    set t [lindex [clex::tokenize "  # define F(a,b) (a + b) /* c */\n"] 0]
+    list [lindex $t 1] [words [lindex $t 3]]
+} -result {define {F ( a , b ) ( a + b )}}
+
+test lexer-1.4 {function-like vs object-like macro detection} -body {
+    set a [lindex [clex::tokenize "#define F(x) x\n"] 0 3 1 3]
+    set b [lindex [clex::tokenize "#define F (x) x\n"] 0 3 1 3]
+    list $a $b
+} -result {0 1}
+
+test lexer-1.5 {unexpected characters fail visibly} -body {
+    clex::tokenize "int a = 1;\nint b = `x`;"
+} -returnCodes error -match glob -result {CLEX <string>:2: unexpected character U+0060}
+
+test lexer-1.6 {string literal decoding} -body {
+    clex::strvalue {"a\tb\"c\\d\x41"}
+} -result "a\tb\"c\\dA"
+
+test lexer-1.7 {unsupported escapes are errors} -body {
+    clex::strvalue {"bad \q"}
+} -returnCodes error -match glob -result {*unsupported escape*}
+
+# ---------------------------------------------------------- preprocessor
+
+test cpp-1.1 {conditionals and macros per platform} -setup {
+    set u [fixture_unit generic/ttk/ttkDemo.c unix]
+    set w [fixture_unit generic/ttk/ttkDemo.c win]
+} -body {
+    list [dict get [cpp::lookupIn [dict get $u macros] DEF_DEMO_BG end] body] \
+	 [dict get [cpp::lookupIn [dict get $w macros] DEF_DEMO_BG end] body]
+} -result {{{str {"#d9d9d9"} 1}} {{str {"SystemButtonFace"} 1}}}
+
+test cpp-1.2 {macro expansion: function-like, stringify, paste} -body {
+    set toks [clex::tokenize {
+#define CAT(a,b) a ## b
+#define STR(x) #x
+#define TWICE(x) x x
+CAT(foo,bar) STR(a + b) TWICE(1)
+}]
+    set macros {}
+    set body {}
+    foreach t $toks {
+	if {[lindex $t 0] eq "pp"} {
+	    set args [lindex $t 3]
+	    set name [lindex $args 0 1]
+	    set params [lmap p [lsearch -all -inline -index 0 [lrange $args 2 [lsearch -index 1 $args )]-1] id] {lindex $p 1}]
+	    set rest [lrange $args [expr {[lsearch -index 1 $args )]+1}] end]
+	    dict lappend macros $name [list 0 [dict create kind func params $params variadic 0 \
+		body [lmap r $rest {lrange $r 0 2}] file x line 0]]
+	} else { lappend body $t }
+    }
+    words [cpp::expand $body [list cpp::lookupIn $macros] end {} test]
+} -result {foobar {"a + b"} 1 1}
+
+test cpp-1.3 {undefined non-platform macros in #if are recorded as assumptions} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c unix]
+    lindex [lsearch -inline -index 1 -glob [dict get $u skips] *HAVE_FANCY*] 1
+} -match glob -result {*ttkDemo.c:*#ifdef HAVE_FANCY was false (assumes undefined: HAVE_FANCY)*}
+
+test cpp-1.4 {unbalanced conditionals fail} -setup {
+    set d [file join [temporaryDirectory] cpp14]
+    file mkdir $d/generic
+    set f [open $d/generic/x.c w]; puts $f "#if 1\nint a;\n"; close $f
+} -body {
+    cpp::run $d/generic/x.c [dict create name unix predefined {} known {} incpath {} keepHeaders {}] $d
+} -returnCodes error -match glob -result {CPP *unbalanced*} -cleanup {
+    file delete -force $d
+}
+
+test cpp-1.5 {unsupported directives fail} -setup {
+    set d [file join [temporaryDirectory] cpp15]
+    file mkdir $d
+    set f [open $d/x.c w]; puts $f "#assert machine(x86)\n"; close $f
+} -body {
+    cpp::run $d/x.c [dict create name unix predefined {} known {} incpath {} keepHeaders {}] $d
+} -returnCodes error -match glob -result {CPP *unsupported directive #assert*} -cleanup {
+    file delete -force $d
+}
+
+# --------------------------------------------------------------- parser
+
+test parse-1.1 {nested initializers with comments and strings} -body {
+    set src "\{ \{1, \"a,\}\"\}, /* \} */ \{2, F(x, y)\}, 3, \}"
+    set p [cparse::parseInit [clex::tokenize $src] t]
+    lmap c [lindex $p 1] { if {[lindex $c 0] eq "g"} { llength [lindex $c 1] } else { words [lindex $c 1] } }
+} -result {2 2 3}
+
+test parse-1.2 {designated initializers are rejected} -body {
+    cparse::parseInit [clex::tokenize {{ .a = 1 }}] t
+} -returnCodes error -match glob -result {*designated initializers are not supported*}
+
+test parse-1.3 {statement-ending macros keep declarations separate} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c]
+    lsort [lmap d [dict get $u idx decls] {dict get $d name}]
+} -result {AfterLayoutSpecs BaseSpecs DemoCommands DemoSpecs DemoSubCommands DemoWidgetSpec demoModeStrings}
+
+# ------------------------------------------------------------ extraction
+
+test extract-1.1 {option table: names, types, defaults, flags, provenance} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c]
+    set t [dict get [::tkx::extract::OptionTables $u] DemoSpecs]
+    lmap e [dict get $t entries] {
+	list [dict get $e optionName] [dict get $e type] [dict get $e default] [dict get $e flags]
+    }
+} -result {{-text STRING {a "quoted", {braced} label} {}} {-background BORDER #d9d9d9 nullOk} {-bg SYNONYM {} {}} {-mode STRING_TABLE fast storageVar} {-width INT 10 {}} {-style STRING Demo.TLabel {}} {-takefocus STRING ttk::takefocus {}}}
+
+test extract-1.2 {aliases, string tables, inheritance chain, macro provenance} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c]
+    set tables [::tkx::extract::OptionTables $u]
+    set e [dict get $tables DemoSpecs entries]
+    list [dict get [lindex $e 2] synonymOf] [dict get [lindex $e 3] stringTable] \
+	[dict get $tables DemoSpecs chain] [dict get [lindex $e 0] defaultMacro] \
+	[dict get [lindex $e 6] viaMacro] [dict get [lindex $e 1] monoDefault]
+} -result {-background demoModeStrings BaseSpecs DEF_DEMO_LABEL WIDGET_TAKEFOCUS_TRUE white}
+
+test extract-1.3 {typeMask evaluated through macros (read-only bit)} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c]
+    set t [dict get [::tkx::extract::OptionTables $u] BaseSpecs entries]
+    list [dict get [lindex $t 0] typeMask] [dict get [lindex $t 1] typeMask]
+} -result {1 2}
+
+test extract-1.4 {configuration-dependent option is reported, not silently included} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c]
+    set t [dict get [::tkx::extract::OptionTables $u] DemoSpecs]
+    list [lsearch [lmap e [dict get $t entries] {dict get $e optionName}] -fancy] \
+	[llength [dict get $t conds]] [string match *HAVE_FANCY* [dict get $t conds]]
+} -result {-1 1 1}
+
+test extract-1.5 {string tables with comments inside} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c]
+    dict get [::tkx::extract::StringTables $u] {{} demoModeStrings} values
+} -result [list fast slow "very\tslow"]
+
+test extract-1.6 {ensembles, widget spec and registration} -body {
+    set u [fixture_unit generic/ttk/ttkDemo.c]
+    list [lmap e [dict get [::tkx::extract::Ensembles $u] DemoCommands entries] {dict get $e name}] \
+	[dict get [::tkx::extract::WidgetSpecs $u] DemoWidgetSpec className] \
+	[lmap r [::tkx::extract::Registrations $u] {list [dict get $r command] [dict get $r spec]}]
+} -result {{get query set sub} TDemo {{ttk::demo DemoWidgetSpec}}}
+
+test extract-1.7 {platform-specific defaults are kept per platform} -body {
+    set ::tkx::extract::tkRoot $fixtk
+    set ::tkx::extract::tclRoot $fixtcl
+    array unset ::tkx::extract::units
+    set per [dict create]
+    foreach p {macos unix win} {
+	dict set per $p [dict create optionTables [::tkx::extract::OptionTables \
+		[::tkx::extract::Unit $p generic/ttk/ttkDemo.c]]]
+	dict set per $p optionTables [dict map {k v} [dict get $per $p optionTables] {set v}]
+	set ot {}
+	dict for {k v} [dict get $per $p optionTables] { dict set ot [list generic/ttk/ttkDemo.c $k] $v }
+	dict set per $p optionTables $ot
+    }
+    set m [::tkx::extract::MergeOptionTables $per]
+    set bg [lindex [dict get $m {generic/ttk/ttkDemo.c DemoSpecs} entries] 1]
+    dict get $bg default
+} -result {platformDependent 1 values {macos systemWindowBackgroundColor unix #d9d9d9 win SystemButtonFace}}
+
+test extract-2.1 {unsupported: designated initializer} -body {
+    ::tkx::extract::OptionTables [fixture_unit generic/ttk/ttkBadDesignated.c]
+} -returnCodes error -match glob -result {*designated initializers are not supported*}
+
+test extract-2.2 {unsupported: unknown flag term} -body {
+    ::tkx::extract::OptionTables [fixture_unit generic/ttk/ttkBadFlag.c]
+} -returnCodes error -match glob -result {*unsupported flag term 'SOME_UNKNOWN_FLAG'*}
+
+test extract-2.3 {unsupported: option type through an expression} -body {
+    ::tkx::extract::OptionTables [fixture_unit generic/ttk/ttkBadType.c]
+} -returnCodes error -match glob -result {*unsupported option type expression*}
+
+test extract-2.4 {unsupported: non-canonical declaration form} -body {
+    fixture_unit generic/ttk/ttkBadForm.c
+} -returnCodes error -match glob -result {*mentions Tk_OptionSpec but has an unsupported form*}
+
+test extract-2.5 {unsupported: computed default} -body {
+    ::tkx::extract::OptionTables [fixture_unit generic/ttk/ttkBadDefault.c]
+} -returnCodes error -match glob -result {*unsupported default expression*}
+
+# ----------------------------------------------------- evidence (tier B)
+
+proc fixture_evidence {func} {
+    fixture_unit generic/ttk/ttkDemo.c
+    set ::tkx::resolve::ir [dict create files [list generic/ttk/ttkDemo.c] \
+	stringTables [dict map {k v} [::tkx::extract::StringTables [::tkx::extract::Unit unix generic/ttk/ttkDemo.c]] {set v}]]
+    set st {}
+    dict for {k v} [::tkx::extract::StringTables [::tkx::extract::Unit unix generic/ttk/ttkDemo.c]] {
+	dict set st [list generic/ttk/ttkDemo.c {*}$k] $v
+    }
+    dict set ::tkx::resolve::ir stringTables $st
+    array unset ::tkx::resolve::evCache
+    ::tkx::resolve::IndexFunctions
+    ::tkx::resolve::CommandEvidence $func generic/ttk/ttkDemo.c 2
+}
+
+test evidence-1.1 {complete evidence: arity, result} -body {
+    set e [fixture_evidence DemoGetCommand]
+    list [dict get $e status] [dict get $e arity] [dict get $e result]
+} -result {complete {0 0} {kind typed type string}}
+
+test evidence-1.2 {optional argument and conversions} -body {
+    set e [fixture_evidence DemoSetCommand]
+    list [dict get $e status] [dict get $e arity] [lmap a [dict get $e args] {dict get $a type}] \
+	[lmap u [dict get $e usages] {dict get $u usage}]
+} -result {complete {1 2} {int string} {{count ?label?}}}
+
+test evidence-1.3 {polymorphic argument is not guessed} -body {
+    set e [fixture_evidence DemoMoveCommand]
+    list [dict get $e status] [lindex [dict get $e args] 0 1] [string match *polymorphic* [dict get $e reasons]]
+} -result {partial unknown 1}
+
+test evidence-1.4 {several argument-count forms are not collapsed} -body {
+    set e [fixture_evidence DemoQueryCommand]
+    list [dict get $e status] [string match {*several argument-count forms*} [dict get $e reasons]]
+} -result {partial 1}
+
+# ----------------------------------------------- real Tk sources (tksrc)
+
+if {[testConstraint tksrc]} {
+    set ::ir [::tkx::extract::run $::tkx_tk_src $::tkx_tcl_src]
+}
+proc cls {cmd} { dict get $::ir classes $cmd }
+proc opt {cmd name} {
+    foreach o [dict get [cls $cmd] options] {
+	if {[dict get $o optionName] eq $name} { return $o }
+    }
+    error "no option $name"
+}
+
+test tk-1.1 {all ttk widget classes are discovered from RegisterWidget calls} -constraints tksrc -body {
+    lsort [lmap r [dict get $::ir registrations] {dict get $r command}]
+} -result [lsort {ttk::label ttk::button ttk::checkbutton ttk::radiobutton ttk::menubutton ttk::entry ttk::combobox ttk::spinbox ttk::frame ttk::labelframe ttk::notebook ttk::panedwindow ttk::progressbar ttk::scale ttk::scrollbar ttk::separator ttk::sizegrip ttk::square ttk::toggleswitch ttk::treeview}]
+
+test tk-1.2 {ttk::button options with inheritance and enum values} -constraints tksrc -body {
+    set o [opt ttk::button -default]
+    list [dict get $o type] [dict get $o enumValues] [dict get $o default] \
+	[dict get [opt ttk::button -style] table] [dict get [opt ttk::button -class] readonly]
+} -result {STRING_TABLE {active disabled normal} normal ttkCoreOptionSpecs 1}
+
+test tk-1.3 {classic frame: alias, platform default, create-only option} -constraints tksrc -body {
+    list [dict get [opt frame -bg] synonymOf] \
+	[dict get [opt frame -background] default values unix] \
+	[dict get [opt frame -class] createOnly] [dict get [cls frame] className]
+} -result {-background #d9d9d9 1 Frame}
+
+test tk-1.4 {built-in enum types are bound from tkConfig.c} -constraints tksrc -body {
+    list [dict get $::ir enumTypes RELIEF values] [dict get $::ir enumTypes RELIEF bindingSrc]
+} -match glob -result {{flat groove raised ridge solid sunken} generic/tkConfig.c:*}
+
+test tk-1.5 {grid option value types inferred from conversion calls} -constraints tksrc -body {
+    set h [dict get $::ir geometry grid handlers ConfigureContent options]
+    lmap o $h { list [dict get $o name] [dict get $o type] }
+} -result {{-column int} {-columnspan int} {-in window} {-ipadx pixels} {-ipady pixels} {-padx padding} {-pady padding} {-row int} {-rowspan int} {-sticky sticky}}
+
+test tk-1.6 {pack -fill values from strcmp literals, -side from sideNames} -constraints tksrc -body {
+    set h [dict get $::ir geometry pack handlers ConfigureContent options]
+    lmap o $h { if {[dict get $o name] in {-fill -side}} { dict get $o values } else continue }
+} -result {{none x y both} {bottom left right top}}
+
+test tk-1.7 {deprecated geometry subcommands are identified} -constraints tksrc -body {
+    lmap s [dict get $::ir geometry grid subcommands] {
+	if {[dict get $s deprecated]} { dict get $s name } else continue
+    }
+} -result slaves
+
+test tk-1.8 {entry subcommand evidence} -constraints tksrc -body {
+    set out {}
+    foreach c [dict get [cls ttk::entry] commands] {
+	if {[join [dict get $c path]] in {bbox get index {selection range}}} {
+	    set e [dict get $c evidence]
+	    lappend out [list [join [dict get $c path]] [dict get $e status] [lmap a [dict get $e args] {dict get $a type}] [dict get $e result]]
+	}
+    }
+    set out
+} -result {{bbox complete index {kind typed type box}} {get complete {} {kind typed type string}} {index complete index {kind typed type int}} {{selection range} complete {index index} {kind none}}}
+
+test tk-1.9 {treeview sub-object tables are bound and verified} -constraints tksrc -body {
+    lmap k [lsort [dict keys [dict get $::ir subobjects]]] {
+	list $k [dict get $::ir subobjects $k table]
+    }
+} -result {{{ttk::treeview column} ColumnOptionSpecs} {{ttk::treeview heading} HeadingOptionSpecs} {{ttk::treeview item} ItemOptionSpecs}}
+
+# ------------------------------------------------------------ generator
+
+test gen-1.1 {overlay evidence drift is detected} -constraints tksrc -setup {
+    set saved $::tkx::schema::options
+    dict set ::tkx::schema::options {ttk::button -command} evidence {type STRING dbClass NotCommand}
+} -body {
+    ::tkx::gen::Build $::ir
+} -returnCodes error -match glob -result {*overlay drift*-command*dbClass*} -cleanup {
+    set ::tkx::schema::options $saved
+}
+
+test gen-1.2 {command overlay usage drift is detected} -constraints tksrc -setup {
+    set saved $::tkx::schema::commands
+    dict set ::tkx::schema::commands {ttk::entry insert} evidence {usage "index string text"}
+} -body {
+    ::tkx::gen::Build $::ir
+} -returnCodes error -match glob -result {*overlay drift: ttk::entry insert usage*} -cleanup {
+    set ::tkx::schema::commands $saved
+}
+
+test gen-1.3 {regeneration is deterministic} -constraints tksrc -setup {
+    set a [file join [temporaryDirectory] gen-a]
+    set b [file join [temporaryDirectory] gen-b]
+} -body {
+    ::tkx::gen::run $::tkx_tk_src $::tkx_tcl_src $a
+    ::tkx::gen::run $::tkx_tk_src $::tkx_tcl_src $b
+    ::tkx::check::Compare $a $b
+} -result {} -cleanup {
+    file delete -force $a $b
+}
+
+test gen-1.4 {no generated-file drift against the committed files} -constraints {tksrc tk91} -setup {
+    set s [file join [temporaryDirectory] gen-check]
+} -body {
+    ::tkx::check::run $::tkx_tk_src $::tkx_tcl_src $::tkx_gen_dir $s
+} -result {} -cleanup {
+    file delete -force $s
+}
+
+proc readfile {p} { set f [open $p]; fconfigure $f -encoding utf-8; set s [read $f]; close $f; return $s }
+
+test gen-1.5 {generated files contain no absolute paths or timestamps} -body {
+    set bad {}
+    foreach rel {include/tkx_generated.h src/tkx_generated.c tests/tkx_bridge_generated.c generated/api.json generated/coverage.json} {
+	set s [readfile [file join $::tkx_gen_dir $rel]]
+	if {[string first $::tkx_root $s] >= 0 || [regexp {/home/|/tmp/|\m20[0-9][0-9]-[01][0-9]-[0-3][0-9]} $s]} {
+	    lappend bad $rel
+	}
+	if {![string match "*GENERATED*" [string range $s 0 2000]] && ![string match *.json $rel]} {
+	    lappend bad "$rel: no GENERATED marker"
+	}
+    }
+    set bad
+} -result {}
+
+test gen-1.6 {coverage report is consistent with the generated API} -constraints bridge -body {
+    set h [readfile [file join $::tkx_gen_dir include tkx_generated.h]]
+    set protos [regexp -all {TKX_API [A-Za-z_]+ tkx_[a-z0-9_]+\(} $h]
+    set cov [readfile [file join $::tkx_gen_dir generated coverage.json]]
+    regexp {"generatedFunctions": ([0-9]+)} $cov -> n
+    set api [readfile [file join $::tkx_gen_dir generated api.json]]
+    set nApi [regexp -all {"kind": } $api]
+    list [expr {$protos == $n}] [expr {$nApi == $n}] [expr {[llength [tkx::fnlist]] == $n}]
+} -result {1 1 1}
+
+test gen-1.7 {per-class option status counts add up to the discovered options} -constraints tksrc -body {
+    ::tkx::gen::Build $::ir
+    set bad {}
+    dict for {cmd c} $::tkx::gen::cov {
+	set sum 0
+	dict for {k v} [dict get $c counts] { incr sum $v }
+	if {$sum != [dict get $c total]} { lappend bad $cmd }
+    }
+    set bad
+} -result {}
+
+cleanupTests

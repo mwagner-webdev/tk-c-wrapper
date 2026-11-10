@@ -71,6 +71,8 @@ proc ::cpp::run {main config root} {
     set S(lexed) {}
     set S(stack) {}
     set S(curCond) ""
+    set S(skips) {}
+    set S(mainRel) ""
     set S(depth) 0
     set S(keep) [dict get $config keepHeaders]
     dict for {name value} [dict get $config predefined] {
@@ -78,13 +80,14 @@ proc ::cpp::run {main config root} {
 	DefineMacro $name [dict create kind obj params {} variadic 0 \
 		body $toks file "<config>" line 0]
     }
+    set S(mainRel) [Rel $main]
     ProcessFile $main 1
     if {[llength $S(stack)]} {
 	Error "[Rel $main]: unterminated conditional at end of file"
     }
     FinalizeConds
     return [dict create tokens $S(out) headerTokens $S(headerTokens) \
-	    macros $S(macros) conds $S(conds) diags $S(diags) \
+	    macros $S(macros) conds $S(conds) skips $S(skips) diags $S(diags) \
 	    includes $S(includes)]
 }
 
@@ -233,6 +236,18 @@ proc ::cpp::FinalizeConds {} {
     }
     set S(macros) $macros
     set S(conds) $final
+    set skips {}
+    foreach sk $S(skips) {
+	lassign $sk pos where text cands
+	set keep {}
+	foreach c $cands {
+	    if {![dict exists $inTree $c]} { lappend keep $c }
+	}
+	if {[llength $keep]} {
+	    lappend skips [list $pos "$where: $text was false (assumes undefined: [join $keep {, }]); its content is not extracted"]
+	}
+    }
+    set S(skips) $skips
 }
 
 # Directive-only view of a file (cached): headers that are not kept only
@@ -332,6 +347,7 @@ proc ::cpp::Directive {tok rel dir} {
 		    taken [expr {$parentActive && $value}] \
 		    parentActive $parentActive assumed $assumed text $text \
 		    where $where sawElse 0]
+	    NoteSkip $rel
 	}
 	elif {
 	    if {![llength $S(stack)]} { Error "$where: #elif without #if" }
@@ -348,6 +364,7 @@ proc ::cpp::Directive {tok rel dir} {
 		dict set fr active 0
 	    }
 	    lset S(stack) end $fr
+	    NoteSkip $rel
 	}
 	else {
 	    if {![llength $S(stack)]} { Error "$where: #else without #if" }
@@ -359,6 +376,7 @@ proc ::cpp::Directive {tok rel dir} {
 		dict set fr text "#else of [dict get $fr text]"
 	    }
 	    lset S(stack) end $fr
+	    NoteSkip $rel
 	}
 	endif {
 	    if {![llength $S(stack)]} { Error "$where: #endif without #if" }
@@ -698,4 +716,16 @@ proc ::cpp::Paste {toks where} {
 	lappend out $t
     }
     return $out
+}
+
+# A region of the main file skipped because an #if/#elif/#else evaluated
+# false *using assumptions* is recorded by output position, so tables that
+# straddle it can report that content was left out under an assumption.
+proc ::cpp::NoteSkip {rel} {
+    variable S
+    if {$rel ne $S(mainRel)} return
+    set fr [lindex $S(stack) end]
+    if {[dict get $fr active] || ![dict get $fr parentActive]} return
+    if {![llength [dict get $fr assumed]]} return
+    lappend S(skips) [list [llength $S(out)] [dict get $fr where] [dict get $fr text]  [dict get $fr assumed]]
 }

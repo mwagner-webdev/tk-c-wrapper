@@ -111,9 +111,9 @@ namespace eval ::tkx::schema {
 	    why "TK_OPTION_STRING holding a Tcl list of column identifiers; ttkTreeview.c parses it with Tcl_ListObjGetElements."
 	}
 	{ttk::treeview -displaycolumns} {
-	    treat type type list
-	    evidence {type STRING dbClass DisplayColumns}
-	    why "TK_OPTION_STRING holding a Tcl list of column identifiers (or #all)."
+	    treat type type list literal #all
+	    evidence {type STRING dbClass DisplayColumns default #all}
+	    why "TK_OPTION_STRING holding a Tcl list of column identifiers, or the word #all, which ttkTreeview.c compares with the option's string value (strcmp) before parsing it as a list; a one-element list \{#all\} would be rejected.  'literal' makes the setter pass that word unquoted."
 	}
 	{ttk::treeview -show} {
 	    treat type type list

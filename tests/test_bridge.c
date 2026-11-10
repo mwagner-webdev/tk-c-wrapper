@@ -11,6 +11,7 @@
 #include "test_bridge.h"
 #include <pthread.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -313,29 +314,85 @@ tkxb_register_command(Tcl_Interp *ip, TkxId widget, Tcl_Obj *script,
 
 #define ID_RESULT(ip, id) Tcl_SetObjResult(ip, Tcl_NewWideIntObj((Tcl_WideInt)(id)))
 
-static int
-FnCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
+/* Successful calls per generated function (behavioural coverage). */
+static Tcl_HashTable callCounts;
+static int callCountsInit = 0;
+
+static const TkxbFunc *
+FindFn(const char *name)
 {
-    const char *name;
     int lo = 0, hi, mid, c;
-    (void)cd;
-    if (objc < 2) {
-	Tcl_WrongNumArgs(ip, 1, objv, "function ?arg ...?");
-	return TCL_ERROR;
-    }
-    name = Tcl_GetString(objv[1]);
     for (hi = 0; tkxb_generated[hi].name != NULL; hi++) {}
     hi--;
     while (lo <= hi) {
 	mid = (lo + hi) / 2;
 	c = strcmp(name, tkxb_generated[mid].name);
 	if (c == 0) {
-	    return tkxb_generated[mid].fn(ip, objc - 2, objv + 2);
+	    return &tkxb_generated[mid];
 	}
 	if (c < 0) hi = mid - 1; else lo = mid + 1;
     }
-    Tcl_SetObjResult(ip, Tcl_ObjPrintf("no generated function \"%s\"", name));
-    return TCL_ERROR;
+    return NULL;
+}
+
+static int
+FnCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
+{
+    const TkxbFunc *f;
+    int code;
+    (void)cd;
+    if (objc < 2) {
+	Tcl_WrongNumArgs(ip, 1, objv, "function ?arg ...?");
+	return TCL_ERROR;
+    }
+    f = FindFn(Tcl_GetString(objv[1]));
+    if (f == NULL) {
+	Tcl_SetObjResult(ip, Tcl_ObjPrintf("no generated function \"%s\"", Tcl_GetString(objv[1])));
+	return TCL_ERROR;
+    }
+    code = f->fn(ip, objc - 2, objv + 2);
+    if (code == TCL_OK) {
+	int isNew;
+	Tcl_HashEntry *he;
+	if (!callCountsInit) {
+	    Tcl_InitHashTable(&callCounts, TCL_STRING_KEYS);
+	    callCountsInit = 1;
+	}
+	he = Tcl_CreateHashEntry(&callCounts, f->name, &isNew);
+	Tcl_SetHashValue(he, (void *)((char *)Tcl_GetHashValue(he) + 1));
+	if (isNew) Tcl_SetHashValue(he, (void *)1);
+    }
+    return code;
+}
+
+static int
+FnInfoCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
+{
+    const TkxbFunc *f;
+    (void)cd;
+    if (objc != 2 || (f = FindFn(Tcl_GetString(objv[1]))) == NULL) {
+	Tcl_SetObjResult(ip, Tcl_NewStringObj("unknown function", -1));
+	return TCL_ERROR;
+    }
+    Tcl_SetObjResult(ip, Tcl_NewStringObj(f->info, -1));
+    return TCL_OK;
+}
+
+static int
+FnCallsCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
+{
+    Tcl_Obj *d = Tcl_NewDictObj();
+    Tcl_HashSearch hs;
+    Tcl_HashEntry *he;
+    (void)cd; (void)objc; (void)objv;
+    if (callCountsInit) {
+	for (he = Tcl_FirstHashEntry(&callCounts, &hs); he; he = Tcl_NextHashEntry(&hs)) {
+	    Tcl_DictObjPut(NULL, d, Tcl_NewStringObj(Tcl_GetHashKey(&callCounts, he), -1),
+		    Tcl_NewWideIntObj((Tcl_WideInt)(intptr_t)Tcl_GetHashValue(he)));
+	}
+    }
+    Tcl_SetObjResult(ip, d);
+    return TCL_OK;
 }
 
 static int
@@ -756,11 +813,34 @@ ThreadTestCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
     return TCL_OK;
 }
 
+static int
+EnumValuesCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
+{
+    int i, j;
+    (void)cd;
+    if (objc != 2) {
+	Tcl_WrongNumArgs(ip, 1, objv, "enumName");
+	return TCL_ERROR;
+    }
+    for (i = 0; tkxb_enums[i].name != NULL; i++) {
+	if (strcmp(tkxb_enums[i].name, Tcl_GetString(objv[1])) == 0) {
+	    Tcl_Obj *l = Tcl_NewListObj(0, NULL);
+	    for (j = 0; j < tkxb_enums[i].count; j++) {
+		Tcl_ListObjAppendElement(NULL, l, Tcl_NewStringObj(tkxb_enums[i].values[j], -1));
+	    }
+	    Tcl_SetObjResult(ip, l);
+	    return TCL_OK;
+	}
+    }
+    Tcl_SetObjResult(ip, Tcl_NewStringObj("unknown enum", -1));
+    return TCL_ERROR;
+}
+
 int
 Tkxtest_Init(Tcl_Interp *ip)
 {
     static const struct { const char *name; Tcl_ObjCmdProc2 *proc; const char *cd; } cmds[] = {
-	{"fn", FnCmd, NULL}, {"fnlist", FnListCmd, NULL},
+	{"fn", FnCmd, NULL}, {"fnlist", FnListCmd, NULL}, {"fninfo", FnInfoCmd, NULL}, {"fn_calls", FnCallsCmd, NULL},
 	{"app_init", AppInitCmd, NULL}, {"app_shutdown", AppShutdownCmd, NULL},
 	{"process_events", ProcessEventsCmd, NULL}, {"update_idletasks", UpdateIdleCmd, NULL},
 	{"wait_event", WaitEventCmd, NULL}, {"is_running", IsRunningCmd, NULL},
@@ -782,7 +862,7 @@ Tkxtest_Init(Tcl_Interp *ip)
 	{"call", CallCmd, NULL}, {"bind", BindCmd, NULL}, {"after", AfterCmd, NULL},
 	{"last_error", LastErrorCmd, NULL}, {"freed_count", FreedCountCmd, NULL},
 	{"option_info", OptionInfoCmd, NULL}, {"kind_name", KindNameCmd, NULL},
-	{"app_eval", AppEvalCmd, NULL}, {"thread_test", ThreadTestCmd, NULL},
+	{"app_eval", AppEvalCmd, NULL}, {"enum_values", EnumValuesCmd, NULL}, {"thread_test", ThreadTestCmd, NULL},
     };
     size_t i;
     if (Tcl_InitStubs(ip, "9.0", 0) == NULL) {

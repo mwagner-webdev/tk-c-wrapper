@@ -4314,7 +4314,7 @@
           "status": "generated",
           "approach": "schema",
           "source": "generic/ttk/ttkTreeview.c:540",
-          "why": "TK_OPTION_STRING holding a Tcl list of column identifiers (or #all)."
+          "why": "TK_OPTION_STRING holding a Tcl list of column identifiers, or the word #all, which ttkTreeview.c compares with the option's string value (strcmp) before parsing it as a list; a one-element list {#all} would be rejected.  'literal' makes the setter pass that word unquoted."
         },
         {
           "name": "-show",

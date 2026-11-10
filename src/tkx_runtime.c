@@ -1560,3 +1560,12 @@ tkx__test_path(TkxId id)
     }
     return Tcl_GetString(w->path);
 }
+
+Tcl_Obj *
+tkx__strlist_lit(const char *const *items, size_t n, const char *lit)
+{
+    if (n == 1 && items[0] != NULL && strcmp(items[0], lit) == 0) {
+	return Tcl_NewStringObj(lit, -1);
+    }
+    return tkx__strlist(items, n);
+}

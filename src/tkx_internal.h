@@ -74,6 +74,9 @@ Tcl_Obj *tkx__bool(int v);
 Tcl_Obj *tkx__double(double v);
 Tcl_Obj *tkx__index(int v);
 Tcl_Obj *tkx__strlist(const char *const *items, size_t n);
+/* As tkx__strlist, but a list consisting only of the word lit is passed as
+ * that plain word (Tk compares some options with a literal string). */
+Tcl_Obj *tkx__strlist_lit(const char *const *items, size_t n, const char *lit);
 Tcl_Obj *tkx__enum(const char *const *table, int count, int value, int nullOk);
 Tcl_Obj *tkx__window(TkxId id);
 Tcl_Obj *tkx__sticky(unsigned flags);

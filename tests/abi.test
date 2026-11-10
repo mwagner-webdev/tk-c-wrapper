@@ -1,0 +1,112 @@
+# abi.test -- public header independence, exported symbols, version
+# consistency, standalone C examples.
+
+source [file join [file dirname [file normalize [info script]]] common.tcl]
+
+testConstraint cc [expr {[auto_execok cc] ne ""}]
+testConstraint nm [expr {[auto_execok nm] ne ""}]
+set lib [file join $::tkx_build libtkx.so]
+testConstraint lib [file exists $lib]
+
+proc readfile {p} { set f [open $p]; set s [read $f]; close $f; return $s }
+
+test abi-1.1 {public headers compile without Tcl/Tk headers (C99, C++)} -constraints cc -body {
+    set inc [list -I[file join $::tkx_gen_dir include] -I[file join $::tkx_root include]]
+    exec cc -std=c99 -pedantic -Wall -Wextra -Werror {*}$inc -fsyntax-only \
+	[file join $::tkx_root tests header_only.c]
+    exec cc -x c++ -std=c++11 -Wall -Werror {*}$inc -fsyntax-only \
+	[file join $::tkx_root tests header_only.c]
+    return ok
+} -result ok
+
+test abi-1.2 {public headers mention no Tcl/Tk types} -body {
+    set bad {}
+    foreach h [list [file join $::tkx_root include tkx.h] [file join $::tkx_gen_dir include tkx_generated.h]] {
+	# Declarations only: comments (provenance notes) may name Tcl/Tk types.
+	set code [regsub -all {/\*.*?\*/} [readfile $h] {}]
+	foreach word {Tcl_Interp Tcl_Obj Tk_Window Tk_OptionSpec Tcl_Size ClientData XEvent} {
+	    if {[regexp "\\m$word\\M" $code]} { lappend bad "[file tail $h]: $word" }
+	}
+	if {[regexp {#include\s*[<"](tcl|tk)\.h} [readfile $h]]} { lappend bad "[file tail $h]: includes tcl/tk" }
+    }
+    set bad
+} -result {}
+
+test abi-1.3 {every public prototype is exported; nothing else is} -constraints {nm lib} -body {
+    set protos {}
+    foreach h [list [file join $::tkx_root include tkx.h] [file join $::tkx_gen_dir include tkx_generated.h]] {
+	foreach {- name} [regexp -all -inline {TKX_API [^;(]*?\m(tkx_[a-z0-9_]+)\(} [readfile $h]] {
+	    lappend protos $name
+	}
+    }
+    set exported {}
+    foreach line [split [exec nm -D --defined-only $::lib] \n] {
+	if {[lindex $line 1] in {T t}} { lappend exported [lindex $line 2] }
+    }
+    set missing {}
+    foreach p $protos { if {$p ni $exported} { lappend missing $p } }
+    set extra {}
+    foreach e $exported {
+	if {$e ni $protos && ![string match tkx__test_* $e] && ![string match _* $e]} { lappend extra $e }
+    }
+    list [llength $protos] $missing $extra
+} -match glob -result {* {} {}}
+
+test abi-1.4 {handles are 64-bit integers; status codes are stable} -constraints cc -body {
+    set src [file join [temporaryDirectory] abi14.c]
+    set f [open $src w]
+    puts $f {#include "tkx.h"
+#include <stdio.h>
+int main(void) {
+    printf("%d %d %d %d %d\n", (int)sizeof(TkxId), (int)TKX_NULL_ID, (int)TKX_ERR_STALE_HANDLE,
+	   (int)TKX_KIND_TTK_TREEVIEW, (int)TKX_ABI_VERSION);
+    return 0;
+}}
+    close $f
+    set exe [file join [temporaryDirectory] abi14]
+    exec cc -std=c99 -I[file join $::tkx_gen_dir include] -I[file join $::tkx_root include] $src -o $exe
+    exec $exe
+} -result {8 0 5 7 1} -cleanup {
+    file delete -force [file join [temporaryDirectory] abi14.c] [file join [temporaryDirectory] abi14]
+}
+
+test version-1.1 {generated API reflects the selected Tk source version} -constraints {bridge tksrc} -body {
+    set level ""
+    regexp {#\s*define\s+TK_PATCH_LEVEL\s+"([^"]+)"} [readfile [file join $::tkx_tk_src generic tk.h]] -> level
+    list [expr {$::tkx::tk_source_version eq $level}] \
+	[string match "*Tk  $level *" [readfile [file join $::tkx_gen_dir include tkx_generated.h]]]
+} -result {1 1}
+
+test version-1.2 {runtime Tk matches the source version the API was generated from} -constraints display -body {
+    tkx_start
+    set r [tkx_tk package provide Tk]
+    tkx_stop
+    expr {$r eq $::tkx::tk_source_version}
+} -result 1
+
+# ------------------------------------------------------------- examples
+
+foreach {ex expect} {
+    hello {label: Clicked 1 time}
+    layout {rows=2 requested=*
+tree grows: yes
+after clear rows=0}
+} {
+    test example-$ex "standalone C example $ex runs without any Tcl code" -constraints display -body {
+	set env(TKX_EXAMPLE_AUTOCLOSE) 1
+	set out [exec [file join $::tkx_build $ex]]
+	unset env(TKX_EXAMPLE_AUTOCLOSE)
+	set out
+    } -match glob -result $expect
+}
+
+test example-src {examples contain no Tcl code and include only tkx.h} -body {
+    set bad {}
+    foreach ex {hello layout} {
+	set s [readfile [file join $::tkx_root examples $ex.c]]
+	if {[regexp {#include\s*[<"](tcl|tk)\.h} $s] || [regexp {Tcl_|Tk_} $s]} { lappend bad $ex }
+    }
+    set bad
+} -result {}
+
+cleanupTests

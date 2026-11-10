@@ -780,13 +780,31 @@ proc ::tkx::resolve::CommandEvidence {func preferRel lead} {
 	lappend reasons "result type not determined ($rtypes)"
     }
     # Does any argument reach a function that evaluates it as a script?
+    # One level of data flow is followed: "V = f(objv[k])" makes every use
+    # of V count too (ttkTreeview.c passes the tag-bind script through a
+    # local variable).
     set takesScript 0
+    set vars {}
     for {set i 0} {$i < $n} {incr i} {
 	if {[lindex $body $i 1] ne "objv" || [lindex $body $i+1 1] ne "\["} continue
-	set ct [ConvType $body [CallChain $body $i] $rel $func]
+	set chain [CallChain $body $i]
+	set ct [ConvType $body $chain $rel $func]
 	if {[dict get $ct type] eq "script"} {
 	    set takesScript 1
 	    break
+	}
+	set start [expr {[llength $chain] ? [lindex $chain end 2] - 1 : $i}]
+	if {[lindex $body $start-1 1] eq "=" && [lindex $body $start-2 0] eq "id"} {
+	    lappend vars [lindex $body $start-2 1]
+	}
+    }
+    if {!$takesScript} {
+	for {set i 0} {$i < $n && !$takesScript} {incr i} {
+	    set t [lindex $body $i]
+	    if {[lindex $t 0] ne "id" || [lindex $t 1] ni $vars} continue
+	    if {[lindex $body $i+1 1] eq "="} continue
+	    set ct [ConvType $body [CallChain $body $i] $rel $func]
+	    if {[dict get $ct type] eq "script"} { set takesScript 1 }
 	}
     }
     set status [expr {[llength $reasons] ? "partial" : "complete"}]

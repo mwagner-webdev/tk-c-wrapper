@@ -1,0 +1,395 @@
+# widgets.test -- widget creation, every generated option accessor
+# (data-driven round trips checked against Tk's own cget), subcommands,
+# Unicode, the generic property interface and generic invocation.
+
+source [file join [file dirname [file normalize [info script]]] common.tcl]
+
+proc infos {} {
+    set out {}
+    foreach fn [tkx::fnlist] { dict set out $fn [tkx::fninfo $fn] }
+    return $out
+}
+
+set ::UNI "héllo wörld ✓ 日本 \U0001F600"
+
+# Sample values per value type; per-option overrides are test data with
+# the reason given in the comment.
+proc samples {group sub option vt} {
+    set key [list $group $sub $option]
+    switch -glob -- $key {
+	{* {} -style} {
+	    # must name an existing style of the class
+	    return [list [dict get {ttk::label TLabel ttk::button TButton ttk::entry TEntry
+		ttk::frame TFrame ttk::treeview Treeview} $group]]
+	}
+	{* * -image} - {* {} -backgroundimage} { return {tkximg} }
+	{* {} -state} { return {disabled normal} }
+	{ttk::entry {} -show} { return {*} }
+	{* {} -padding} { return {{1 2}} }
+	{ttk::label {} -width} - {ttk::button {} -width} { return {10} }
+	{ttk::entry {} -width} { return {15} }
+	{ttk::treeview {} -columns} { return {{a b}} }
+	{ttk::treeview {} -displaycolumns} { return {{#all} {b a} {#all}} }
+	{ttk::treeview {} -show} { return {{tree} {tree headings}} }
+	{ttk::treeview {} -titlecolumns} - {ttk::treeview {} -titleitems} { return {1 0} }
+	{ttk::treeview {} -headingheight} { return {25} }
+	{ttk::treeview {} -rowheight} { return {22} }
+	{ttk::treeview item -height} { return {2 1} }
+	{ttk::treeview column -width} { return {120} }
+	{ttk::treeview column -minwidth} { return {30} }
+	{* {} -font} - {* * -font} { return {TkFixedFont} }
+	{* {} -cursor} { return {watch} }
+    }
+    switch -glob -- $vt {
+	string - item - column - tag { return [list $::UNI plain] }
+	color { return {#102030 red} }
+	font { return {TkFixedFont} }
+	cursor { return {watch} }
+	int { return {7} }
+	pixels { return {5} }
+	bool { return {1 0} }
+	double { return {12.5} }
+	index { return {2} }
+	list { return [list [list a "b c" ü]] }
+	enum:* { return [tkx::enum_values [string range $vt 5 end]] }
+    }
+    return SKIP
+}
+
+# Tcl form of what Tk should report for a value set through C.
+proc tkform {vt v} {
+    switch -glob -- $vt {
+	bool { return [expr {$v ? 1 : 0}] }
+	double { return [expr {double($v)}] }
+	default { return $v }
+    }
+}
+
+proc make_widget {group parent} {
+    set short [string map {ttk:: ttk_} $group]
+    tkx::fn tkx_${short}_create $parent
+}
+
+# Round-trip every setter/getter pair of one class (and its sub-objects).
+proc roundtrip {group} {
+    global ::tkx_rt_tested
+    set parent [tkx::main_window]
+    set top [tkx::window_create "roundtrip $group"]
+    if {$group eq "toplevel"} {
+	set w [tkx::fn tkx_toplevel_create 0]
+    } else {
+	set w [make_widget $group $top]
+    }
+    set keys {}
+    if {$group eq "ttk::treeview"} {
+	tkx::fn tkx_ttk_treeview_set_columns $w {a b}
+	set item [tkx::fn tkx_ttk_treeview_insert $w {} end $::tkx::omit]
+	dict set keys item $item
+	dict set keys heading a
+	dict set keys column a
+    }
+    set failures {}
+    set tested 0
+    dict for {fn info} [infos] {
+	if {[dict get $info group] ne $group || [dict get $info kind] ne "setter"} continue
+	set sub [dict get $info sub]
+	set option [dict get $info option]
+	set vt [lindex [dict get $info params] end 1]
+	set getter [string map {_set_ _get_} $fn]
+	set prefix [expr {$sub eq "" ? {} : [list [dict get $keys $sub]]}]
+	set values [samples $group $sub $option $vt]
+	if {$values eq "SKIP"} { lappend failures "$fn: no sample value for $vt"; continue }
+	foreach v $values {
+	    if {[catch {tkx::fn $fn $w {*}$prefix $v} msg]} {
+		lappend failures "$fn $v: $msg"
+		continue
+	    }
+	    if {[catch {tkx::fn $getter $w {*}$prefix} got]} {
+		lappend failures "$getter: $got"
+		continue
+	    }
+	    if {$vt eq "list"} {
+		# Lists are compared element-wise (canonical list forms).
+		set got [lrange $got 0 end]
+		set v [lrange $v 0 end]
+	    }
+	    if {$got ne [tkform $vt $v] && !([string match double $vt] && $got == $v)} {
+		lappend failures "$fn: set {$v} got {$got}"
+	    }
+	    # Tk's own view of the option.
+	    set path [tkx_path $w]
+	    if {$sub eq ""} {
+		set tk [tkx_tk $path cget $option]
+	    } else {
+		set tk [tkx_tk $path $sub [dict get $keys $sub] $option]
+	    }
+	    if {$vt eq "list"} { set tk [lrange $tk 0 end] }
+	    if {$tk ne [tkform $vt $v] && !([string match double $vt] && $tk == $v)} {
+		lappend failures "$fn: Tk reports {$tk} for {$v}"
+	    }
+	    incr tested
+	}
+	# Unset (empty value), if generated.
+	set unset [string map {_set_ _unset_} $fn]
+	if {[dict exists [infos] $unset]} {
+	    tkx::fn $unset $w {*}$prefix
+	    set path [tkx_path $w]
+	    set tk [expr {$sub eq "" ? [tkx_tk $path cget $option] : [tkx_tk $path $sub [dict get $keys $sub] $option]}]
+	    set st [tkx_status {set got [tkx::fn $getter $w {*}$prefix]}]
+	    if {$tk ne "" || !($st eq "TKX_ERR_EMPTY" || ($st eq "OK" && $got eq "UNSET"))} {
+		lappend failures "$unset: Tk {$tk} getter $st"
+	    }
+	}
+    }
+    tkx::destroy $top
+    if {$group eq "toplevel"} { tkx::destroy $w }
+    lappend ::tkx_rt_tested $group $tested
+    return $failures
+}
+
+set ::tkx_rt_tested {}
+tkx_stop
+if {[testConstraint display]} {
+    tkx_start
+    tkx_tk image create photo tkximg -width 4 -height 4
+}
+
+foreach group {toplevel frame ttk::frame ttk::label ttk::button ttk::entry ttk::treeview} {
+    test roundtrip-[string map {:: _} $group] "every generated accessor of $group round-trips through Tk" \
+	-constraints display -body [list roundtrip $group] -result {}
+}
+
+test roundtrip-count {number of values round-tripped per class} -constraints display -body {
+    set out {}
+    foreach {g n} $::tkx_rt_tested { lappend out [expr {$n > 0}] }
+    set out
+} -result {1 1 1 1 1 1 1}
+
+# ------------------------------------------------------------ creation
+
+test create-1.1 {every class is created with the right Tk class} -constraints display -body {
+    set m [tkx::main_window]
+    set out {}
+    foreach {g fn} {frame tkx_frame_create ttk::frame tkx_ttk_frame_create
+	ttk::label tkx_ttk_label_create ttk::button tkx_ttk_button_create
+	ttk::entry tkx_ttk_entry_create ttk::treeview tkx_ttk_treeview_create} {
+	set w [tkx::fn $fn $m]
+	lappend out [tkx_tk winfo class [tkx_path $w]]
+	tkx::destroy $w
+    }
+    set t [tkx::fn tkx_toplevel_create 0]
+    lappend out [tkx_tk winfo class [tkx_path $t]] [tkx_tk winfo toplevel [tkx_path $t]]
+    tkx::destroy $t
+    set out
+} -match glob -result {Frame TFrame TLabel TButton TEntry Treeview Toplevel .w*}
+
+test create-1.2 {read-only and create-only options have getters only} -constraints display -body {
+    set m [tkx::main_window]
+    set f [tkx::fn tkx_frame_create $m]
+    set l [tkx::fn tkx_ttk_label_create $m]
+    list [tkx::fn tkx_frame_get_class $f] [tkx::fn tkx_ttk_label_get_class $l] \
+	[expr {"tkx_frame_set_class" in [tkx::fnlist]}] \
+	[expr {"tkx_ttk_label_set_class" in [tkx::fnlist]}] \
+	[tkx_status {tkx::set_string $f -class Other}] \
+	[tkx_status {tkx::set_string $l -class Other}]
+} -result {Frame {} 0 0 TKX_ERR_TK TKX_ERR_TK}
+
+test create-1.3 {window title (handwritten wm) with Unicode} -constraints display -body {
+    set t [tkx::window_create $::UNI]
+    set r [list [tkx::title $t] [tkx_tk wm title [tkx_path $t]]]
+    tkx::destroy $t
+    expr {$r eq [list $::UNI $::UNI]}
+} -result 1
+
+test create-1.4 {window functions refuse non-toplevel handles} -constraints display -body {
+    set l [tkx::fn tkx_ttk_label_create [tkx::main_window]]
+    tkx_status {tkx::title $l x}
+} -result TKX_ERR_WRONG_KIND
+
+# ---------------------------------------------------------- unicode
+
+test unicode-1.1 {Unicode text through setter, getter and Tk} -constraints display -body {
+    set l [tkx::fn tkx_ttk_label_create [tkx::main_window]]
+    tkx::fn tkx_ttk_label_set_text $l $::UNI
+    list [expr {[tkx::fn tkx_ttk_label_get_text $l] eq $::UNI}] \
+	[expr {[tkx_tk [tkx_path $l] cget -text] eq $::UNI}] \
+	[string length [tkx::fn tkx_ttk_label_get_text $l]]
+} -result [list 1 1 [string length $::UNI]]
+
+test unicode-1.2 {Unicode in entry operations and indices} -constraints display -body {
+    set e [tkx::fn tkx_ttk_entry_create [tkx::main_window]]
+    tkx::fn tkx_ttk_entry_insert $e 0 "日本語"
+    tkx::fn tkx_ttk_entry_insert $e 1 "X"
+    list [tkx::fn tkx_ttk_entry_get $e] [tkx::fn tkx_ttk_entry_index $e end]
+} -result [list "日X本語" 4]
+
+# ------------------------------------------------------ entry commands
+
+test entry-1.1 {insert, get, delete with optional argument, index} -constraints display -body {
+    set e [tkx::fn tkx_ttk_entry_create [tkx::main_window]]
+    tkx::fn tkx_ttk_entry_insert $e 0 "hello world"
+    tkx::fn tkx_ttk_entry_delete $e 0 5
+    set a [tkx::fn tkx_ttk_entry_get $e]
+    tkx::fn tkx_ttk_entry_delete $e 0
+    set b [tkx::fn tkx_ttk_entry_get $e]
+    tkx::fn tkx_ttk_entry_delete $e 0 end
+    list $a $b [tkx::fn tkx_ttk_entry_get $e] [tkx::fn tkx_ttk_entry_index $e end]
+} -result {{ world} world {} 0}
+
+test entry-1.2 {icursor, selection, validate, bbox} -constraints display -body {
+    set e [tkx::fn tkx_ttk_entry_create [tkx::main_window]]
+    tkx::fn tkx_grid $e 0 0
+    tkx::fn tkx_ttk_entry_insert $e 0 "abcdef"
+    tkx::fn tkx_ttk_entry_icursor $e 3
+    set cur [tkx_tk [tkx_path $e] index insert]
+    tkx::fn tkx_ttk_entry_selection_range $e 1 3
+    set present [tkx::fn tkx_ttk_entry_selection_present $e]
+    set sel [tkx_tk [tkx_path $e] selection present]
+    tkx::fn tkx_ttk_entry_selection_clear $e
+    tkx_settle
+    set bbox [tkx::fn tkx_ttk_entry_bbox $e 0]
+    set r [list $cur $present $sel [tkx::fn tkx_ttk_entry_selection_present $e] \
+	[tkx::fn tkx_ttk_entry_validate $e] [llength $bbox] [expr {[lindex $bbox 2] > 0}]]
+    tkx::fn tkx_grid_forget $e
+    set r
+} -result {3 1 1 0 1 4 1}
+
+test entry-1.3 {disabled entry ignores insert (Tk behaviour preserved)} -constraints display -body {
+    set e [tkx::fn tkx_ttk_entry_create [tkx::main_window]]
+    tkx::fn tkx_ttk_entry_insert $e 0 abc
+    tkx::fn tkx_ttk_entry_state_set $e disabled
+    tkx::fn tkx_ttk_entry_insert $e 0 X
+    list [tkx::fn tkx_ttk_entry_get $e] [tkx::fn tkx_ttk_entry_instate $e disabled] \
+	[tkx::fn tkx_ttk_entry_state_get $e]
+} -result {abc 1 disabled}
+
+# ----------------------------------------------- button and ttk state
+
+test button-1.1 {style, state, instate, invoke without command} -constraints display -body {
+    set b [tkx::fn tkx_ttk_button_create [tkx::main_window]]
+    list [tkx::fn tkx_ttk_button_style $b] [tkx::fn tkx_ttk_button_instate $b disabled] \
+	[tkx::fn tkx_ttk_button_state_set $b {disabled !focus}] \
+	[tkx::fn tkx_ttk_button_instate $b disabled] [tkx::fn tkx_ttk_button_invoke $b]
+} -result {TButton 0 !disabled 1 {}}
+
+# --------------------------------------------------- treeview commands
+
+test treeview-1.1 {insert, children, parent, next/prev, exists, depth, delete} -constraints display -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    set a [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    set b [tkx::fn tkx_ttk_treeview_insert $t {} end myid]
+    set c [tkx::fn tkx_ttk_treeview_insert $t $a 0 $::tkx::omit]
+    set r [list $b [tkx::fn tkx_ttk_treeview_children $t {}] [tkx::fn tkx_ttk_treeview_parent $t $c] \
+	[tkx::fn tkx_ttk_treeview_next $t $a] [tkx::fn tkx_ttk_treeview_prev $t $b] \
+	[tkx::fn tkx_ttk_treeview_exists $t $c] [tkx::fn tkx_ttk_treeview_depth $t $c] \
+	[tkx::fn tkx_ttk_treeview_haschildren $t $a]]
+    tkx::fn tkx_ttk_treeview_delete $t [list $a]
+    lappend r [tkx::fn tkx_ttk_treeview_exists $t $c] [tkx::fn tkx_ttk_treeview_children $t {}]
+    expr {$r eq [list myid [list $a myid] $a myid $a 1 2 1 0 myid]}
+} -result 1
+
+test treeview-1.2 {item values and text, selection, focus, see, bbox, tags} -constraints display -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    tkx::fn tkx_ttk_treeview_set_columns $t {name size}
+    tkx::fn tkx_grid $t 0 0
+    set i [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    tkx::fn tkx_ttk_treeview_item_set_text $t $i "row ✓"
+    tkx::fn tkx_ttk_treeview_item_set_values $t $i [list "file one" 42]
+    tkx::fn tkx_ttk_treeview_selection_set $t [list $i]
+    tkx::fn tkx_ttk_treeview_focus_set $t $i
+    tkx::fn tkx_ttk_treeview_see $t $i $::tkx::omit
+    tkx::fn tkx_ttk_treeview_tag_add $t hot [list $i]
+    tkx_settle
+    set r [list [tkx::fn tkx_ttk_treeview_item_get_values $t $i] \
+	[tkx::fn tkx_ttk_treeview_selection_get $t] [tkx::fn tkx_ttk_treeview_focus_get $t] \
+	[tkx::fn tkx_ttk_treeview_item_get_tags $t $i] [llength [tkx::fn tkx_ttk_treeview_bbox $t $i $::tkx::omit]] \
+	[tkx_tk [tkx_path $t] set $i size]]
+    tkx::fn tkx_ttk_treeview_tag_remove $t hot $::tkx::omit
+    lappend r [tkx::fn tkx_ttk_treeview_item_get_tags $t $i]
+    tkx::fn tkx_grid_forget $t
+    expr {$r eq [list [list "file one" 42] [list $i] $i hot 4 42 {}]}
+} -result 1
+
+test treeview-1.3 {heading and column options through sub-object accessors} -constraints display -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    tkx::fn tkx_ttk_treeview_set_columns $t {a}
+    tkx::fn tkx_ttk_treeview_heading_set_text $t a "Col A"
+    tkx::fn tkx_ttk_treeview_column_set_width $t a 150
+    tkx::fn tkx_ttk_treeview_column_set_anchor $t "#0" e
+    list [tkx::fn tkx_ttk_treeview_heading_get_text $t a] [tkx_tk [tkx_path $t] column a -width] \
+	[tkx::fn tkx_ttk_treeview_column_get_anchor $t "#0"]
+} -result {{Col A} 150 e}
+
+test treeview-1.4 {bbox of an item inside a closed parent is reported as empty} -constraints display -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    tkx::fn tkx_grid $t 0 0
+    set p [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    set c [tkx::fn tkx_ttk_treeview_insert $t $p end $::tkx::omit]
+    tkx::fn tkx_ttk_treeview_item_set_open $t $p 0
+    tkx_settle
+    set r [list [tkx_tk [tkx_path $t] bbox $c] [tkx_status {tkx::fn tkx_ttk_treeview_bbox $t $c $::tkx::omit}]]
+    tkx::fn tkx_grid_forget $t
+    set r
+} -result {{} TKX_ERR_EMPTY}
+
+test treeview-1.5 {Tk errors from item commands} -constraints display -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    list [tkx_status {tkx::fn tkx_ttk_treeview_parent $t nosuchitem}] [lindex [tkx::last_error] 1]
+} -result {TKX_ERR_TK {Item nosuchitem not found}}
+
+# ------------------------------------------- generic property interface
+
+test props-1.1 {generic typed property access} -constraints display -body {
+    set m [tkx::main_window]
+    set l [tkx::fn tkx_ttk_label_create $m]
+    set f [tkx::fn tkx_frame_create $m]
+    tkx::set_string $l -text $::UNI
+    tkx::set_int $f -width 33
+    tkx::set_string $f -height 1c
+    tkx::set_double $l -textangle 30
+    list [expr {[tkx::get_string $l -text] eq $::UNI}] [tkx::get_int $f -width] \
+	[expr {[tkx::get_int $f -height] == [tkx_tk winfo pixels [tkx_path $f] 1c]}] \
+	[tkx::get_double $l -textangle] [tkx::get_string $f -bg] \
+	[expr {[tkx::get_string $f -bg] eq [tkx::fn tkx_frame_get_background $f]}]
+} -match glob -result {1 33 1 30.0 * 1}
+
+test props-1.2 {options holding Tcl code or variables are refused} -constraints display -body {
+    set m [tkx::main_window]
+    set b [tkx::fn tkx_ttk_button_create $m]
+    set e [tkx::fn tkx_ttk_entry_create $m]
+    list [tkx_status {tkx::set_string $b -command {exit 1}}] \
+	[tkx_status {tkx::set_string $e -textvariable ::foo}] \
+	[tkx_status {tkx::set_string $e -validatecommand {exit 1}}] \
+	[tkx_status {tkx::set_string $b -takefocus {exit 1}}] \
+	[tkx_status {tkx::get_string $b -nosuchoption}]
+} -result {TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED}
+
+test props-1.3 {class metadata introspection} -constraints display -body {
+    set opts [tkx::option_info 5]
+    set names [lmap o $opts {dict get $o name}]
+    set cmd [lsearch -inline -index 1 $opts -command]
+    list [tkx::kind_name 5] [expr {"-text" in $names}] [dict get $cmd type] \
+	[expr {[dict get $cmd flags] & 0x08}] [string match generic/ttk/ttkButton.c:* [dict get $cmd source]]
+} -result {ttk::button 1 14 8 1}
+
+# ------------------------------------------------ generic invocation
+
+test call-1.1 {generic subcommand invocation passes words literally} -constraints display -body {
+    set e [tkx::fn tkx_ttk_entry_create [tkx::main_window]]
+    tkx::call $e insert 0 {[exit 1] $x "q"}
+    list [tkx::call $e get] [tkx::call $e index end]
+} -result {{[exit 1] $x "q"} 15}
+
+test call-1.2 {cget/configure and script-taking subcommands are refused} -constraints display -body {
+    set m [tkx::main_window]
+    set e [tkx::fn tkx_ttk_entry_create $m]
+    set t [tkx::fn tkx_ttk_treeview_create $m]
+    list [tkx_status {tkx::call $e configure -text x}] [tkx_status {tkx::call $e cget -width}] \
+	[tkx_status {tkx::call $e instate disabled {exit 1}}] \
+	[tkx_status {tkx::call $t tag bind x <1> {exit 1}}] \
+	[tkx_status {tkx::call $t heading #0 -command {exit 1}}] \
+	[tkx_status {tkx::call $e nosuch}]
+} -result {TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED}
+
+tkx_stop
+cleanupTests

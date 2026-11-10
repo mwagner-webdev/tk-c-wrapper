@@ -77,7 +77,7 @@ proc ::tkx::extract::Unit {plat rel} {
 	Diag note $where "\[$plat] preprocessing $rel: $msg"
     }
     set u [dict create rel $rel plat $plat toks $toks idx $idx hidx $hidx \
-	    macros [dict get $r macros] conds [dict get $r conds]]
+	    macros [dict get $r macros] conds [dict get $r conds] skips [dict get $r skips]]
     set units($plat,$rel) $u
     return $u
 }
@@ -149,6 +149,13 @@ proc ::tkx::extract::InitTree {u decl} {
     set tree [cparse::parseInit $exp $rel]
     set condText {}
     foreach c [lsort -integer $conds] { lappend condText [lindex [dict get $u conds] $c] }
+    # Regions skipped under an assumption inside the initializer.
+    foreach sk [dict get $u skips] {
+	lassign $sk pos text
+	if {$pos >= [dict get $decl initStart] && $pos <= [dict get $decl initEnd]} {
+	    lappend condText $text
+	}
+    }
     return [list $tree $condText]
 }
 

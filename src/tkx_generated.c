@@ -176,7 +176,7 @@ static const TkxOptionInfo tkx__options_ttk_treeview[] = {
     {"-style", "style", "Style", TKX_TYPE_STRING, 0, NULL, NULL, 0, "generic/ttk/ttkInit.c:169"},
     {"-class", "", "", TKX_TYPE_STRING, TKX_OPT_READONLY, NULL, NULL, 0, "generic/ttk/ttkInit.c:171"}
 };
-static const TkxSubcommandInfo tkx__subcommands_ttk_treeview[] = {{"after", 0}, {"bbox", 0}, {"before", 0}, {"cellfocus", 0}, {"cellselection", 0}, {"children", 0}, {"cget", 1}, {"collapse", 0}, {"column", 0}, {"configure", 1}, {"current", 0}, {"delete", 0}, {"depth", 0}, {"detach", 0}, {"detached", 0}, {"drag", 0}, {"drop", 0}, {"expand", 0}, {"exists", 0}, {"focus", 0}, {"haschildren", 0}, {"heading", 1}, {"hide", 0}, {"id", 0}, {"identify", 0}, {"identifier", 0}, {"index", 0}, {"insert", 0}, {"instate", 1}, {"item", 0}, {"move", 0}, {"next", 0}, {"parent", 0}, {"prev", 0}, {"range", 0}, {"search", 0}, {"see", 0}, {"selection", 0}, {"set", 0}, {"size", 0}, {"sort", 0}, {"state", 0}, {"style", 0}, {"tag", 0}, {"unhide", 0}, {"visible", 0}, {"xview", 0}, {"yview", 0}};
+static const TkxSubcommandInfo tkx__subcommands_ttk_treeview[] = {{"after", 0}, {"bbox", 0}, {"before", 0}, {"cellfocus", 0}, {"cellselection", 0}, {"children", 0}, {"cget", 1}, {"collapse", 0}, {"column", 0}, {"configure", 1}, {"current", 0}, {"delete", 0}, {"depth", 0}, {"detach", 0}, {"detached", 0}, {"drag", 0}, {"drop", 0}, {"expand", 0}, {"exists", 0}, {"focus", 0}, {"haschildren", 0}, {"heading", 1}, {"hide", 0}, {"id", 0}, {"identify", 0}, {"identifier", 0}, {"index", 0}, {"insert", 0}, {"instate", 1}, {"item", 0}, {"move", 0}, {"next", 0}, {"parent", 0}, {"prev", 0}, {"range", 0}, {"search", 0}, {"see", 0}, {"selection", 0}, {"set", 0}, {"size", 0}, {"sort", 0}, {"state", 0}, {"style", 0}, {"tag", 1}, {"unhide", 0}, {"visible", 0}, {"xview", 0}, {"yview", 0}};
 
 const TkxClassInfo tkx__classes[] = {
     {1, "toplevel", tkx__options_toplevel, (int)(sizeof(tkx__options_toplevel)/sizeof(tkx__options_toplevel[0])), tkx__subcommands_toplevel, (int)(sizeof(tkx__subcommands_toplevel)/sizeof(tkx__subcommands_toplevel[0]))},
@@ -4543,7 +4543,7 @@ TkxStatus tkx_ttk_treeview_set_displaycolumns(TkxId widget, const char *const *v
     if (value == NULL && value_count != 0) return tkx__arg_error("value");
     objv[objc++] = tkx__str("configure");
     objv[objc++] = tkx__str("-displaycolumns");
-    if ((objv[objc] = tkx__strlist(value, value_count)) == NULL) goto argfail;
+    if ((objv[objc] = tkx__strlist_lit(value, value_count, "#all")) == NULL) goto argfail;
     objc++;
     st = tkx__widget_call(w, objc, objv, NULL);
     return st;
