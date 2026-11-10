@@ -10,18 +10,19 @@
 #error "tkx.h must not include Tcl/Tk headers"
 #endif
 
-/* Use a few declarations so the compiler checks their types. */
-static TkxStatus (*const set_text)(TkxId, const char *) = tkx_ttk_label_set_text;
-static TkxId (*const create_button)(TkxId) = tkx_ttk_button_create;
-static TkxStatus (*const grid_set_sticky)(TkxId, unsigned) = tkx_grid_set_sticky;
-
 int tkx_header_only_check(void);
 int tkx_header_only_check(void)
 {
+    /* Assign a few functions to typed pointers so the compiler checks their
+     * types.  Locals, not static initializers: with dllimport (Windows) a
+     * function's address is not a constant expression in C. */
+    TkxStatus (*set_text)(TkxId, const char *) = tkx_ttk_label_set_text;
+    TkxId (*create_button)(TkxId) = tkx_ttk_button_create;
+    TkxStatus (*grid_set_sticky)(TkxId, unsigned) = tkx_grid_set_sticky;
     TkxStringList l = {0, 0};
     TkxBox b = {0, 0, 0, 0};
     TkxRelief r = TKX_RELIEF_SUNKEN;
+    (void)set_text; (void)create_button; (void)grid_set_sticky;
     (void)l; (void)b; (void)r;
-    return (int)sizeof(set_text) + (int)sizeof(create_button) + (int)sizeof(grid_set_sticky)
-	+ (int)sizeof(TkxId) + TKX_KIND_TTK_TREEVIEW;
+    return (int)sizeof(TkxId) + TKX_KIND_TTK_TREEVIEW;
 }

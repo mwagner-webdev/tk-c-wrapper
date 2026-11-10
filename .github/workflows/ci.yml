@@ -16,13 +16,21 @@ jobs:
       - uses: actions/checkout@v4
       - name: System packages
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential libx11-dev libxrender-dev xvfb zip
-      - name: Cache Tcl/Tk builds
-        uses: actions/cache@v4
+      - name: Restore Tcl/Tk builds
+        id: deps-cache
+        uses: actions/cache/restore@v4
         with:
           path: deps
           key: tcltk-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/deps.sh') }}
       - name: Build pinned Tcl/Tk 9.1.0
         run: make deps
+      # Saved right away, so a later failing step does not discard the build.
+      - name: Save Tcl/Tk builds
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: deps
+          key: tcltk-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/deps.sh') }}
       - name: Build library, bridge, examples
         run: make
       - name: Generated files are up to date
@@ -37,13 +45,21 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - name: Cache Tcl/Tk builds
-        uses: actions/cache@v4
+      - name: Restore Tcl/Tk builds
+        id: deps-cache
+        uses: actions/cache/restore@v4
         with:
           path: deps
           key: tcltk-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/deps.sh') }}
       - name: Build pinned Tcl/Tk 9.1.0 (Aqua)
         run: make deps
+      # Saved right away, so a later failing step does not discard the build.
+      - name: Save Tcl/Tk builds
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: deps
+          key: tcltk-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/deps.sh') }}
       - name: Build library, bridge, examples
         run: make
       - name: Platform
@@ -73,13 +89,21 @@ jobs:
             zip
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-binutils
-      - name: Cache Tcl/Tk builds
-        uses: actions/cache@v4
+      - name: Restore Tcl/Tk builds
+        id: deps-cache
+        uses: actions/cache/restore@v4
         with:
           path: deps
           key: tcltk-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/deps.sh') }}
       - name: Build pinned Tcl/Tk 9.1.0 (win)
         run: make deps
+      # Saved right away, so a later failing step does not discard the build.
+      - name: Save Tcl/Tk builds
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: deps
+          key: tcltk-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/deps.sh') }}
       - name: Build library, bridge, examples
         run: make
       - name: Platform
