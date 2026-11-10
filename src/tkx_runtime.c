@@ -17,6 +17,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __APPLE__
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
+
+#ifdef __APPLE__
+/*
+ * Tk Aqua's first initialisation looks at stdin: when it is "nullish" (not a
+ * tty, and a zero-size character device such as /dev/null, as for programs
+ * started from Finder or by a CI runner) it either opens a Tk console window
+ * or, if the host has a startup script, dup2()s /dev/null over stdout and
+ * stderr (tkMacOSXInit.c, TkpInit).  A library must do neither to its host,
+ * so while Tk_Init runs, stdin is shown to Tk as an empty pipe.
+ * Returns what RestoreStdin needs: -2 nothing changed, -1 fd 0 was closed,
+ * otherwise a duplicate of the original fd 0.
+ */
+static int
+HideNullStdin(void)
+{
+    struct stat st;
+    int p[2], saved;
+
+    if (isatty(0) || (fstat(0, &st) == 0
+	    && !(S_ISCHR(st.st_mode) && st.st_blocks == 0))) {
+	return -2;
+    }
+    saved = dup(0);
+    if (pipe(p) != 0) {
+	if (saved >= 0) {
+	    close(saved);
+	}
+	return -2;
+    }
+    if (p[0] != 0) {          /* p[0] is 0 when fd 0 was closed */
+	dup2(p[0], 0);
+	close(p[0]);
+    }
+    close(p[1]);
+    return saved;
+}
+
+static void
+RestoreStdin(int saved)
+{
+    if (saved == -2) {
+	return;
+    }
+    if (saved >= 0) {
+	dup2(saved, 0);
+	close(saved);
+    } else {
+	close(0);
+    }
+}
+#endif
 
 /* ------------------------------------------------------------------ */
 /* Error state (per thread)                                            */
@@ -853,11 +908,24 @@ tkx_app_init(const TkxAppConfig *config)
 	Tcl_SetVar2Ex(interp, "argc", NULL, Tcl_NewWideIntObj(argcount), TCL_GLOBAL_ONLY);
     }
     Tcl_SetVar2Ex(interp, "argv0", NULL, Tcl_NewStringObj(name, -1), TCL_GLOBAL_ONLY);
+#ifdef __APPLE__
+    {
+	int savedStdin = HideNullStdin();
+	int tkStatus = Tk_Init(interp);
+	RestoreStdin(savedStdin);
+	if (tkStatus != TCL_OK) {
+	    tkx__error(TKX_ERR_TK, "Tk_Init failed: %s", Tcl_GetStringResult(interp));
+	    Tcl_DeleteInterp(interp);
+	    return TKX_ERR_TK;
+	}
+    }
+#else
     if (Tk_Init(interp) != TCL_OK) {
 	tkx__error(TKX_ERR_TK, "Tk_Init failed: %s", Tcl_GetStringResult(interp));
 	Tcl_DeleteInterp(interp);
 	return TKX_ERR_TK;
     }
+#endif
     tkx__interp = interp;
     uiThread = Tcl_GetCurrentThread();
     tkx__next_app_serial();
@@ -882,6 +950,13 @@ tkx_app_init(const TkxAppConfig *config)
 	    tkx__invoke(3, w3, NULL);
 	}
     }
+    /* Run the idle callbacks Tk_Init scheduled while the windows they refer
+     * to still exist.  Tk Aqua's first initialisation schedules one that
+     * holds a raw pointer to the root NSWindow and is never cancelled; an
+     * application shut down before its first idle point would run it
+     * against a destroyed window.  (After the withdraw above, so a
+     * withdrawn main window is not shown.) */
+    while (Tcl_DoOneEvent(TCL_IDLE_EVENTS | TCL_DONT_WAIT)) {}
     Tcl_MutexLock(&appMutex);
     appAlive = 1;
     Tcl_MutexUnlock(&appMutex);

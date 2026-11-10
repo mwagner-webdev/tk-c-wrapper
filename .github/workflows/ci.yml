@@ -77,6 +77,12 @@ jobs:
         timeout-minutes: 15
         env:
           TKX_TEST_VERBOSE: body error skip start
+      - name: Crash reports (on failure)
+        if: failure()
+        run: |
+          d="$HOME/Library/Logs/DiagnosticReports"
+          ls -lt "$d" 2>/dev/null | head -20 || true
+          for f in $(ls -t "$d"/*.ips 2>/dev/null | head -2); do echo "===== $f"; cat "$f"; done
 
   windows:
     runs-on: windows-latest
