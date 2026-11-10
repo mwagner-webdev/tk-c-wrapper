@@ -1,8 +1,8 @@
 # common.tcl -- shared setup for the tkx test files.
 #
-# Loads the C test bridge (libtkxtest.so, which links libtkx.so) and
-# defines constraints:
-#   display   an X display is available (wrapper tests need Tk)
+# Loads the C test bridge (libtkxtest.so/.dylib/.dll, which links libtkx)
+# and defines constraints:
+#   display   a display is available (wrapper tests need Tk)
 #   bridge    the compiled bridge could be loaded
 #   tksrc     the pinned Tk/Tcl source trees are available
 #   compat    running against a Tk other than the committed 9.1.0 API
@@ -23,12 +23,17 @@ set ::tkx_gen_dir [file join $::tkx_root [tkx_env TKX_GEN_DIR .]]
 
 if {![info exists ::tkx_bridge_loaded]} {
     set ::tkx_bridge_loaded [expr {![catch {
-	load [file join $::tkx_build libtkxtest.so] Tkxtest
+	load [file join $::tkx_build libtkxtest[info sharedlibextension]] Tkxtest
     } ::tkx_bridge_error]}]
+    if {!$::tkx_bridge_loaded} { puts stderr "tkx: test bridge not loaded: $::tkx_bridge_error" }
 }
+# A display: X11 needs DISPLAY; Windows and macOS (Aqua) use the desktop
+# session.  TKX_NO_DISPLAY=1 forces the headless subset everywhere.
+set ::tkx_display_available [expr {$::tkx_bridge_loaded && [tkx_env TKX_NO_DISPLAY 0] ne "1"
+	&& ($::tcl_platform(platform) eq "windows" || $::tcl_platform(os) eq "Darwin"
+	    || [tkx_env DISPLAY ""] ne "")}]
 testConstraint bridge $::tkx_bridge_loaded
-testConstraint display [expr {$::tkx_bridge_loaded
-	&& [info exists ::env(DISPLAY)] && $::env(DISPLAY) ne ""}]
+testConstraint display $::tkx_display_available
 testConstraint tksrc [expr {[file isdirectory $::tkx_tk_src] && [file isdirectory $::tkx_tcl_src]}]
 testConstraint tk91 [expr {$::tkx_bridge_loaded && [info exists ::tkx::tk_source_version]
 	&& $::tkx::tk_source_version eq "9.1.0"}]
@@ -63,3 +68,11 @@ proc tkx_settle {} {
 # Path of a widget (test hook) and evaluation in the app interpreter.
 proc tkx_path {id} { tkx::path $id }
 proc tkx_tk {args} { tkx::app_eval $args }
+
+# The C compiler used by the ABI tests: $CC, else cc, else gcc.
+proc tkx_cc {} {
+    set cc [tkx_env CC ""]
+    if {$cc ne "" && [auto_execok [lindex $cc 0]] ne ""} { return $cc }
+    foreach c {cc gcc clang} { if {[auto_execok $c] ne ""} { return $c } }
+    return ""
+}

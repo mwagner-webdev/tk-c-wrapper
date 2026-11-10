@@ -9,7 +9,6 @@
  * Tcl script in the test interpreter, so tests can observe them.
  */
 #include "test_bridge.h"
-#include <pthread.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -795,20 +794,22 @@ typedef struct ThreadArgs {
     ScriptCb *task;
 } ThreadArgs;
 
-static void *
+/* Tcl's portable thread API (pthreads on Unix, Win32 threads on Windows). */
+static Tcl_ThreadCreateType
 ThreadMain(void *p)
 {
     ThreadArgs *a = (ThreadArgs *)p;
     a->setStatus = tkx_ttk_label_set_text(a->widget, "from thread");
     a->postStatus = tkx_app_post(TaskCb, a->task);
-    return NULL;
+    TCL_THREAD_CREATE_RETURN;
 }
 
 static int
 ThreadTestCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
 {
     ThreadArgs a;
-    pthread_t t;
+    Tcl_ThreadId t;
+    int result;
     Tcl_Obj *v[2];
     (void)cd;
     if (objc != 3 || tkxb_get_id(ip, objv[1], &a.widget) != TCL_OK) {
@@ -816,8 +817,12 @@ ThreadTestCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
 	return TCL_ERROR;
     }
     a.task = NewScriptCb(ip, objv[2]);   /* leaked on purpose if never run */
-    pthread_create(&t, NULL, ThreadMain, &a);
-    pthread_join(t, NULL);
+    if (Tcl_CreateThread(&t, ThreadMain, &a, TCL_THREAD_STACK_DEFAULT,
+	    TCL_THREAD_JOINABLE) != TCL_OK) {
+	Tcl_SetObjResult(ip, Tcl_NewStringObj("cannot create thread", -1));
+	return TCL_ERROR;
+    }
+    Tcl_JoinThread(t, &result);
     v[0] = Tcl_NewStringObj(tkx_status_name(a.setStatus), -1);
     v[1] = Tcl_NewStringObj(tkx_status_name(a.postStatus), -1);
     Tcl_SetObjResult(ip, Tcl_NewListObj(2, v));
@@ -847,7 +852,7 @@ EnumValuesCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
     return TCL_ERROR;
 }
 
-int
+DLLEXPORT int
 Tkxtest_Init(Tcl_Interp *ip)
 {
     static const struct { const char *name; Tcl_ObjCmdProc2 *proc; const char *cd; } cmds[] = {

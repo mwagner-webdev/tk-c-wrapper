@@ -815,8 +815,16 @@ tkx_app_init(const TkxAppConfig *config)
 	     * library, which Tcl 9 may keep in a zip archive attached to
 	     * libtcl (TclZipfs_AppHook also calls Tcl_FindExecutable). */
 	    static int hookArgc = 1;
+#ifdef _WIN32
+	    /* Wide-character argv on Windows; Tcl ignores it there and finds
+	     * the executable itself. */
+	    static unsigned short hookName[] = {'t', 'k', 'x', 0};
+	    static unsigned short *hookArgv0[] = {hookName, NULL};
+	    static unsigned short **hookArgv = hookArgv0;
+#else
 	    static char *hookArgv0[] = {(char *)"tkx", NULL};
 	    static char **hookArgv = hookArgv0;
+#endif
 	    TclZipfs_AppHook(&hookArgc, &hookArgv);
 	}
 	findExecutableDone = 1;

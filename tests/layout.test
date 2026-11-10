@@ -12,6 +12,14 @@ if {[testConstraint display]} { tkx_start }
 proc newtop {{w 400} {h 300}} {
     set t [tkx::window_create layout]
     tkx::window_geometry $t $w $h
+    # Window managers (Windows, macOS, X11 with a WM) apply the size
+    # asynchronously: wait until the toplevel really has it.
+    set p [tkx_path $t]
+    for {set i 0} {$i < 300} {incr i} {
+	tkx_settle
+	if {[tkx_tk winfo width $p] == $w && [tkx_tk winfo height $p] == $h} { break }
+	tkx::wait_event 10
+    }
     return $t
 }
 proc settle {} {

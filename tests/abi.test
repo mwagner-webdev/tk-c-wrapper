@@ -3,18 +3,55 @@
 
 source [file join [file dirname [file normalize [info script]]] common.tcl]
 
-testConstraint cc [expr {[auto_execok cc] ne ""}]
-testConstraint nm [expr {[auto_execok nm] ne ""}]
-set lib [file join $::tkx_build libtkx.so]
+set cc [tkx_cc]
+testConstraint cc [expr {$cc ne ""}]
+set exe_ext [expr {$::tcl_platform(platform) eq "windows" ? ".exe" : ""}]
+set lib [file join $::tkx_build libtkx[info sharedlibextension]]
 testConstraint lib [file exists $lib]
+
+# The names a shared library exports, read with the platform's own tool:
+# nm -D (ELF), nm -gU (Mach-O, names carry a leading underscore),
+# objdump -p (PE export table).
+proc exported_symbols {lib} {
+    set names {}
+    switch -- [expr {$::tcl_platform(platform) eq "windows" ? "pe"
+		     : $::tcl_platform(os) eq "Darwin" ? "macho" : "elf"}] {
+	elf {
+	    foreach line [split [exec nm -D --defined-only $lib] \n] {
+		if {[lindex $line 1] in {T t}} { lappend names [lindex $line 2] }
+	    }
+	}
+	macho {
+	    foreach line [split [exec nm -gU $lib] \n] {
+		if {[lindex $line 1] in {T t}} { lappend names [string range [lindex $line 2] 1 end] }
+	    }
+	}
+	pe {
+	    set inTable 0
+	    foreach line [split [exec objdump -p $lib] \n] {
+		if {[string match {*Ordinal/Name Pointer*Table*} $line]} { set inTable 1; continue }
+		if {$inTable} {
+		    if {[regexp {^\s*\[\s*\d+\]\s+(\S+)\s*$} $line -> name]} {
+			lappend names $name
+		    } elseif {[string trim $line] eq "" && [llength $names]} {
+			break
+		    }
+		}
+	    }
+	}
+    }
+    return $names
+}
+testConstraint symtool [expr {
+    $::tcl_platform(platform) eq "windows" ? [auto_execok objdump] ne "" : [auto_execok nm] ne ""}]
 
 proc readfile {p} { set f [open $p]; set s [read $f]; close $f; return $s }
 
 test abi-1.1 {public headers compile without Tcl/Tk headers (C99, C++)} -constraints cc -body {
     set inc [list -I[file join $::tkx_gen_dir include] -I[file join $::tkx_root include]]
-    exec cc -std=c99 -pedantic -Wall -Wextra -Werror {*}$inc -fsyntax-only \
+    exec {*}$::cc -std=c99 -pedantic -Wall -Wextra -Werror {*}$inc -fsyntax-only \
 	[file join $::tkx_root tests header_only.c]
-    exec cc -x c++ -std=c++11 -Wall -Werror {*}$inc -fsyntax-only \
+    exec {*}$::cc -x c++ -std=c++11 -Wall -Werror {*}$inc -fsyntax-only \
 	[file join $::tkx_root tests header_only.c]
     return ok
 } -result ok
@@ -32,17 +69,14 @@ test abi-1.2 {public headers mention no Tcl/Tk types} -body {
     set bad
 } -result {}
 
-test abi-1.3 {every public prototype is exported; nothing else is} -constraints {nm lib} -body {
+test abi-1.3 {every public prototype is exported; nothing else is} -constraints {symtool lib} -body {
     set protos {}
     foreach h [list [file join $::tkx_root include tkx.h] [file join $::tkx_gen_dir include tkx_generated.h]] {
 	foreach {- name} [regexp -all -inline {TKX_API [^;(]*?\m(tkx_[a-z0-9_]+)\(} [readfile $h]] {
 	    lappend protos $name
 	}
     }
-    set exported {}
-    foreach line [split [exec nm -D --defined-only $::lib] \n] {
-	if {[lindex $line 1] in {T t}} { lappend exported [lindex $line 2] }
-    }
+    set exported [exported_symbols $::lib]
     set missing {}
     foreach p $protos { if {$p ni $exported} { lappend missing $p } }
     set extra {}
@@ -63,11 +97,11 @@ int main(void) {
     return 0;
 }}
     close $f
-    set exe [file join [temporaryDirectory] abi14]
-    exec cc -std=c99 -I[file join $::tkx_gen_dir include] -I[file join $::tkx_root include] $src -o $exe
+    set exe [file join [temporaryDirectory] abi14$::exe_ext]
+    exec {*}$::cc -std=c99 -I[file join $::tkx_gen_dir include] -I[file join $::tkx_root include] $src -o $exe
     exec $exe
 } -result {8 0 5 7 1} -cleanup {
-    file delete -force [file join [temporaryDirectory] abi14.c] [file join [temporaryDirectory] abi14]
+    file delete -force [file join [temporaryDirectory] abi14.c] [file join [temporaryDirectory] abi14$::exe_ext]
 }
 
 test version-1.1 {generated API reflects the selected Tk source version} -constraints {bridge tksrc} -body {
@@ -94,7 +128,7 @@ after clear rows=0}
 } {
     test example-$ex "standalone C example $ex runs without any Tcl code" -constraints display -body {
 	set env(TKX_EXAMPLE_AUTOCLOSE) 1
-	set out [exec [file join $::tkx_build $ex]]
+	set out [exec [file join $::tkx_build $ex$::exe_ext]]
 	unset env(TKX_EXAMPLE_AUTOCLOSE)
 	set out
     } -match glob -result $expect

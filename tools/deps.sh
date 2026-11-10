@@ -8,11 +8,18 @@
 # Tcl/Tk download location), checks their SHA-256 against the pins below,
 # and builds shared libraries into deps/<version>/install.
 #
-# Build configuration (recorded in docs/DESIGN.md):
-#   Tcl: --enable-shared
-#   Tk:  --enable-shared --disable-xft --disable-bidi
-#        (Xft/HarfBuzz development headers are not required; core X fonts
-#         are used.  This does not change any widget option table.)
+# Platforms and build configuration (recorded in docs/DESIGN.md):
+#   Linux/Unix (X11):  unix/configure
+#       Tcl --enable-shared
+#       Tk  --enable-shared --disable-xft --disable-bidi
+#           (Xft/HarfBuzz development headers are not required; core X
+#            fonts are used.  This does not change any widget option table.)
+#   macOS (Aqua):      unix/configure
+#       Tcl --enable-shared
+#       Tk  --enable-shared --enable-aqua
+#   Windows (MSYS2 MINGW64 shell, gcc):  win/configure
+#       Tcl --enable-shared --enable-64bit
+#       Tk  --enable-shared --enable-64bit
 set -eu
 
 VERSION="${1:-9.1.0}"
@@ -30,9 +37,23 @@ case "$VERSION" in
   *) echo "deps.sh: no pinned checksums for version $VERSION" >&2; exit 2 ;;
 esac
 
+case "$(uname -s)" in
+  Darwin)                PLATFORM=macos ;;
+  MINGW*|MSYS*|CYGWIN*)  PLATFORM=windows ;;
+  *)                     PLATFORM=unix ;;
+esac
+
 TCL_TGZ="tcl-core$VERSION-src.tar.gz"
 TK_TGZ="tk$VERSION-src.tar.gz"
 URL="https://downloads.sourceforge.net/project/tcl/Tcl/$VERSION"
+
+sha256() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | cut -d' ' -f1
+  else
+    shasum -a 256 "$1" | cut -d' ' -f1
+  fi
+}
 
 mkdir -p "$DL"
 fetch() {
@@ -41,13 +62,15 @@ fetch() {
     curl -fsSL --retry 4 -o "$DL/$1.part" "$URL/$1"
     mv "$DL/$1.part" "$DL/$1"
   fi
-  echo "$2  $DL/$1" | sha256sum -c - >/dev/null || {
-    echo "deps.sh: checksum mismatch for $1" >&2; exit 1; }
+  if [ "$(sha256 "$DL/$1")" != "$2" ]; then
+    echo "deps.sh: checksum mismatch for $1" >&2
+    exit 1
+  fi
 }
 fetch "$TCL_TGZ" "$TCL_SHA256"
 fetch "$TK_TGZ" "$TK_SHA256"
 
-if [ -x "$BASE/install/bin/tclsh${VERSION%.*}" ] && [ -f "$BASE/install/lib/tkConfig.sh" ]; then
+if [ -f "$BASE/install/lib/tclConfig.sh" ] && [ -f "$BASE/install/lib/tkConfig.sh" ]; then
   echo "deps.sh: Tcl/Tk $VERSION already installed in $BASE/install"
   exit 0
 fi
@@ -57,14 +80,40 @@ mkdir -p "$BASE/src" "$BASE/build/tcl" "$BASE/build/tk"
 tar -C "$BASE/src" -xzf "$DL/$TCL_TGZ"
 tar -C "$BASE/src" -xzf "$DL/$TK_TGZ"
 
+case "$PLATFORM" in
+  unix)
+    CONF=unix
+    TCL_OPTS="--enable-shared"
+    TK_OPTS="--enable-shared --disable-xft --disable-bidi" ;;
+  macos)
+    CONF=unix
+    TCL_OPTS="--enable-shared"
+    TK_OPTS="--enable-shared --enable-aqua" ;;
+  windows)
+    CONF=win
+    TCL_OPTS="--enable-shared --enable-64bit"
+    TK_OPTS="--enable-shared --enable-64bit" ;;
+esac
+
 JOBS="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)"
+
+# On failure show the end of every log: in CI the build directory is gone
+# afterwards.
+fail() {
+  echo "deps.sh: $1 build failed ($PLATFORM)" >&2
+  for log in "$BASE/build/$2"/*.log; do
+    [ -f "$log" ] || continue
+    echo "----- $log (last 60 lines)" >&2
+    tail -n 60 "$log" >&2
+  done
+  exit 1
+}
+
 ( cd "$BASE/build/tcl" &&
-  "$BASE/src/tcl$VERSION/unix/configure" --prefix="$BASE/install" --enable-shared >configure.log 2>&1 &&
-  make -j"$JOBS" >make.log 2>&1 && make install >install.log 2>&1 ) || {
-  echo "deps.sh: Tcl build failed, see $BASE/build/tcl/*.log" >&2; exit 1; }
+  "$BASE/src/tcl$VERSION/$CONF/configure" --prefix="$BASE/install" $TCL_OPTS >configure.log 2>&1 &&
+  make -j"$JOBS" >make.log 2>&1 && make install >install.log 2>&1 ) || fail Tcl tcl
 ( cd "$BASE/build/tk" &&
-  "$BASE/src/tk$VERSION/unix/configure" --prefix="$BASE/install" \
-     --with-tcl="$BASE/build/tcl" --enable-shared --disable-xft --disable-bidi >configure.log 2>&1 &&
-  make -j"$JOBS" >make.log 2>&1 && make install >install.log 2>&1 ) || {
-  echo "deps.sh: Tk build failed, see $BASE/build/tk/*.log" >&2; exit 1; }
-echo "deps.sh: Tcl/Tk $VERSION installed in $BASE/install"
+  "$BASE/src/tk$VERSION/$CONF/configure" --prefix="$BASE/install" \
+     --with-tcl="$BASE/build/tcl" $TK_OPTS >configure.log 2>&1 &&
+  make -j"$JOBS" >make.log 2>&1 && make install >install.log 2>&1 ) || fail Tk tk
+echo "deps.sh: Tcl/Tk $VERSION installed in $BASE/install ($PLATFORM)"

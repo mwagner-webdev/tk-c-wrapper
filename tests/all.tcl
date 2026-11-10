@@ -6,11 +6,12 @@
 #	Xvfb when no DISPLAY is available).
 #
 #	Environment:
-#	    TKX_BUILD    build directory holding libtkx.so / libtkxtest.so
+#	    TKX_BUILD    build directory holding libtkx / libtkxtest (.so, .dylib, .dll)
 #	                 (default build/9.1.0)
 #	    TKX_TK_SRC / TKX_TCL_SRC   Tk/Tcl source trees for generator tests
 #	    TKX_GEN_DIR  directory of the generated files under test (default .)
-#	    DISPLAY      tests that need a display are skipped without one
+#	    DISPLAY      (X11) tests that need a display are skipped without one
+#	    TKX_NO_DISPLAY  1: skip the display tests on every platform
 #
 #	All test files run in this interpreter (-singleproc 1).  The exit
 #	status is non-zero if any test failed.  Skipped tests are reported
@@ -40,7 +41,7 @@ runAllTests
 # Behavioural coverage of the generated functions (successful calls).
 # Only meaningful when the display tests ran.
 if {[namespace exists ::tkx] && [llength [info commands ::tkx::fn_calls]]
-	&& [info exists env(DISPLAY)] && $env(DISPLAY) ne ""} {
+	&& [info exists ::tkx_display_available] && $::tkx_display_available} {
     set calls [::tkx::fn_calls]
     set all [::tkx::fnlist]
     set called 0
