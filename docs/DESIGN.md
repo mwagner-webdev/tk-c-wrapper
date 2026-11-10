@@ -260,12 +260,22 @@ Nullable options (`TK_OPTION_NULL_OK`) of non-string type get an extra
 
 ## Tcl/Tk build configuration
 
-`tools/deps.sh` builds the pinned release with `--enable-shared`.  For Tk
-it adds `--disable-xft --disable-bidi`, so the build doesn't require Xft
-or HarfBuzz development headers (core X fonts are used).  This affects
-font rendering only, not any option table: the extractor reads the
-source, not the build.  The shared libraries carry an rpath, so no
-installation is needed.
+`tools/deps.sh` builds the pinned release with `--enable-shared`:
+
+| platform | configure | Tk options |
+|---|---|---|
+| Linux/Unix | `unix/configure` | `--disable-xft --disable-bidi` (no Xft or HarfBuzz development headers needed; core X fonts) |
+| macOS | `unix/configure` | `--enable-aqua` |
+| Windows (MSYS2 MINGW64) | `win/configure` | `--enable-64bit` (also for Tcl) |
+
+The Tk options affect rendering only, not any option table: the extractor
+reads the source, not the build.  The Makefile takes link flags from the
+installed `tclConfig.sh`/`tkConfig.sh`, which know each platform's library
+names (`libtcl9tk9.1.so`, `libtcl9tk9.1.dylib`, `tcl9tk91.dll`).  On Linux
+and macOS the shared libraries carry an rpath (`libtkx.dylib` has the
+install name `@rpath/libtkx.dylib`), so no installation is needed.
+Windows has no rpath: the Tcl/Tk DLLs and `libtkx.dll` must be on `PATH`,
+which `make test` arranges; `libtkx.dll.a` is the import library.
 
 ## Platforms
 
@@ -276,5 +286,31 @@ which is `#d9d9d9`, `SystemButtonFace` and `systemWindowBackgroundColor`
 respectively.  They appear only in documentation and metadata, never in
 behaviour, because Tk applies its own defaults.  No option table of the
 selected classes differs between platforms in 9.1.0.  So the generated C
-contains no platform conditionals and is correct on all three, although
-only Linux/X11 was built and run here (see LIMITATIONS).
+contains no platform conditionals.
+
+The library, the test bridge and the examples are built and the full suite
+runs in CI on Linux/X11 (Xvfb), macOS/Aqua and Windows (MSYS2 MINGW64);
+see COVERAGE for the results.  The handwritten runtime has three
+platform-specific points:
+
+- **Embedded start-up (Windows).**  `TclZipfs_AppHook` takes a
+  wide-character `argv` on Windows; tkx passes a dummy one, since Tcl
+  finds the executable itself there.
+- **Tk Aqua and the host's stdio (macOS).**  On its first initialisation
+  Tk Aqua checks stdin.  If stdin looks like `/dev/null` (a program
+  started from Finder or by a CI runner), Tk either opens a Tk console
+  window or, when the host has a startup script, `dup2`s `/dev/null` over
+  stdout and stderr.  A library must not do either to its host, so on
+  macOS tkx shows stdin to Tk as an empty pipe while `Tk_Init` runs and
+  then restores it.
+- **Idle work after `Tk_Init` (all platforms; needed on macOS).**  Tk Aqua's
+  first initialisation schedules an idle callback that holds a raw
+  pointer to the root `NSWindow` and is never cancelled.  `tkx_app_init`
+  therefore runs pending idle callbacks before it returns (after the
+  optional `withdraw`), so an application shut down right after start-up
+  cannot run that callback against a destroyed window.
+
+One Tcl portability rule surfaced in the test bridge rather than the
+library: a thread created with `Tcl_CreateThread` must end with
+`Tcl_ExitThread`.  On Windows `Tcl_JoinThread` is signalled only from
+there, so a thread that just returns leaves its joiner waiting forever.

@@ -63,12 +63,15 @@
 
 ## Runtime and API
 
-- **Platforms:** the generator evaluates Unix, Windows and macOS
-  configurations, and the selected classes' option tables are identical
-  on all three.  But the library was built and run only on Linux/X11
-  (Ubuntu 24.04, Xvfb).  The Windows/macOS build files are not written
-  (the code uses `_Thread_local`, `TclZipfs_AppHook` and standard Tcl/Tk
-  APIs only).
+- **Platforms:** the full suite passes in CI on Linux/X11 (Ubuntu 24.04,
+  Xvfb without a window manager), macOS/Aqua (`macos-latest`, arm64,
+  clang) and Windows (`windows-latest`, MSYS2 MINGW64 gcc).  Not
+  covered: MSVC (the Makefile assumes GNU make and gcc/clang flags),
+  Intel macOS, Linux under a real window manager or with Xft, Wayland
+  (Tk has no native backend), and 32-bit builds.  The Tk 9.0.4
+  compatibility run is Linux-only.  On macOS, tkx hides a `/dev/null`
+  stdin from Tk during `Tk_Init` (see DESIGN, Platforms); this relies on
+  Tk 9.1's current heuristic in `TkpInit`.
 - **Value types are mapped conservatively.**  `-underline` values such as
   `end-1` and pixel values with units are readable only through the
   generic string getter; the typed getters convert pixels with
@@ -93,6 +96,8 @@
 - The pinned Tcl/Tk sources are downloaded from SourceForge with SHA-256
   pins, and the SHA-1 published by SourceForge was cross-checked.  There is
   no offline mirror in the repository.
-- No CI service was run as part of this work.  `.github/workflows/ci.yml`
-  describes the intended Linux/Xvfb job, but it has not been executed on
-  GitHub.
+- CI (`.github/workflows/ci.yml`) runs on every push: Linux (with the
+  9.0.4 compatibility run), macOS and Windows jobs each build Tcl/Tk from
+  the pinned sources (cached per OS and architecture), build tkx, check the
+  generated files for drift and run the suite.  The display tests on macOS
+  and Windows depend on the GitHub runners' desktop session.

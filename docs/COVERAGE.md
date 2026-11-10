@@ -42,15 +42,25 @@ computed for all 22 classes found in the 9.1.0 sources:
 
 ## Test results
 
-`make test` runs `tests/all.tcl` under Xvfb.  All test files run in one
-interpreter.  Skipped tests are reported per constraint and are not
-counted as passed.
+`make test` runs `tests/all.tcl` (under Xvfb on Linux; in the desktop
+session on macOS and Windows).  All test files run in one interpreter.
+Skipped tests are reported per constraint and are not counted as passed.
+
+The rows below are from GitHub Actions run
+[42897436981](https://github.com/mwagner-webdev/tk-c-wrapper/actions/runs/42897436981)
+(commit `7de778d`), which builds Tcl/Tk 9.1.0 from source on each platform:
 
 | run | total | passed | skipped | failed | generated functions called |
 |---|---|---|---|---|---|
-| Tk 9.1.0 (`make test`) | 152 | 152 | 0 | 0 | 370 / 370 |
-| Tk 9.0.4, API generated from 9.0.4 (`make compat`) | 152 | 148 | 4 (`tk91`: 9.1-only features) | 0 | 359 / 359 |
-| no display (`make test-headless`) | 152 | 56 | 96 (`display`) | 0 | — |
+| Linux/X11, Ubuntu 24.04, Xvfb (`make test`) | 152 | 152 | 0 | 0 | 370 / 370 |
+| macOS/Aqua, `macos-latest` arm64, clang (`make test`) | 152 | 152 | 0 | 0 | 370 / 370 |
+| Windows, `windows-latest`, MSYS2 MINGW64 gcc (`make test`) | 152 | 152 | 0 | 0 | 370 / 370 |
+| Linux, Tk 9.0.4, API generated from 9.0.4 (`make compat`) | 152 | 148 | 4 (`tk91`: 9.1-only features) | 0 | 359 / 359 |
+| no display (`make test-headless`, Linux) | 152 | 56 | 96 (`display`) | 0 | — |
+
+On every platform `make check-generated` also passes: running the
+generator with that platform's tclsh on the pinned sources reproduces the
+committed generated files byte for byte.
 
 | file | tests | covers |
 |---|---|---|
@@ -59,7 +69,7 @@ counted as passed.
 | `widgets.test` | 34 | creation of every class, **data-driven round trip of every generated setter/getter (and unset) checked against Tk's `cget`**, read-only getters, Unicode (BMP and astral), entry/button/treeview operations, shared ttk `state`/`instate`/`style`, generic property interface (and refusal of script/variable options), generic invocation (literal words; refusal list), no generated function takes a script |
 | `layout.test` | 18 | grid placement, every grid option through `grid info`, column/row weights, minsize, spanning, external/internal padding, propagation, size/bbox/anchor/uniform/pad, forget/remove, relayout after configuration change, Tk's errors (mixed managers, bad values), every pack option, side/fill/expand geometry, `-before`/`-after` ordering, pack propagation, **the same layout through tkx and through plain Tcl/Tk gives identical requested sizes** |
 | `callbacks.test` | 22 | delivery, list-built trampoline, replacement and clearing release exactly once, removal, release on widget destruction, a callback destroying its own widget, a callback removing itself, reentrant calls, disabled buttons, stale trampolines, key presses through Tk's own bindings, virtual/mouse/key event fields, `<<TreeviewSelect>>`, rebinding, invalid sequences, `after` and cancellation, release at shutdown |
-| `abi.test` | 9 | headers compile without Tcl/Tk (C99 and C++), no Tcl/Tk types in declarations, every prototype exported and nothing else, 64-bit handles and stable codes, generated version equals the source tree's `TK_PATCH_LEVEL` and the runtime Tk version, the standalone examples run, the examples contain no Tcl |
+| `abi.test` | 9 | headers compile without Tcl/Tk (C99 and C++), no Tcl/Tk types in declarations, every prototype exported and nothing else (read with `nm -D`, `nm -gU` or `objdump -p` per platform), 64-bit handles and stable codes, generated version equals the source tree's `TK_PATCH_LEVEL` and the runtime Tk version, the standalone examples run, the examples contain no Tcl |
 
 **Reproducibility check.**  A fresh clone of commit `2963e00` was built
 from nothing with `make deps && make && make check-generated && make test`

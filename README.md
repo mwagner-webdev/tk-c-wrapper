@@ -100,7 +100,9 @@ make test-headless   # generator/ABI tests only; display tests are reported as s
 make compat          # build + test against Tk 9.0.4 with an API generated from 9.0.4
 ```
 
-Equivalent direct invocations (the Makefile only sets these variables):
+Equivalent direct invocation on Linux (the Makefile only sets these
+variables; on macOS drop `xvfb-run -a`, on Windows use `tclsh91.exe` with
+`deps/9.1.0/install/bin` and `build/9.1.0` on `PATH`):
 
 ```bash
 TKX_BUILD=build/9.1.0 xvfb-run -a deps/9.1.0/install/bin/tclsh9.1 tests/all.tcl
@@ -111,11 +113,14 @@ deps/9.1.0/install/bin/tclsh9.1 generator/generate.tcl --tk-src deps/9.1.0/src/t
 ```
 
 Running the examples (they need a display; with `TKX_EXAMPLE_AUTOCLOSE=1`
-they run a scripted interaction and exit):
+they run a scripted interaction and exit).  On Linux without a display:
 
 ```bash
 xvfb-run -a env TKX_EXAMPLE_AUTOCLOSE=1 build/9.1.0/layout
 ```
+
+On macOS run `build/9.1.0/layout` directly; on Windows run
+`build/9.1.0/layout.exe` with the DLL directories on `PATH`.
 
 ## Documentation
 
