@@ -75,15 +75,20 @@ docs/                      DESIGN, EXTRACTION, COVERAGE, LIMITATIONS
 
 ## Build and test
 
-Requirements: a C11 compiler, `make`, `curl`, `sha256sum`, the X11
-development headers (`libx11-dev`), and Xvfb (`xvfb-run`) for headless
-display tests.  No system Tcl/Tk is used; the pinned release is built
-locally.
+No system Tcl/Tk is used; the pinned release is downloaded, checked against
+its SHA-256 and built locally.  The same commands work on all three
+platforms:
+
+| platform | toolchain | Tk | notes |
+|---|---|---|---|
+| Linux/Unix | C11 compiler, `make`, `curl`, `sha256sum`, X11 headers (`libx11-dev`) | X11 | `make test` uses `xvfb-run` when `DISPLAY` is unset |
+| macOS | Xcode command line tools (`clang`, `make`, `curl`, `shasum`) | Aqua (`--enable-aqua`) | tests run in the desktop session |
+| Windows | MSYS2 **MINGW64** shell: `make tar curl zip mingw-w64-x86_64-gcc mingw-w64-x86_64-binutils` | Win32 | the Tcl/Tk and tkx DLLs are found through `PATH`, which `make test` sets |
 
 ```bash
 make deps            # download Tcl/Tk 9.1.0 (SHA-256 checked) and build into deps/9.1.0
-make                 # libtkx.so, test bridge, examples, header self-containment check
-make test            # full tcltest suite (runs under xvfb-run when DISPLAY is unset)
+make                 # libtkx (.so/.dylib/.dll), test bridge, examples, header self-containment check
+make test            # full tcltest suite
 make check-generated # fail if regenerating from the Tk sources changes committed files
 ```
 
