@@ -91,7 +91,7 @@ test grid-1.3 {column weights distribute the extra space} -constraints display -
 } -result {3 1 1}
 
 test grid-1.4 {row weights and minsize} -constraints display -body {
-    set t [newtop 100 300]
+    set t [newtop 200 300]
     set a [fr $t]; set b [fr $t]
     tkx::fn tkx_grid $a 0 0; tkx::fn tkx_grid_set_sticky $a ns
     tkx::fn tkx_grid $b 1 0; tkx::fn tkx_grid_set_sticky $b ns
