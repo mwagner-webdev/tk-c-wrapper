@@ -1,0 +1,6067 @@
+{
+  "source": {
+    "tk": "9.1.0",
+    "tkManifest": "8758d345e99265d40307ec96784c8206e21dcdff6c71268f048d64a7a41a5875",
+    "tcl": "9.1.0"
+  },
+  "functions": [
+    {
+      "name": "tkx_toplevel_create",
+      "group": "toplevel",
+      "kind": "create",
+      "approach": "schema",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/tkWindow.c:156"
+      ],
+      "doc": "Create a toplevel widget (Tk class Toplevel); parent TKX_NULL_ID means the main window."
+    },
+    {
+      "name": "tkx_toplevel_set_backgroundimage",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:244",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:210 unix unix/tkUnixDefault.h:180 win win/tkWinDefault.h:184}"
+      ],
+      "doc": "Set the -backgroundimage option (STRING)."
+    },
+    {
+      "name": "tkx_toplevel_get_backgroundimage",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:244",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:210 unix unix/tkUnixDefault.h:180 win win/tkWinDefault.h:184}"
+      ],
+      "doc": "Get the -backgroundimage option (STRING)."
+    },
+    {
+      "name": "tkx_toplevel_set_borderwidth",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:251",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:213 unix unix/tkUnixDefault.h:183 win win/tkWinDefault.h:187}"
+      ],
+      "doc": "Set the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_borderwidth",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:251",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:213 unix unix/tkUnixDefault.h:183 win win/tkWinDefault.h:187}"
+      ],
+      "doc": "Get the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_class",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:253",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:564 unix unix/tkUnixDefault.h:536 win win/tkWinDefault.h:539}"
+      ],
+      "doc": "Get the -class option (STRING)."
+    },
+    {
+      "name": "tkx_toplevel_set_relief",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxRelief",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:258",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:224 unix unix/tkUnixDefault.h:195 win win/tkWinDefault.h:198}"
+      ],
+      "doc": "Set the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_toplevel_get_relief",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxRelief",
+      "provenance": [
+        "generic/tkFrame.c:258",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:224 unix unix/tkUnixDefault.h:195 win win/tkWinDefault.h:198}"
+      ],
+      "doc": "Get the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_toplevel_get_screen",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:260",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:566 unix unix/tkUnixDefault.h:538 win win/tkWinDefault.h:541}"
+      ],
+      "doc": "Get the -screen option (STRING)."
+    },
+    {
+      "name": "tkx_toplevel_set_tile",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:263",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:212 unix unix/tkUnixDefault.h:182 win win/tkWinDefault.h:186}"
+      ],
+      "doc": "Set the -tile option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_toplevel_get_tile",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/tkFrame.c:263",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:212 unix unix/tkUnixDefault.h:182 win win/tkWinDefault.h:186}"
+      ],
+      "doc": "Get the -tile option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_toplevel_get_use",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:265",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:567 unix unix/tkUnixDefault.h:539 win win/tkWinDefault.h:542}"
+      ],
+      "doc": "Get the -use option (STRING)."
+    },
+    {
+      "name": "tkx_toplevel_set_background",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:180",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:209 unix unix/tkUnixDefault.h:179 win win/tkWinDefault.h:183}"
+      ],
+      "doc": "Set the -background option (BORDER)."
+    },
+    {
+      "name": "tkx_toplevel_get_background",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/tkFrame.c:180",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:209 unix unix/tkUnixDefault.h:179 win win/tkWinDefault.h:183}"
+      ],
+      "doc": "Get the -background option (BORDER)."
+    },
+    {
+      "name": "tkx_toplevel_get_colormap",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:185",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:215 unix unix/tkUnixDefault.h:185 win win/tkWinDefault.h:189}"
+      ],
+      "doc": "Get the -colormap option (STRING)."
+    },
+    {
+      "name": "tkx_toplevel_get_container",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/tkFrame.c:192",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:216 unix unix/tkUnixDefault.h:186 win win/tkWinDefault.h:190}"
+      ],
+      "doc": "Get the -container option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_toplevel_set_cursor",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "cursor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:194",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:217 unix unix/tkUnixDefault.h:187 win win/tkWinDefault.h:191}"
+      ],
+      "doc": "Set the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_toplevel_get_cursor",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "cursor",
+      "provenance": [
+        "generic/tkFrame.c:194",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:217 unix unix/tkUnixDefault.h:187 win win/tkWinDefault.h:191}"
+      ],
+      "doc": "Get the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_toplevel_set_height",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:197",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:218 unix unix/tkUnixDefault.h:188 win win/tkWinDefault.h:192}"
+      ],
+      "doc": "Set the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_height",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:197",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:218 unix unix/tkUnixDefault.h:188 win win/tkWinDefault.h:192}"
+      ],
+      "doc": "Get the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_set_highlightbackground",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:199",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:219 unix unix/tkUnixDefault.h:189 win win/tkWinDefault.h:193}"
+      ],
+      "doc": "Set the -highlightbackground option (COLOR)."
+    },
+    {
+      "name": "tkx_toplevel_get_highlightbackground",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/tkFrame.c:199",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:219 unix unix/tkUnixDefault.h:189 win win/tkWinDefault.h:193}"
+      ],
+      "doc": "Get the -highlightbackground option (COLOR)."
+    },
+    {
+      "name": "tkx_toplevel_set_highlightcolor",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:202",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:220 unix unix/tkUnixDefault.h:190 win win/tkWinDefault.h:194}"
+      ],
+      "doc": "Set the -highlightcolor option (COLOR)."
+    },
+    {
+      "name": "tkx_toplevel_get_highlightcolor",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/tkFrame.c:202",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:220 unix unix/tkUnixDefault.h:190 win win/tkWinDefault.h:194}"
+      ],
+      "doc": "Get the -highlightcolor option (COLOR)."
+    },
+    {
+      "name": "tkx_toplevel_set_highlightthickness",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:205",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:221 unix unix/tkUnixDefault.h:191 win win/tkWinDefault.h:195}"
+      ],
+      "doc": "Set the -highlightthickness option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_highlightthickness",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:205",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:221 unix unix/tkUnixDefault.h:191 win win/tkWinDefault.h:195}"
+      ],
+      "doc": "Get the -highlightthickness option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_set_padx",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:208",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:222 unix unix/tkUnixDefault.h:193 win win/tkWinDefault.h:196}"
+      ],
+      "doc": "Set the -padx option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_padx",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:208",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:222 unix unix/tkUnixDefault.h:193 win win/tkWinDefault.h:196}"
+      ],
+      "doc": "Get the -padx option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_set_pady",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:210",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:223 unix unix/tkUnixDefault.h:194 win win/tkWinDefault.h:197}"
+      ],
+      "doc": "Set the -pady option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_pady",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:210",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:223 unix unix/tkUnixDefault.h:194 win win/tkWinDefault.h:197}"
+      ],
+      "doc": "Get the -pady option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_visual",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:215",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:226 unix unix/tkUnixDefault.h:197 win win/tkWinDefault.h:200}"
+      ],
+      "doc": "Get the -visual option (STRING)."
+    },
+    {
+      "name": "tkx_toplevel_set_width",
+      "group": "toplevel",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:218",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:227 unix unix/tkUnixDefault.h:198 win win/tkWinDefault.h:201}"
+      ],
+      "doc": "Set the -width option (PIXELS)."
+    },
+    {
+      "name": "tkx_toplevel_get_width",
+      "group": "toplevel",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:218",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:227 unix unix/tkUnixDefault.h:198 win win/tkWinDefault.h:201}"
+      ],
+      "doc": "Get the -width option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_create",
+      "group": "frame",
+      "kind": "create",
+      "approach": "schema",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/tkWindow.c:143"
+      ],
+      "doc": "Create a frame widget (Tk class Frame); parent TKX_NULL_ID means the main window."
+    },
+    {
+      "name": "tkx_frame_set_backgroundimage",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:224",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:210 unix unix/tkUnixDefault.h:180 win win/tkWinDefault.h:184}"
+      ],
+      "doc": "Set the -backgroundimage option (STRING)."
+    },
+    {
+      "name": "tkx_frame_get_backgroundimage",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:224",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:210 unix unix/tkUnixDefault.h:180 win win/tkWinDefault.h:184}"
+      ],
+      "doc": "Get the -backgroundimage option (STRING)."
+    },
+    {
+      "name": "tkx_frame_set_borderwidth",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:231",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:213 unix unix/tkUnixDefault.h:183 win win/tkWinDefault.h:187}"
+      ],
+      "doc": "Set the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_borderwidth",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:231",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:213 unix unix/tkUnixDefault.h:183 win win/tkWinDefault.h:187}"
+      ],
+      "doc": "Get the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_class",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:233",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:214 unix unix/tkUnixDefault.h:184 win win/tkWinDefault.h:188}"
+      ],
+      "doc": "Get the -class option (STRING)."
+    },
+    {
+      "name": "tkx_frame_set_relief",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxRelief",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:235",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:224 unix unix/tkUnixDefault.h:195 win win/tkWinDefault.h:198}"
+      ],
+      "doc": "Set the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_frame_get_relief",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxRelief",
+      "provenance": [
+        "generic/tkFrame.c:235",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:224 unix unix/tkUnixDefault.h:195 win win/tkWinDefault.h:198}"
+      ],
+      "doc": "Get the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_frame_set_tile",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:237",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:212 unix unix/tkUnixDefault.h:182 win win/tkWinDefault.h:186}"
+      ],
+      "doc": "Set the -tile option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_frame_get_tile",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/tkFrame.c:237",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:212 unix unix/tkUnixDefault.h:182 win win/tkWinDefault.h:186}"
+      ],
+      "doc": "Get the -tile option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_frame_set_background",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:180",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:209 unix unix/tkUnixDefault.h:179 win win/tkWinDefault.h:183}"
+      ],
+      "doc": "Set the -background option (BORDER)."
+    },
+    {
+      "name": "tkx_frame_get_background",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/tkFrame.c:180",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:209 unix unix/tkUnixDefault.h:179 win win/tkWinDefault.h:183}"
+      ],
+      "doc": "Get the -background option (BORDER)."
+    },
+    {
+      "name": "tkx_frame_get_colormap",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:185",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:215 unix unix/tkUnixDefault.h:185 win win/tkWinDefault.h:189}"
+      ],
+      "doc": "Get the -colormap option (STRING)."
+    },
+    {
+      "name": "tkx_frame_get_container",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/tkFrame.c:192",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:216 unix unix/tkUnixDefault.h:186 win win/tkWinDefault.h:190}"
+      ],
+      "doc": "Get the -container option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_frame_set_cursor",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "cursor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:194",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:217 unix unix/tkUnixDefault.h:187 win win/tkWinDefault.h:191}"
+      ],
+      "doc": "Set the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_frame_get_cursor",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "cursor",
+      "provenance": [
+        "generic/tkFrame.c:194",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:217 unix unix/tkUnixDefault.h:187 win win/tkWinDefault.h:191}"
+      ],
+      "doc": "Get the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_frame_set_height",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:197",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:218 unix unix/tkUnixDefault.h:188 win win/tkWinDefault.h:192}"
+      ],
+      "doc": "Set the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_height",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:197",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:218 unix unix/tkUnixDefault.h:188 win win/tkWinDefault.h:192}"
+      ],
+      "doc": "Get the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_set_highlightbackground",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:199",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:219 unix unix/tkUnixDefault.h:189 win win/tkWinDefault.h:193}"
+      ],
+      "doc": "Set the -highlightbackground option (COLOR)."
+    },
+    {
+      "name": "tkx_frame_get_highlightbackground",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/tkFrame.c:199",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:219 unix unix/tkUnixDefault.h:189 win win/tkWinDefault.h:193}"
+      ],
+      "doc": "Get the -highlightbackground option (COLOR)."
+    },
+    {
+      "name": "tkx_frame_set_highlightcolor",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:202",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:220 unix unix/tkUnixDefault.h:190 win win/tkWinDefault.h:194}"
+      ],
+      "doc": "Set the -highlightcolor option (COLOR)."
+    },
+    {
+      "name": "tkx_frame_get_highlightcolor",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/tkFrame.c:202",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:220 unix unix/tkUnixDefault.h:190 win win/tkWinDefault.h:194}"
+      ],
+      "doc": "Get the -highlightcolor option (COLOR)."
+    },
+    {
+      "name": "tkx_frame_set_highlightthickness",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:205",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:221 unix unix/tkUnixDefault.h:191 win win/tkWinDefault.h:195}"
+      ],
+      "doc": "Set the -highlightthickness option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_highlightthickness",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:205",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:221 unix unix/tkUnixDefault.h:191 win win/tkWinDefault.h:195}"
+      ],
+      "doc": "Get the -highlightthickness option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_set_padx",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:208",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:222 unix unix/tkUnixDefault.h:193 win win/tkWinDefault.h:196}"
+      ],
+      "doc": "Set the -padx option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_padx",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:208",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:222 unix unix/tkUnixDefault.h:193 win win/tkWinDefault.h:196}"
+      ],
+      "doc": "Get the -padx option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_set_pady",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:210",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:223 unix unix/tkUnixDefault.h:194 win win/tkWinDefault.h:197}"
+      ],
+      "doc": "Set the -pady option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_pady",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:210",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:223 unix unix/tkUnixDefault.h:194 win win/tkWinDefault.h:197}"
+      ],
+      "doc": "Get the -pady option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_visual",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/tkFrame.c:215",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:226 unix unix/tkUnixDefault.h:197 win win/tkWinDefault.h:200}"
+      ],
+      "doc": "Get the -visual option (STRING)."
+    },
+    {
+      "name": "tkx_frame_set_width",
+      "group": "frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkFrame.c:218",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:227 unix unix/tkUnixDefault.h:198 win win/tkWinDefault.h:201}"
+      ],
+      "doc": "Set the -width option (PIXELS)."
+    },
+    {
+      "name": "tkx_frame_get_width",
+      "group": "frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkFrame.c:218",
+        "default: platformDependent 1 values {macos macosx/tkMacOSXDefault.h:227 unix unix/tkUnixDefault.h:198 win win/tkWinDefault.h:201}"
+      ],
+      "doc": "Get the -width option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_frame_create",
+      "group": "ttk::frame",
+      "kind": "create",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:667"
+      ],
+      "doc": "Create a ttk::frame widget (Tk class TFrame); parent TKX_NULL_ID means the main window."
+    },
+    {
+      "name": "tkx_ttk_frame_set_borderwidth",
+      "group": "ttk::frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:30"
+      ],
+      "doc": "Set the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_borderwidth",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:30"
+      ],
+      "doc": "Get the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_frame_unset_borderwidth",
+      "group": "ttk::frame",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:30"
+      ],
+      "doc": "Set -borderwidth to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_frame_set_padding",
+      "group": "ttk::frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:33"
+      ],
+      "doc": "Set the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_padding",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:33"
+      ],
+      "doc": "Get the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_frame_set_relief",
+      "group": "ttk::frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxRelief",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:36"
+      ],
+      "doc": "Set the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_relief",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxRelief",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:36"
+      ],
+      "doc": "Get the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_ttk_frame_unset_relief",
+      "group": "ttk::frame",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:36"
+      ],
+      "doc": "Set -relief to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_frame_set_width",
+      "group": "ttk::frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:39"
+      ],
+      "doc": "Set the -width option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_width",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:39"
+      ],
+      "doc": "Get the -width option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_frame_set_height",
+      "group": "ttk::frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:42"
+      ],
+      "doc": "Set the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_height",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:42"
+      ],
+      "doc": "Get the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_frame_set_cursor",
+      "group": "ttk::frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "cursor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Set the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_cursor",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "cursor",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Get the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_frame_set_style",
+      "group": "ttk::frame",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Set the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_style",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Get the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_frame_get_class",
+      "group": "ttk::frame",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:171"
+      ],
+      "doc": "Get the -class option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_frame_instate",
+      "group": "ttk::frame",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:54",
+        "generic/ttk/ttkWidget.c:733"
+      ],
+      "doc": "Tk: $w instate (The optional second argument is a Tcl script; only the query form without a script is exposed.)"
+    },
+    {
+      "name": "tkx_ttk_frame_state_set",
+      "group": "ttk::frame",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:55",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (TtkWidgetStateCommand has a query form (no argument) and a set form; only the set form is generated here, the query form is state_get.)"
+    },
+    {
+      "name": "tkx_ttk_frame_state_get",
+      "group": "ttk::frame",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:55",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (Query form of the multi-form state subcommand.)"
+    },
+    {
+      "name": "tkx_ttk_frame_style",
+      "group": "ttk::frame",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkFrame.c:56",
+        "generic/ttk/ttkWidget.c:804"
+      ],
+      "doc": "Tk: $w style "
+    },
+    {
+      "name": "tkx_ttk_label_create",
+      "group": "ttk::label",
+      "kind": "create",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:895"
+      ],
+      "doc": "Create a ttk::label widget (Tk class TLabel); parent TKX_NULL_ID means the main window."
+    },
+    {
+      "name": "tkx_ttk_label_set_textangle",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "double",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:248"
+      ],
+      "doc": "Set the -textangle option (DOUBLE)."
+    },
+    {
+      "name": "tkx_ttk_label_get_textangle",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "double",
+      "provenance": [
+        "generic/ttk/ttkButton.c:248"
+      ],
+      "doc": "Get the -textangle option (DOUBLE)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_textangle",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:248"
+      ],
+      "doc": "Set -textangle to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_background",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:251"
+      ],
+      "doc": "Set the -background option (BORDER)."
+    },
+    {
+      "name": "tkx_ttk_label_get_background",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/ttk/ttkButton.c:251"
+      ],
+      "doc": "Get the -background option (BORDER)."
+    },
+    {
+      "name": "tkx_ttk_label_set_foreground",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:254"
+      ],
+      "doc": "Set the -foreground option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_label_get_foreground",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/ttk/ttkButton.c:254"
+      ],
+      "doc": "Get the -foreground option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_label_set_font",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "font",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:257"
+      ],
+      "doc": "Set the -font option (FONT)."
+    },
+    {
+      "name": "tkx_ttk_label_get_font",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "font",
+      "provenance": [
+        "generic/ttk/ttkButton.c:257"
+      ],
+      "doc": "Get the -font option (FONT)."
+    },
+    {
+      "name": "tkx_ttk_label_set_borderwidth",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:260"
+      ],
+      "doc": "Set the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_label_get_borderwidth",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/ttk/ttkButton.c:260"
+      ],
+      "doc": "Get the -borderwidth option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_borderwidth",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:260"
+      ],
+      "doc": "Set -borderwidth to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_relief",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxRelief",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:263"
+      ],
+      "doc": "Set the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_ttk_label_get_relief",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxRelief",
+      "provenance": [
+        "generic/ttk/ttkButton.c:263"
+      ],
+      "doc": "Get the -relief option (RELIEF)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_relief",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:263"
+      ],
+      "doc": "Set -relief to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_anchor",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxAnchor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:266"
+      ],
+      "doc": "Set the -anchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_label_get_anchor",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxAnchor",
+      "provenance": [
+        "generic/ttk/ttkButton.c:266"
+      ],
+      "doc": "Get the -anchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_anchor",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:266"
+      ],
+      "doc": "Set -anchor to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_wraplength",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:269"
+      ],
+      "doc": "Set the -wraplength option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_label_get_wraplength",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/ttk/ttkButton.c:269"
+      ],
+      "doc": "Get the -wraplength option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_wraplength",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:269"
+      ],
+      "doc": "Set -wraplength to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_justify",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxJustify",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:59"
+      ],
+      "doc": "Set the -justify option (JUSTIFY)."
+    },
+    {
+      "name": "tkx_ttk_label_get_justify",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxJustify",
+      "provenance": [
+        "generic/ttk/ttkButton.c:59"
+      ],
+      "doc": "Get the -justify option (JUSTIFY)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_justify",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:59"
+      ],
+      "doc": "Set -justify to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_text",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:62"
+      ],
+      "doc": "Set the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_get_text",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:62"
+      ],
+      "doc": "Get the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_set_underline",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "index",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:68",
+        "default: generic/ttk/ttkThemeInt.h:97"
+      ],
+      "doc": "Set the -underline option (INDEX)."
+    },
+    {
+      "name": "tkx_ttk_label_get_underline",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "index",
+      "provenance": [
+        "generic/ttk/ttkButton.c:68",
+        "default: generic/ttk/ttkThemeInt.h:97"
+      ],
+      "doc": "Get the -underline option (INDEX)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_underline",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:68",
+        "default: generic/ttk/ttkThemeInt.h:97"
+      ],
+      "doc": "Set -underline to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_width",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:70"
+      ],
+      "doc": "Set the -width option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_get_width",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:70"
+      ],
+      "doc": "Get the -width option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_set_image",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:77"
+      ],
+      "doc": "Set the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_get_image",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:77"
+      ],
+      "doc": "Get the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_set_compound",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxCompound",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:84"
+      ],
+      "doc": "Set the -compound option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_label_get_compound",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxCompound",
+      "provenance": [
+        "generic/ttk/ttkButton.c:84"
+      ],
+      "doc": "Get the -compound option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_label_unset_compound",
+      "group": "ttk::label",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:84"
+      ],
+      "doc": "Set -compound to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_label_set_padding",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:88"
+      ],
+      "doc": "Set the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_get_padding",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:88"
+      ],
+      "doc": "Get the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_set_state",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:95"
+      ],
+      "doc": "Set the -state option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_get_state",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:95"
+      ],
+      "doc": "Get the -state option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_set_cursor",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "cursor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Set the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_label_get_cursor",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "cursor",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Get the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_label_set_style",
+      "group": "ttk::label",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Set the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_get_style",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Get the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_get_class",
+      "group": "ttk::label",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:171"
+      ],
+      "doc": "Get the -class option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_label_instate",
+      "group": "ttk::label",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkButton.c:281",
+        "generic/ttk/ttkWidget.c:733"
+      ],
+      "doc": "Tk: $w instate (The optional second argument is a Tcl script; only the query form without a script is exposed.)"
+    },
+    {
+      "name": "tkx_ttk_label_state_set",
+      "group": "ttk::label",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkButton.c:282",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (TtkWidgetStateCommand has a query form (no argument) and a set form; only the set form is generated here, the query form is state_get.)"
+    },
+    {
+      "name": "tkx_ttk_label_state_get",
+      "group": "ttk::label",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkButton.c:282",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (Query form of the multi-form state subcommand.)"
+    },
+    {
+      "name": "tkx_ttk_label_style",
+      "group": "ttk::label",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:283",
+        "generic/ttk/ttkWidget.c:804"
+      ],
+      "doc": "Tk: $w style "
+    },
+    {
+      "name": "tkx_ttk_button_create",
+      "group": "ttk::button",
+      "kind": "create",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:896"
+      ],
+      "doc": "Create a ttk::button widget (Tk class TButton); parent TKX_NULL_ID means the main window."
+    },
+    {
+      "name": "tkx_ttk_button_set_command",
+      "group": "ttk::button",
+      "kind": "callback",
+      "approach": "schema",
+      "params": [],
+      "result": "callback",
+      "provenance": [
+        "generic/ttk/ttkButton.c:332"
+      ],
+      "doc": "Register a C callback for -command (replaces any previous one; fn NULL clears)."
+    },
+    {
+      "name": "tkx_ttk_button_set_default",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxDefault",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:334"
+      ],
+      "doc": "Set the -default option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_button_get_default",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxDefault",
+      "provenance": [
+        "generic/ttk/ttkButton.c:334"
+      ],
+      "doc": "Get the -default option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_button_set_justify",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxJustify",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:59"
+      ],
+      "doc": "Set the -justify option (JUSTIFY)."
+    },
+    {
+      "name": "tkx_ttk_button_get_justify",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxJustify",
+      "provenance": [
+        "generic/ttk/ttkButton.c:59"
+      ],
+      "doc": "Get the -justify option (JUSTIFY)."
+    },
+    {
+      "name": "tkx_ttk_button_unset_justify",
+      "group": "ttk::button",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:59"
+      ],
+      "doc": "Set -justify to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_button_set_text",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:62"
+      ],
+      "doc": "Set the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_get_text",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:62"
+      ],
+      "doc": "Get the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_set_underline",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "index",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:68",
+        "default: generic/ttk/ttkThemeInt.h:97"
+      ],
+      "doc": "Set the -underline option (INDEX)."
+    },
+    {
+      "name": "tkx_ttk_button_get_underline",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "index",
+      "provenance": [
+        "generic/ttk/ttkButton.c:68",
+        "default: generic/ttk/ttkThemeInt.h:97"
+      ],
+      "doc": "Get the -underline option (INDEX)."
+    },
+    {
+      "name": "tkx_ttk_button_unset_underline",
+      "group": "ttk::button",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:68",
+        "default: generic/ttk/ttkThemeInt.h:97"
+      ],
+      "doc": "Set -underline to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_button_set_width",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:70"
+      ],
+      "doc": "Set the -width option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_get_width",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:70"
+      ],
+      "doc": "Get the -width option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_set_image",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:77"
+      ],
+      "doc": "Set the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_get_image",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:77"
+      ],
+      "doc": "Get the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_set_compound",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxCompound",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:84"
+      ],
+      "doc": "Set the -compound option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_button_get_compound",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxCompound",
+      "provenance": [
+        "generic/ttk/ttkButton.c:84"
+      ],
+      "doc": "Get the -compound option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_button_unset_compound",
+      "group": "ttk::button",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:84"
+      ],
+      "doc": "Set -compound to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_button_set_padding",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:88"
+      ],
+      "doc": "Set the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_get_padding",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:88"
+      ],
+      "doc": "Get the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_set_state",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:95"
+      ],
+      "doc": "Set the -state option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_get_state",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:95"
+      ],
+      "doc": "Get the -state option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_set_cursor",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "cursor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Set the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_button_get_cursor",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "cursor",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Get the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_button_set_style",
+      "group": "ttk::button",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Set the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_get_style",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Get the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_get_class",
+      "group": "ttk::button",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:171"
+      ],
+      "doc": "Get the -class option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_button_instate",
+      "group": "ttk::button",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkButton.c:387",
+        "generic/ttk/ttkWidget.c:733"
+      ],
+      "doc": "Tk: $w instate (The optional second argument is a Tcl script; only the query form without a script is exposed.)"
+    },
+    {
+      "name": "tkx_ttk_button_state_set",
+      "group": "ttk::button",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkButton.c:389",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (TtkWidgetStateCommand has a query form (no argument) and a set form; only the set form is generated here, the query form is state_get.)"
+    },
+    {
+      "name": "tkx_ttk_button_state_get",
+      "group": "ttk::button",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkButton.c:389",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (Query form of the multi-form state subcommand.)"
+    },
+    {
+      "name": "tkx_ttk_button_invoke",
+      "group": "ttk::button",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkButton.c:388",
+        "generic/ttk/ttkButton.c:369"
+      ],
+      "doc": "Tk: $w invoke (The result is that of the -command script; in tkx that script is the callback trampoline, whose result is empty.)"
+    },
+    {
+      "name": "tkx_ttk_button_style",
+      "group": "ttk::button",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkButton.c:390",
+        "generic/ttk/ttkWidget.c:804"
+      ],
+      "doc": "Tk: $w style "
+    },
+    {
+      "name": "tkx_ttk_entry_create",
+      "group": "ttk::entry",
+      "kind": "create",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:2212"
+      ],
+      "doc": "Create a ttk::entry widget (Tk class TEntry); parent TKX_NULL_ID means the main window."
+    },
+    {
+      "name": "tkx_ttk_entry_set_exportselection",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:166"
+      ],
+      "doc": "Set the -exportselection option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_exportselection",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:166"
+      ],
+      "doc": "Get the -exportselection option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_font",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "font",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:169",
+        "default: generic/ttk/ttkEntry.c:160"
+      ],
+      "doc": "Set the -font option (FONT)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_font",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "font",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:169",
+        "default: generic/ttk/ttkEntry.c:160"
+      ],
+      "doc": "Get the -font option (FONT)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_justify",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxJustify",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:175"
+      ],
+      "doc": "Set the -justify option (JUSTIFY)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_justify",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxJustify",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:175"
+      ],
+      "doc": "Get the -justify option (JUSTIFY)."
+    },
+    {
+      "name": "tkx_ttk_entry_unset_justify",
+      "group": "ttk::entry",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:175"
+      ],
+      "doc": "Set -justify to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_placeholder",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:180"
+      ],
+      "doc": "Set the -placeholder option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_placeholder",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:180"
+      ],
+      "doc": "Get the -placeholder option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_show",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:183"
+      ],
+      "doc": "Set the -show option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_show",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:183"
+      ],
+      "doc": "Get the -show option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_state",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:186"
+      ],
+      "doc": "Set the -state option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_state",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:186"
+      ],
+      "doc": "Get the -state option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_validate",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxValidate",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:192"
+      ],
+      "doc": "Set the -validate option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_validate",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxValidate",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:192"
+      ],
+      "doc": "Get the -validate option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_width",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:198",
+        "default: generic/ttk/ttkEntry.c:159"
+      ],
+      "doc": "Set the -width option (INT)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_width",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:198",
+        "default: generic/ttk/ttkEntry.c:159"
+      ],
+      "doc": "Get the -width option (INT)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_background",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:207"
+      ],
+      "doc": "Set the -background option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_background",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:207"
+      ],
+      "doc": "Get the -background option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_foreground",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:210"
+      ],
+      "doc": "Set the -foreground option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_foreground",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:210"
+      ],
+      "doc": "Get the -foreground option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_placeholderforeground",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "color",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:213"
+      ],
+      "doc": "Set the -placeholderforeground option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_placeholderforeground",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "color",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:213"
+      ],
+      "doc": "Get the -placeholderforeground option (COLOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_cursor",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "cursor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Set the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_cursor",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "cursor",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Get the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_entry_set_style",
+      "group": "ttk::entry",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Set the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_style",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Get the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_get_class",
+      "group": "ttk::entry",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:171"
+      ],
+      "doc": "Get the -class option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_entry_instate",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1797",
+        "generic/ttk/ttkWidget.c:733"
+      ],
+      "doc": "Tk: $w instate (The optional second argument is a Tcl script; only the query form without a script is exposed.)"
+    },
+    {
+      "name": "tkx_ttk_entry_state_set",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1799",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (TtkWidgetStateCommand has a query form (no argument) and a set form; only the set form is generated here, the query form is state_get.)"
+    },
+    {
+      "name": "tkx_ttk_entry_state_get",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1799",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (Query form of the multi-form state subcommand.)"
+    },
+    {
+      "name": "tkx_ttk_entry_delete",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "first",
+          "type": "index",
+          "optional": false
+        },
+        {
+          "name": "last",
+          "type": "index",
+          "optional": true
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1791",
+        "generic/ttk/ttkEntry.c:1553"
+      ],
+      "doc": "Tk: $w delete (The result is delegated to the internal DeleteChars, which leaves it empty on success.)"
+    },
+    {
+      "name": "tkx_ttk_entry_insert",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "index",
+          "type": "index",
+          "optional": false
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1796",
+        "generic/ttk/ttkEntry.c:1640"
+      ],
+      "doc": "Tk: $w insert (The text argument is handed to the internal InsertChars as a Tcl_Obj, so the conversion vocabulary cannot type it; InsertChars leaves the result empty on success.)"
+    },
+    {
+      "name": "tkx_ttk_entry_bbox",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "index",
+          "optional": false
+        }
+      ],
+      "result": "box",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1788",
+        "generic/ttk/ttkEntry.c:1523"
+      ],
+      "doc": "Tk: $w bbox index"
+    },
+    {
+      "name": "tkx_ttk_entry_get",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1792",
+        "generic/ttk/ttkEntry.c:1582"
+      ],
+      "doc": "Tk: $w get "
+    },
+    {
+      "name": "tkx_ttk_entry_icursor",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "pos",
+          "type": "index",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1793",
+        "generic/ttk/ttkEntry.c:1598"
+      ],
+      "doc": "Tk: $w icursor pos"
+    },
+    {
+      "name": "tkx_ttk_entry_index",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "string",
+          "type": "index",
+          "optional": false
+        }
+      ],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1795",
+        "generic/ttk/ttkEntry.c:1618"
+      ],
+      "doc": "Tk: $w index string"
+    },
+    {
+      "name": "tkx_ttk_entry_selection_clear",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1724",
+        "generic/ttk/ttkEntry.c:1662"
+      ],
+      "doc": "Tk: $w selection clear "
+    },
+    {
+      "name": "tkx_ttk_entry_selection_present",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1725",
+        "generic/ttk/ttkEntry.c:1679"
+      ],
+      "doc": "Tk: $w selection present "
+    },
+    {
+      "name": "tkx_ttk_entry_selection_range",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "start",
+          "type": "index",
+          "optional": false
+        },
+        {
+          "name": "end",
+          "type": "index",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1726",
+        "generic/ttk/ttkEntry.c:1695"
+      ],
+      "doc": "Tk: $w selection range start end"
+    },
+    {
+      "name": "tkx_ttk_entry_style",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1800",
+        "generic/ttk/ttkWidget.c:804"
+      ],
+      "doc": "Tk: $w style "
+    },
+    {
+      "name": "tkx_ttk_entry_validate",
+      "group": "ttk::entry",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkEntry.c:1801",
+        "generic/ttk/ttkEntry.c:1749"
+      ],
+      "doc": "Tk: $w validate "
+    },
+    {
+      "name": "tkx_ttk_treeview_create",
+      "group": "ttk::treeview",
+      "kind": "create",
+      "approach": "extracted",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7763"
+      ],
+      "doc": "Create a ttk::treeview widget (Tk class Treeview); parent TKX_NULL_ID means the main window."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_columns",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "value",
+          "type": "list",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:537"
+      ],
+      "doc": "Set the -columns option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_columns",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "schema",
+      "params": [],
+      "result": "list",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:537"
+      ],
+      "doc": "Get the -columns option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_displaycolumns",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "value",
+          "type": "list",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:540"
+      ],
+      "doc": "Set the -displaycolumns option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_displaycolumns",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "schema",
+      "params": [],
+      "result": "list",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:540"
+      ],
+      "doc": "Get the -displaycolumns option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_show",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "value",
+          "type": "list",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:543",
+        "default: generic/ttk/ttkTreeview.c:410"
+      ],
+      "doc": "Set the -show option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_show",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "schema",
+      "params": [],
+      "result": "list",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:543",
+        "default: generic/ttk/ttkTreeview.c:410"
+      ],
+      "doc": "Get the -show option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_selectmode",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxSelectMode",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:547"
+      ],
+      "doc": "Set the -selectmode option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_selectmode",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxSelectMode",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:547"
+      ],
+      "doc": "Get the -selectmode option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_selecttype",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxSelectType",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:550"
+      ],
+      "doc": "Set the -selecttype option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_selecttype",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "enum:TkxSelectType",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:550"
+      ],
+      "doc": "Get the -selecttype option (STRING_TABLE)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_height",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:554",
+        "default: generic/ttk/ttkTreeview.c:17"
+      ],
+      "doc": "Set the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_height",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:554",
+        "default: generic/ttk/ttkTreeview.c:17"
+      ],
+      "doc": "Get the -height option (PIXELS)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_padding",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:557"
+      ],
+      "doc": "Set the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_padding",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:557"
+      ],
+      "doc": "Get the -padding option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_titlecolumns",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:560",
+        "default: generic/ttk/ttkTreeview.c:18"
+      ],
+      "doc": "Set the -titlecolumns option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_titlecolumns",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:560",
+        "default: generic/ttk/ttkTreeview.c:18"
+      ],
+      "doc": "Get the -titlecolumns option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_titleitems",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:563",
+        "default: generic/ttk/ttkTreeview.c:19"
+      ],
+      "doc": "Set the -titleitems option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_titleitems",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:563",
+        "default: generic/ttk/ttkTreeview.c:19"
+      ],
+      "doc": "Get the -titleitems option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_striped",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:566",
+        "default: generic/ttk/ttkTreeview.c:20"
+      ],
+      "doc": "Set the -striped option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_striped",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:566",
+        "default: generic/ttk/ttkTreeview.c:20"
+      ],
+      "doc": "Get the -striped option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_headingheight",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:577"
+      ],
+      "doc": "Set the -headingheight option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_headingheight",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:577"
+      ],
+      "doc": "Get the -headingheight option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_rowheight",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:580"
+      ],
+      "doc": "Set the -rowheight option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_rowheight",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:580"
+      ],
+      "doc": "Get the -rowheight option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_cursor",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "cursor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Set the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_cursor",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "cursor",
+      "provenance": [
+        "generic/ttk/ttkInit.c:167"
+      ],
+      "doc": "Get the -cursor option (CURSOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_set_style",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Set the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_style",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:169"
+      ],
+      "doc": "Get the -style option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_get_class",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkInit.c:171"
+      ],
+      "doc": "Get the -class option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_instate",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7441",
+        "generic/ttk/ttkWidget.c:733"
+      ],
+      "doc": "Tk: $w instate (The optional second argument is a Tcl script; only the query form without a script is exposed.)"
+    },
+    {
+      "name": "tkx_ttk_treeview_state_set",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "spec",
+          "type": "statespec",
+          "optional": false
+        }
+      ],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7454",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (TtkWidgetStateCommand has a query form (no argument) and a set form; only the set form is generated here, the query form is state_get.)"
+    },
+    {
+      "name": "tkx_ttk_treeview_state_get",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "statespec",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7454",
+        "generic/ttk/ttkWidget.c:692"
+      ],
+      "doc": "Tk: $w state (Query form of the multi-form state subcommand.)"
+    },
+    {
+      "name": "tkx_ttk_treeview_focus_get",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7432",
+        "generic/ttk/ttkTreeview.c:4788"
+      ],
+      "doc": "Tk: $w focus (Multi-form command: no argument queries the focus item (empty if none).)"
+    },
+    {
+      "name": "tkx_ttk_treeview_focus_set",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7432",
+        "generic/ttk/ttkTreeview.c:4788"
+      ],
+      "doc": "Tk: $w focus (Multi-form command: one argument sets the focus item.)"
+    },
+    {
+      "name": "tkx_ttk_treeview_insert",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "parent",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "index",
+          "type": "index",
+          "optional": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "result": "item",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7440",
+        "generic/ttk/ttkTreeview.c:4185"
+      ],
+      "doc": "Tk: $w insert (Variable number of arguments with an option-value tail; item options are set through the generated item accessors instead.)"
+    },
+    {
+      "name": "tkx_ttk_treeview_selection_get",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [],
+      "result": "list",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7450",
+        "generic/ttk/ttkTreeview.c:5229"
+      ],
+      "doc": "Tk: $w selection (Multi-form command (query, or add/remove/set/toggle with an item list); the subcommand table selopStrings is extracted but the forms are code.)"
+    },
+    {
+      "name": "tkx_ttk_treeview_selection_set",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "items",
+          "type": "itemlist",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7450",
+        "generic/ttk/ttkTreeview.c:5229"
+      ],
+      "doc": "Tk: $w selection (Set form of the multi-form selection subcommand.)"
+    },
+    {
+      "name": "tkx_ttk_treeview_bbox",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "column",
+          "type": "column",
+          "optional": true
+        }
+      ],
+      "result": "box",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7414",
+        "generic/ttk/ttkTreeview.c:3459"
+      ],
+      "doc": "Tk: $w bbox item ?column?"
+    },
+    {
+      "name": "tkx_ttk_treeview_children",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "newchildren",
+          "type": "itemlist",
+          "optional": true
+        }
+      ],
+      "result": "list",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7418",
+        "generic/ttk/ttkTreeview.c:2711"
+      ],
+      "doc": "Tk: $w children item ?newchildren?"
+    },
+    {
+      "name": "tkx_ttk_treeview_delete",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "items",
+          "type": "itemlist",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7424",
+        "generic/ttk/ttkTreeview.c:4421"
+      ],
+      "doc": "Tk: $w delete items"
+    },
+    {
+      "name": "tkx_ttk_treeview_depth",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7425",
+        "generic/ttk/ttkTreeview.c:2970"
+      ],
+      "doc": "Tk: $w depth item"
+    },
+    {
+      "name": "tkx_ttk_treeview_detach",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "items",
+          "type": "itemlist",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7426",
+        "generic/ttk/ttkTreeview.c:4290"
+      ],
+      "doc": "Tk: $w detach items"
+    },
+    {
+      "name": "tkx_ttk_treeview_drag",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "xposition",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7428",
+        "generic/ttk/ttkTreeview.c:4722"
+      ],
+      "doc": "Tk: $w drag column xposition"
+    },
+    {
+      "name": "tkx_ttk_treeview_drop",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7429",
+        "generic/ttk/ttkTreeview.c:4765"
+      ],
+      "doc": "Tk: $w drop drop"
+    },
+    {
+      "name": "tkx_ttk_treeview_exists",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7431",
+        "generic/ttk/ttkTreeview.c:3437"
+      ],
+      "doc": "Tk: $w exists item"
+    },
+    {
+      "name": "tkx_ttk_treeview_haschildren",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7433",
+        "generic/ttk/ttkTreeview.c:2827"
+      ],
+      "doc": "Tk: $w haschildren item"
+    },
+    {
+      "name": "tkx_ttk_treeview_next",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "item",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7444",
+        "generic/ttk/ttkTreeview.c:2995"
+      ],
+      "doc": "Tk: $w next item"
+    },
+    {
+      "name": "tkx_ttk_treeview_parent",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "item",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7445",
+        "generic/ttk/ttkTreeview.c:2943"
+      ],
+      "doc": "Tk: $w parent item"
+    },
+    {
+      "name": "tkx_ttk_treeview_prev",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "item",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7446",
+        "generic/ttk/ttkTreeview.c:3022"
+      ],
+      "doc": "Tk: $w prev item"
+    },
+    {
+      "name": "tkx_ttk_treeview_see",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "column",
+          "type": "column",
+          "optional": true
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7449",
+        "generic/ttk/ttkTreeview.c:4620"
+      ],
+      "doc": "Tk: $w see item ?column?"
+    },
+    {
+      "name": "tkx_ttk_treeview_style",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7455",
+        "generic/ttk/ttkWidget.c:804"
+      ],
+      "doc": "Tk: $w style "
+    },
+    {
+      "name": "tkx_ttk_treeview_tag_add",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "tagName",
+          "type": "tag",
+          "optional": false
+        },
+        {
+          "name": "items",
+          "type": "itemlist",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7398",
+        "generic/ttk/ttkTreeview.c:7152"
+      ],
+      "doc": "Tk: $w tag add tagName items"
+    },
+    {
+      "name": "tkx_ttk_treeview_tag_bind",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "tagName",
+          "type": "tag",
+          "optional": false
+        },
+        {
+          "name": "sequence",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "name": "script",
+          "type": "string",
+          "optional": true
+        }
+      ],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7399",
+        "generic/ttk/ttkTreeview.c:6892"
+      ],
+      "doc": "Tk: $w tag bind tagName ?sequence? ?script?"
+    },
+    {
+      "name": "tkx_ttk_treeview_tag_delete",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "tagName",
+          "type": "tag",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7402",
+        "generic/ttk/ttkTreeview.c:6981"
+      ],
+      "doc": "Tk: $w tag delete tagName"
+    },
+    {
+      "name": "tkx_ttk_treeview_tag_remove",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "tagName",
+          "type": "tag",
+          "optional": false
+        },
+        {
+          "name": "items",
+          "type": "itemlist",
+          "optional": true
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7405",
+        "generic/ttk/ttkTreeview.c:7291"
+      ],
+      "doc": "Tk: $w tag remove tagName ?items?"
+    },
+    {
+      "name": "tkx_ttk_treeview_visible",
+      "group": "ttk::treeview",
+      "kind": "command",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:7458",
+        "generic/ttk/ttkTreeview.c:4137"
+      ],
+      "doc": "Tk: $w visible item"
+    },
+    {
+      "name": "tkx_ttk_treeview_column_set_width",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:362",
+        "default: generic/ttk/ttkTreeview.c:21"
+      ],
+      "doc": "Set the -width option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_get_width",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:362",
+        "default: generic/ttk/ttkTreeview.c:21"
+      ],
+      "doc": "Get the -width option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_set_minwidth",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:365",
+        "default: generic/ttk/ttkTreeview.c:22"
+      ],
+      "doc": "Set the -minwidth option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_get_minwidth",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:365",
+        "default: generic/ttk/ttkTreeview.c:22"
+      ],
+      "doc": "Get the -minwidth option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_set_separator",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:368"
+      ],
+      "doc": "Set the -separator option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_get_separator",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:368"
+      ],
+      "doc": "Get the -separator option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_set_stretch",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:371"
+      ],
+      "doc": "Set the -stretch option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_get_stretch",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:371"
+      ],
+      "doc": "Get the -stretch option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_set_anchor",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "enum:TkxAnchor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:374"
+      ],
+      "doc": "Set the -anchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_column_get_anchor",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "enum:TkxAnchor",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:374"
+      ],
+      "doc": "Get the -anchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_heading_set_text",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:384"
+      ],
+      "doc": "Set the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_heading_get_text",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:384"
+      ],
+      "doc": "Get the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_heading_set_image",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:387"
+      ],
+      "doc": "Set the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_heading_get_image",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:387"
+      ],
+      "doc": "Get the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_heading_set_anchor",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "enum:TkxAnchor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:390"
+      ],
+      "doc": "Set the -anchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_heading_get_anchor",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "column",
+          "type": "column",
+          "optional": false
+        }
+      ],
+      "result": "enum:TkxAnchor",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:390"
+      ],
+      "doc": "Get the -anchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_text",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:82"
+      ],
+      "doc": "Set the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_text",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:82"
+      ],
+      "doc": "Get the -text option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_height",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:85"
+      ],
+      "doc": "Set the -height option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_height",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "int",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:85"
+      ],
+      "doc": "Get the -height option (INT)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_hidden",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:88"
+      ],
+      "doc": "Set the -hidden option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_hidden",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:88"
+      ],
+      "doc": "Get the -hidden option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_image",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:94"
+      ],
+      "doc": "Set the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_image",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "string",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:94"
+      ],
+      "doc": "Get the -image option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_imageanchor",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "enum:TkxAnchor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:97"
+      ],
+      "doc": "Set the -imageanchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_imageanchor",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "enum:TkxAnchor",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:97"
+      ],
+      "doc": "Get the -imageanchor option (ANCHOR)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_unset_imageanchor",
+      "group": "ttk::treeview",
+      "kind": "unset",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:97"
+      ],
+      "doc": "Set -imageanchor to the empty value (use the theme/default)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_values",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "list",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:100"
+      ],
+      "doc": "Set the -values option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_values",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "list",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:100"
+      ],
+      "doc": "Get the -values option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_open",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:103"
+      ],
+      "doc": "Set the -open option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_open",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "extracted",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "bool",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:103"
+      ],
+      "doc": "Get the -open option (BOOLEAN)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_set_tags",
+      "group": "ttk::treeview",
+      "kind": "setter",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "list",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:106"
+      ],
+      "doc": "Set the -tags option (STRING)."
+    },
+    {
+      "name": "tkx_ttk_treeview_item_get_tags",
+      "group": "ttk::treeview",
+      "kind": "getter",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "item",
+          "type": "item",
+          "optional": false
+        }
+      ],
+      "result": "list",
+      "provenance": [
+        "generic/ttk/ttkTreeview.c:106"
+      ],
+      "doc": "Get the -tags option (STRING)."
+    },
+    {
+      "name": "tkx_grid_set_column",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3234"
+      ],
+      "doc": "Tk: grid configure $w -column value (Tcl_GetIntFromObj)"
+    },
+    {
+      "name": "tkx_grid_get_column",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3234"
+      ],
+      "doc": "Value of -column from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_columnspan",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3247"
+      ],
+      "doc": "Tk: grid configure $w -columnspan value (Tcl_GetIntFromObj)"
+    },
+    {
+      "name": "tkx_grid_get_columnspan",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3247"
+      ],
+      "doc": "Value of -columnspan from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_in",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "window",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3127"
+      ],
+      "doc": "Tk: grid configure $w -in value (TkGetWindowFromObj)"
+    },
+    {
+      "name": "tkx_grid_get_in",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "window",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3127"
+      ],
+      "doc": "Value of -in from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_ipadx",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3291"
+      ],
+      "doc": "Tk: grid configure $w -ipadx value (Tk_GetPixelsFromObj)"
+    },
+    {
+      "name": "tkx_grid_get_ipadx",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3291"
+      ],
+      "doc": "Value of -ipadx from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_ipady",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3302"
+      ],
+      "doc": "Tk: grid configure $w -ipady value (Tk_GetPixelsFromObj)"
+    },
+    {
+      "name": "tkx_grid_get_ipady",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3302"
+      ],
+      "doc": "Value of -ipady from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_padx",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "padding",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3313"
+      ],
+      "doc": "Tk: grid configure $w -padx value (TkParsePadAmount)"
+    },
+    {
+      "name": "tkx_grid_get_padx",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "padding",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3313"
+      ],
+      "doc": "Value of -padx from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_pady",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "padding",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3319"
+      ],
+      "doc": "Tk: grid configure $w -pady value (TkParsePadAmount)"
+    },
+    {
+      "name": "tkx_grid_get_pady",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "padding",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3319"
+      ],
+      "doc": "Value of -pady from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_row",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3136"
+      ],
+      "doc": "Tk: grid configure $w -row value (Tcl_GetIntFromObj)"
+    },
+    {
+      "name": "tkx_grid_get_row",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3136"
+      ],
+      "doc": "Value of -row from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_rowspan",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3338"
+      ],
+      "doc": "Tk: grid configure $w -rowspan value (Tcl_GetIntFromObj)"
+    },
+    {
+      "name": "tkx_grid_get_rowspan",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "int",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3338"
+      ],
+      "doc": "Value of -rowspan from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_set_sticky",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "sticky",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3277"
+      ],
+      "doc": "Tk: grid configure $w -sticky value (StringToSticky)"
+    },
+    {
+      "name": "tkx_grid_get_sticky",
+      "group": "grid",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "sticky",
+      "provenance": [
+        "generic/tkGrid.c:3004",
+        "generic/tkGrid.c:3277"
+      ],
+      "doc": "Value of -sticky from 'grid info $w' (TKX_ERR_EMPTY if not managed by grid)."
+    },
+    {
+      "name": "tkx_grid_rowconfigure_minsize",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1224"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -minsize value"
+    },
+    {
+      "name": "tkx_grid_rowconfigure_get_minsize",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1224"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -minsize"
+    },
+    {
+      "name": "tkx_grid_rowconfigure_pad",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1251"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -pad value"
+    },
+    {
+      "name": "tkx_grid_rowconfigure_get_pad",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1251"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -pad"
+    },
+    {
+      "name": "tkx_grid_rowconfigure_uniform",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1245"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -uniform value"
+    },
+    {
+      "name": "tkx_grid_rowconfigure_get_uniform",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "string",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1245"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -uniform"
+    },
+    {
+      "name": "tkx_grid_rowconfigure_weight",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1234"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -weight value"
+    },
+    {
+      "name": "tkx_grid_rowconfigure_get_weight",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "int",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1234"
+      ],
+      "doc": "Tk: grid rowconfigure $container index -weight"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_minsize",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1224"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -minsize value"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_get_minsize",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1224"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -minsize"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_pad",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1251"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -pad value"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_get_pad",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1251"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -pad"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_uniform",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1245"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -uniform value"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_get_uniform",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "string",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1245"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -uniform"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_weight",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "value",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1234"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -weight value"
+    },
+    {
+      "name": "tkx_grid_columnconfigure_get_weight",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "index",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "int",
+      "provenance": [
+        "generic/tkGrid.c:1013",
+        "generic/tkGrid.c:1234"
+      ],
+      "doc": "Tk: grid columnconfigure $container index -weight"
+    },
+    {
+      "name": "tkx_grid_anchor_get",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "enum:TkxAnchor",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid anchor $w ... (Multi-form (query/set) subcommand.)"
+    },
+    {
+      "name": "tkx_grid_anchor_set",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "anchor",
+          "type": "enum:TkxAnchor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid anchor $w ... (Multi-form (query/set) subcommand.)"
+    },
+    {
+      "name": "tkx_grid_bbox",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "box",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid bbox $w ... (Optional cell-range arguments are not exposed.)"
+    },
+    {
+      "name": "tkx_grid_forget",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid forget $w ... (Variadic window list; the C function takes one widget.)"
+    },
+    {
+      "name": "tkx_grid_propagate_get",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid propagate $w ... (Multi-form (query/set) subcommand.)"
+    },
+    {
+      "name": "tkx_grid_propagate_set",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "flag",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid propagate $w ... (Multi-form (query/set) subcommand.)"
+    },
+    {
+      "name": "tkx_grid_remove",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid remove $w ... (Variadic window list; the C function takes one widget.)"
+    },
+    {
+      "name": "tkx_grid_size",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "list",
+      "provenance": [
+        "generic/tkGrid.c:339"
+      ],
+      "doc": "Tk: grid size $w ... (Returns a two-element list {columns rows}.)"
+    },
+    {
+      "name": "tkx_grid",
+      "group": "grid",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "row",
+          "type": "int",
+          "optional": false
+        },
+        {
+          "name": "column",
+          "type": "int",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkGrid.c:3004"
+      ],
+      "doc": "Tk: grid configure $w ... (Convenience: the most common grid call, 'grid configure w -row r -column c', as one function.)"
+    },
+    {
+      "name": "tkx_pack_set_after",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "window",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1296"
+      ],
+      "doc": "Tk: pack configure $w -after value (TkGetWindowFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_after",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "window",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1296"
+      ],
+      "doc": "Value of -after from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_anchor",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxAnchor",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1317"
+      ],
+      "doc": "Tk: pack configure $w -anchor value (Tk_GetAnchorFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_anchor",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "enum:TkxAnchor",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1317"
+      ],
+      "doc": "Value of -anchor from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_before",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "window",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1324"
+      ],
+      "doc": "Tk: pack configure $w -before value (TkGetWindowFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_before",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "window",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1324"
+      ],
+      "doc": "Value of -before from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_expand",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1347"
+      ],
+      "doc": "Tk: pack configure $w -expand value (Tcl_GetBooleanFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_expand",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1347"
+      ],
+      "doc": "Value of -expand from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_fill",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxPackFill",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1356"
+      ],
+      "doc": "Tk: pack configure $w -fill value (Tcl_GetString+strcmp)"
+    },
+    {
+      "name": "tkx_pack_get_fill",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "enum:TkxPackFill",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1356"
+      ],
+      "doc": "Value of -fill from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_in",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "window",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1375"
+      ],
+      "doc": "Tk: pack configure $w -in value (TkGetWindowFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_in",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "window",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1375"
+      ],
+      "doc": "Value of -in from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_ipadx",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1392"
+      ],
+      "doc": "Tk: pack configure $w -ipadx value (Tk_GetPixelsFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_ipadx",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1392"
+      ],
+      "doc": "Value of -ipadx from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_ipady",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "pixels",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1403"
+      ],
+      "doc": "Tk: pack configure $w -ipady value (Tk_GetPixelsFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_ipady",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "pixels",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1403"
+      ],
+      "doc": "Value of -ipady from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_padx",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "padding",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1414"
+      ],
+      "doc": "Tk: pack configure $w -padx value (TkParsePadAmount)"
+    },
+    {
+      "name": "tkx_pack_get_padx",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "padding",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1414"
+      ],
+      "doc": "Value of -padx from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_pady",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "padding",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1420"
+      ],
+      "doc": "Tk: pack configure $w -pady value (TkParsePadAmount)"
+    },
+    {
+      "name": "tkx_pack_get_pady",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "padding",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1420"
+      ],
+      "doc": "Value of -pady from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_set_side",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "inferred",
+      "params": [
+        {
+          "name": "value",
+          "type": "enum:TkxSide",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1426"
+      ],
+      "doc": "Tk: pack configure $w -side value (Tcl_GetIndexFromObj)"
+    },
+    {
+      "name": "tkx_pack_get_side",
+      "group": "pack",
+      "kind": "geometry-info",
+      "approach": "inferred",
+      "params": [],
+      "result": "enum:TkxSide",
+      "provenance": [
+        "generic/tkPack.c:1216",
+        "generic/tkPack.c:1426"
+      ],
+      "doc": "Value of -side from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
+    },
+    {
+      "name": "tkx_pack_forget",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:197"
+      ],
+      "doc": "Tk: pack forget $w ... (Implemented inline in Tk_PackObjCmd with a window list.)"
+    },
+    {
+      "name": "tkx_pack_propagate_get",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "bool",
+      "provenance": [
+        "generic/tkPack.c:197"
+      ],
+      "doc": "Tk: pack propagate $w ... (Multi-form (query/set) subcommand.)"
+    },
+    {
+      "name": "tkx_pack_propagate_set",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [
+        {
+          "name": "flag",
+          "type": "bool",
+          "optional": false
+        }
+      ],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:197"
+      ],
+      "doc": "Tk: pack propagate $w ... (Multi-form (query/set) subcommand.)"
+    },
+    {
+      "name": "tkx_pack",
+      "group": "pack",
+      "kind": "geometry",
+      "approach": "schema",
+      "params": [],
+      "result": "none",
+      "provenance": [
+        "generic/tkPack.c:1216"
+      ],
+      "doc": "Tk: pack configure $w ... (Convenience: 'pack configure w' with Tk's default packing.)"
+    }
+  ]
+}

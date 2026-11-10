@@ -1,0 +1,5206 @@
+{
+  "source": {
+    "tk": "9.1.0",
+    "tcl": "9.1.0"
+  },
+  "generatedFunctions": 373,
+  "functionsByApproach": {
+    "extracted": 235,
+    "inferred": 89,
+    "schema": 49
+  },
+  "functionsByGroup": {
+    "frame": 31,
+    "grid": 45,
+    "pack": 26,
+    "toplevel": 33,
+    "ttk::button": 33,
+    "ttk::entry": 43,
+    "ttk::frame": 22,
+    "ttk::label": 50,
+    "ttk::treeview": 90
+  },
+  "classes": {
+    "frame": {
+      "kind": "classic",
+      "selected": true,
+      "optionsDiscovered": 21,
+      "optionStatus": {
+        "alias": 3,
+        "excluded": 1,
+        "generated": 13,
+        "readonly": 4
+      },
+      "subcommandsDiscovered": 2,
+      "subcommandEvidence": {
+        "option-mechanism": 2
+      },
+      "options": [
+        {
+          "name": "-backgroundimage",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:224",
+          "why": ""
+        },
+        {
+          "name": "-bd",
+          "type": "SYNONYM",
+          "status": "alias",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:227",
+          "why": "synonym of -borderwidth"
+        },
+        {
+          "name": "-bgimg",
+          "type": "SYNONYM",
+          "status": "alias",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:229",
+          "why": "synonym of -backgroundimage"
+        },
+        {
+          "name": "-borderwidth",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:231",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:233",
+          "why": ""
+        },
+        {
+          "name": "-relief",
+          "type": "RELIEF",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:235",
+          "why": ""
+        },
+        {
+          "name": "-tile",
+          "type": "BOOLEAN",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:237",
+          "why": ""
+        },
+        {
+          "name": "-background",
+          "type": "BORDER",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:180",
+          "why": ""
+        },
+        {
+          "name": "-bg",
+          "type": "SYNONYM",
+          "status": "alias",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:183",
+          "why": "synonym of -background"
+        },
+        {
+          "name": "-colormap",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:185",
+          "why": ""
+        },
+        {
+          "name": "-container",
+          "type": "BOOLEAN",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:192",
+          "why": ""
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:194",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:197",
+          "why": ""
+        },
+        {
+          "name": "-highlightbackground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:199",
+          "why": ""
+        },
+        {
+          "name": "-highlightcolor",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:202",
+          "why": ""
+        },
+        {
+          "name": "-highlightthickness",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:205",
+          "why": ""
+        },
+        {
+          "name": "-padx",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:208",
+          "why": ""
+        },
+        {
+          "name": "-pady",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:210",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/tkFrame.c:212",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-visual",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:215",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:218",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/tkFrame.c:703",
+          "reasons": []
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/tkFrame.c:703",
+          "reasons": []
+        }
+      ]
+    },
+    "toplevel": {
+      "kind": "classic",
+      "selected": true,
+      "optionsDiscovered": 24,
+      "optionStatus": {
+        "alias": 3,
+        "excluded": 2,
+        "generated": 13,
+        "readonly": 6
+      },
+      "subcommandsDiscovered": 2,
+      "subcommandEvidence": {
+        "option-mechanism": 2
+      },
+      "options": [
+        {
+          "name": "-backgroundimage",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:244",
+          "why": ""
+        },
+        {
+          "name": "-bd",
+          "type": "SYNONYM",
+          "status": "alias",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:247",
+          "why": "synonym of -borderwidth"
+        },
+        {
+          "name": "-bgimg",
+          "type": "SYNONYM",
+          "status": "alias",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:249",
+          "why": "synonym of -backgroundimage"
+        },
+        {
+          "name": "-borderwidth",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:251",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:253",
+          "why": ""
+        },
+        {
+          "name": "-menu",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/tkFrame.c:255",
+          "why": "Names a menu widget by path; menus are not part of the MVP."
+        },
+        {
+          "name": "-relief",
+          "type": "RELIEF",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:258",
+          "why": ""
+        },
+        {
+          "name": "-screen",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:260",
+          "why": ""
+        },
+        {
+          "name": "-tile",
+          "type": "BOOLEAN",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:263",
+          "why": ""
+        },
+        {
+          "name": "-use",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:265",
+          "why": ""
+        },
+        {
+          "name": "-background",
+          "type": "BORDER",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:180",
+          "why": ""
+        },
+        {
+          "name": "-bg",
+          "type": "SYNONYM",
+          "status": "alias",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:183",
+          "why": "synonym of -background"
+        },
+        {
+          "name": "-colormap",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:185",
+          "why": ""
+        },
+        {
+          "name": "-container",
+          "type": "BOOLEAN",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:192",
+          "why": ""
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:194",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:197",
+          "why": ""
+        },
+        {
+          "name": "-highlightbackground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:199",
+          "why": ""
+        },
+        {
+          "name": "-highlightcolor",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:202",
+          "why": ""
+        },
+        {
+          "name": "-highlightthickness",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:205",
+          "why": ""
+        },
+        {
+          "name": "-padx",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:208",
+          "why": ""
+        },
+        {
+          "name": "-pady",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:210",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/tkFrame.c:212",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-visual",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:215",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/tkFrame.c:218",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/tkFrame.c:703",
+          "reasons": []
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/tkFrame.c:703",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::button": {
+      "kind": "ttk",
+      "selected": true,
+      "optionsDiscovered": 15,
+      "optionStatus": {
+        "callback": 1,
+        "excluded": 2,
+        "generated": 11,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 7,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 3
+      },
+      "options": [
+        {
+          "name": "-command",
+          "type": "STRING",
+          "status": "callback",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:332",
+          "why": "TK_OPTION_STRING does not say that the string is a script; ttkButton.c evaluates it with Tcl_EvalObjEx in ButtonInvokeCommand."
+        },
+        {
+          "name": "-default",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:334",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:338",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:59",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:62",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:65",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-underline",
+          "type": "INDEX",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:68",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:70",
+          "why": ""
+        },
+        {
+          "name": "-image",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:77",
+          "why": ""
+        },
+        {
+          "name": "-compound",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:84",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:88",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:95",
+          "why": ""
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:384",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:385",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:386",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:387",
+          "reasons": []
+        },
+        {
+          "path": "invoke",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:388",
+          "reasons": [
+            "result delegated to Tcl_EvalObjEx"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:389",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:390",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::checkbutton": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 17,
+      "optionStatus": {
+        "excluded": 3,
+        "generated": 13,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 7,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 3
+      },
+      "options": [
+        {
+          "name": "-variable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:443",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables."
+        },
+        {
+          "name": "-onvalue",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:446",
+          "why": ""
+        },
+        {
+          "name": "-offvalue",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:449",
+          "why": ""
+        },
+        {
+          "name": "-command",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:452",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:456",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:59",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:62",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:65",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-underline",
+          "type": "INDEX",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:68",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:70",
+          "why": ""
+        },
+        {
+          "name": "-image",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:77",
+          "why": ""
+        },
+        {
+          "name": "-compound",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:84",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:88",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:95",
+          "why": ""
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:596",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:597",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:598",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:599",
+          "reasons": []
+        },
+        {
+          "path": "invoke",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:600",
+          "reasons": [
+            "result delegated to Tcl_EvalObjEx"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:601",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:602",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::combobox": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 23,
+      "optionStatus": {
+        "excluded": 3,
+        "generated": 18,
+        "readonly": 1,
+        "unsupported": 1
+      },
+      "subcommandsDiscovered": 19,
+      "subcommandEvidence": {
+        "complete": 11,
+        "option-mechanism": 2,
+        "partial": 6
+      },
+      "options": [
+        {
+          "name": "-height",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:1843",
+          "why": ""
+        },
+        {
+          "name": "-postcommand",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:1846",
+          "why": ""
+        },
+        {
+          "name": "-values",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:1849",
+          "why": ""
+        },
+        {
+          "name": "-exportselection",
+          "type": "BOOLEAN",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:166",
+          "why": ""
+        },
+        {
+          "name": "-font",
+          "type": "FONT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:169",
+          "why": ""
+        },
+        {
+          "name": "-invalidcommand",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:172",
+          "why": ""
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:175",
+          "why": ""
+        },
+        {
+          "name": "-locale",
+          "type": "CUSTOM",
+          "status": "unsupported",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:178",
+          "why": "TK_OPTION_CUSTOM (TkLocaleOption): value semantics are defined by custom C code"
+        },
+        {
+          "name": "-placeholder",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:180",
+          "why": ""
+        },
+        {
+          "name": "-show",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:183",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:186",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:189",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-validate",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:192",
+          "why": ""
+        },
+        {
+          "name": "-validatecommand",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:195",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:198",
+          "why": ""
+        },
+        {
+          "name": "-xscrollcommand",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:201",
+          "why": "Script prefix to which Tk appends 'first last'; scrollbar wiring is not in the MVP."
+        },
+        {
+          "name": "-background",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:207",
+          "why": ""
+        },
+        {
+          "name": "-foreground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:210",
+          "why": ""
+        },
+        {
+          "name": "-placeholderforeground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:213",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:218",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "bbox",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1958",
+          "reasons": []
+        },
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkEntry.c:1959",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkEntry.c:1960",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "current",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1961",
+          "reasons": [
+            "argument-count check is in an else branch (line 1948)",
+            "result type not determined (int)"
+          ]
+        },
+        {
+          "path": "delete",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1962",
+          "reasons": [
+            "result delegated to DeleteChars"
+          ]
+        },
+        {
+          "path": "get",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1963",
+          "reasons": []
+        },
+        {
+          "path": "icursor",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1964",
+          "reasons": []
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1965",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "index",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1966",
+          "reasons": []
+        },
+        {
+          "path": "insert",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1967",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'InsertChars')",
+            "result delegated to InsertChars"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1968",
+          "reasons": []
+        },
+        {
+          "path": "selection clear",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1724",
+          "reasons": []
+        },
+        {
+          "path": "selection present",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1725",
+          "reasons": []
+        },
+        {
+          "path": "selection range",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1726",
+          "reasons": []
+        },
+        {
+          "path": "set",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1970",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1971",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1972",
+          "reasons": []
+        },
+        {
+          "path": "validate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1973",
+          "reasons": []
+        },
+        {
+          "path": "xview",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1974",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TtkScrollviewCommand"
+          ]
+        }
+      ]
+    },
+    "ttk::entry": {
+      "kind": "ttk",
+      "selected": true,
+      "optionsDiscovered": 20,
+      "optionStatus": {
+        "excluded": 5,
+        "generated": 13,
+        "readonly": 1,
+        "unsupported": 1
+      },
+      "subcommandsDiscovered": 17,
+      "subcommandEvidence": {
+        "complete": 10,
+        "option-mechanism": 2,
+        "partial": 5
+      },
+      "options": [
+        {
+          "name": "-exportselection",
+          "type": "BOOLEAN",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:166",
+          "why": ""
+        },
+        {
+          "name": "-font",
+          "type": "FONT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:169",
+          "why": ""
+        },
+        {
+          "name": "-invalidcommand",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:172",
+          "why": "Script with %-substitutions run after failed validation; needs a dedicated callback protocol (not in the MVP)."
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:175",
+          "why": ""
+        },
+        {
+          "name": "-locale",
+          "type": "CUSTOM",
+          "status": "unsupported",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:178",
+          "why": "TK_OPTION_CUSTOM (TkLocaleOption): value semantics are defined by custom C code"
+        },
+        {
+          "name": "-placeholder",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:180",
+          "why": ""
+        },
+        {
+          "name": "-show",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:183",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:186",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:189",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-validate",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:192",
+          "why": ""
+        },
+        {
+          "name": "-validatecommand",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:195",
+          "why": "Script with %-substitutions whose boolean result controls editing; needs a dedicated callback protocol (not in the MVP)."
+        },
+        {
+          "name": "-width",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:198",
+          "why": ""
+        },
+        {
+          "name": "-xscrollcommand",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:201",
+          "why": "Script prefix to which Tk appends 'first last'; scrollbar wiring is not in the MVP."
+        },
+        {
+          "name": "-background",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:207",
+          "why": ""
+        },
+        {
+          "name": "-foreground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:210",
+          "why": ""
+        },
+        {
+          "name": "-placeholderforeground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:213",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:218",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "bbox",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1788",
+          "reasons": []
+        },
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkEntry.c:1789",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkEntry.c:1790",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "delete",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1791",
+          "reasons": [
+            "result delegated to DeleteChars"
+          ]
+        },
+        {
+          "path": "get",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1792",
+          "reasons": []
+        },
+        {
+          "path": "icursor",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1793",
+          "reasons": []
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1794",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "index",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1795",
+          "reasons": []
+        },
+        {
+          "path": "insert",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1796",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'InsertChars')",
+            "result delegated to InsertChars"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1797",
+          "reasons": []
+        },
+        {
+          "path": "selection clear",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1724",
+          "reasons": []
+        },
+        {
+          "path": "selection present",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1725",
+          "reasons": []
+        },
+        {
+          "path": "selection range",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1726",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1799",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1800",
+          "reasons": []
+        },
+        {
+          "path": "validate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1801",
+          "reasons": []
+        },
+        {
+          "path": "xview",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:1802",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TtkScrollviewCommand"
+          ]
+        }
+      ]
+    },
+    "ttk::frame": {
+      "kind": "ttk",
+      "selected": true,
+      "optionsDiscovered": 9,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 7,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 6,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 2
+      },
+      "options": [
+        {
+          "name": "-borderwidth",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:30",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:33",
+          "why": ""
+        },
+        {
+          "name": "-relief",
+          "type": "RELIEF",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:36",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:39",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:42",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkFrame.c:46",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkFrame.c:51",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkFrame.c:52",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkFrame.c:53",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkFrame.c:54",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkFrame.c:55",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkFrame.c:56",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::label": {
+      "kind": "ttk",
+      "selected": true,
+      "optionsDiscovered": 21,
+      "optionStatus": {
+        "excluded": 2,
+        "generated": 18,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 6,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 2
+      },
+      "options": [
+        {
+          "name": "-textangle",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:248",
+          "why": ""
+        },
+        {
+          "name": "-background",
+          "type": "BORDER",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:251",
+          "why": ""
+        },
+        {
+          "name": "-foreground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:254",
+          "why": ""
+        },
+        {
+          "name": "-font",
+          "type": "FONT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:257",
+          "why": ""
+        },
+        {
+          "name": "-borderwidth",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:260",
+          "why": ""
+        },
+        {
+          "name": "-relief",
+          "type": "RELIEF",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:263",
+          "why": ""
+        },
+        {
+          "name": "-anchor",
+          "type": "ANCHOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:266",
+          "why": ""
+        },
+        {
+          "name": "-wraplength",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:269",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:273",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:59",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:62",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:65",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-underline",
+          "type": "INDEX",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:68",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:70",
+          "why": ""
+        },
+        {
+          "name": "-image",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:77",
+          "why": ""
+        },
+        {
+          "name": "-compound",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:84",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:88",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:95",
+          "why": ""
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:278",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:279",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:280",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:281",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:282",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:283",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::labelframe": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 13,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 11,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 6,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 2
+      },
+      "options": [
+        {
+          "name": "-labelanchor",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:255",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:258",
+          "why": ""
+        },
+        {
+          "name": "-underline",
+          "type": "INDEX",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:261",
+          "why": ""
+        },
+        {
+          "name": "-labelwidget",
+          "type": "WINDOW",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:263",
+          "why": ""
+        },
+        {
+          "name": "-borderwidth",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:30",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:33",
+          "why": ""
+        },
+        {
+          "name": "-relief",
+          "type": "RELIEF",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:36",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:39",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkFrame.c:42",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkFrame.c:46",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkFrame.c:51",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkFrame.c:52",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkFrame.c:53",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkFrame.c:54",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkFrame.c:55",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkFrame.c:56",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::menubutton": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 15,
+      "optionStatus": {
+        "excluded": 2,
+        "generated": 12,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 6,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 2
+      },
+      "options": [
+        {
+          "name": "-menu",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:836",
+          "why": ""
+        },
+        {
+          "name": "-direction",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:838",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:842",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:59",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:62",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:65",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-underline",
+          "type": "INDEX",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:68",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:70",
+          "why": ""
+        },
+        {
+          "name": "-image",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:77",
+          "why": ""
+        },
+        {
+          "name": "-compound",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:84",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:88",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:95",
+          "why": ""
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:847",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:848",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:849",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:850",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:851",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:852",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::notebook": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 7,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 5,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 14,
+      "subcommandEvidence": {
+        "complete": 3,
+        "option-mechanism": 2,
+        "partial": 9
+      },
+      "options": [
+        {
+          "name": "-width",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkNotebook.c:112",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkNotebook.c:115",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkNotebook.c:118",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkNotebook.c:122",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "add",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1278",
+          "reasons": [
+            "accepted argument counts are not contiguous: 3 5 7 9 11",
+            "result delegated to AddTab"
+          ]
+        },
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkNotebook.c:1279",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkNotebook.c:1280",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "forget",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1281",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'GetTabIndex')"
+          ]
+        },
+        {
+          "path": "hide",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1282",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'GetTabIndex')"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1283",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly",
+            "result type not determined (int string)"
+          ]
+        },
+        {
+          "path": "index",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1284",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'FindTabIndex')"
+          ]
+        },
+        {
+          "path": "insert",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1285",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to AddTab"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkNotebook.c:1286",
+          "reasons": []
+        },
+        {
+          "path": "select",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1287",
+          "reasons": [
+            "argument-count check is in an else branch (line 1200)"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1288",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkNotebook.c:1289",
+          "reasons": []
+        },
+        {
+          "path": "tab",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkNotebook.c:1290",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to TtkEnumerateOptions, TtkGetOptionValue"
+          ]
+        },
+        {
+          "path": "tabs",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkNotebook.c:1291",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::panedwindow": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 7,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 4,
+        "readonly": 2
+      },
+      "subcommandsDiscovered": 12,
+      "subcommandEvidence": {
+        "complete": 3,
+        "option-mechanism": 2,
+        "partial": 7
+      },
+      "options": [
+        {
+          "name": "-orient",
+          "type": "STRING_TABLE",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkPanedwindow.c:78",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkPanedwindow.c:81",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkPanedwindow.c:84",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkPanedwindow.c:88",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "add",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkPanedwindow.c:896",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to AddPane"
+          ]
+        },
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkPanedwindow.c:897",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkPanedwindow.c:898",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "forget",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkPanedwindow.c:899",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Ttk_GetContentIndexFromObj')"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkPanedwindow.c:900",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly",
+            "result type not determined (int string)"
+          ]
+        },
+        {
+          "path": "insert",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkPanedwindow.c:901",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to AddPane"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkPanedwindow.c:902",
+          "reasons": []
+        },
+        {
+          "path": "pane",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkPanedwindow.c:903",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to ConfigurePane, TtkEnumerateOptions, TtkGetOptionValue"
+          ]
+        },
+        {
+          "path": "panes",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkPanedwindow.c:904",
+          "reasons": []
+        },
+        {
+          "path": "sashpos",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkPanedwindow.c:905",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tcl_GetWideIntFromObj')",
+            "argument 1: no known conversion (passed to 'Tcl_GetWideIntFromObj')"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkPanedwindow.c:906",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkPanedwindow.c:907",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::progressbar": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 17,
+      "optionStatus": {
+        "excluded": 2,
+        "generated": 14,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 9,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 5
+      },
+      "options": [
+        {
+          "name": "-anchor",
+          "type": "ANCHOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:53",
+          "why": ""
+        },
+        {
+          "name": "-font",
+          "type": "FONT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:56",
+          "why": ""
+        },
+        {
+          "name": "-foreground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:59",
+          "why": ""
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:62",
+          "why": ""
+        },
+        {
+          "name": "-length",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:65",
+          "why": ""
+        },
+        {
+          "name": "-maximum",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:68",
+          "why": ""
+        },
+        {
+          "name": "-mode",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:71",
+          "why": ""
+        },
+        {
+          "name": "-orient",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:75",
+          "why": ""
+        },
+        {
+          "name": "-phase",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:78",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:81",
+          "why": ""
+        },
+        {
+          "name": "-value",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:84",
+          "why": ""
+        },
+        {
+          "name": "-variable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkProgress.c:87",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables."
+        },
+        {
+          "name": "-wraplength",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkProgress.c:90",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkProgress.c:94",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkProgress.c:525",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkProgress.c:526",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkProgress.c:527",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkProgress.c:528",
+          "reasons": []
+        },
+        {
+          "path": "start",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkProgress.c:529",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to ProgressbarStartStopCommand"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkProgress.c:530",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "step",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkProgress.c:531",
+          "reasons": [
+            "argument-count check is not a simple 'if (objc ...)' guard (line 440)"
+          ]
+        },
+        {
+          "path": "stop",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkProgress.c:532",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to ProgressbarStartStopCommand"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkProgress.c:533",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::radiobutton": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 16,
+      "optionStatus": {
+        "excluded": 3,
+        "generated": 12,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 7,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 3
+      },
+      "options": [
+        {
+          "name": "-variable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:656",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables."
+        },
+        {
+          "name": "-value",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:659",
+          "why": ""
+        },
+        {
+          "name": "-command",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:662",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:666",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:59",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:62",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkButton.c:65",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-underline",
+          "type": "INDEX",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:68",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:70",
+          "why": ""
+        },
+        {
+          "name": "-image",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:77",
+          "why": ""
+        },
+        {
+          "name": "-compound",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:84",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:88",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkButton.c:95",
+          "why": ""
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:777",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkButton.c:778",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:779",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:780",
+          "reasons": []
+        },
+        {
+          "path": "invoke",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:781",
+          "reasons": [
+            "result delegated to Tcl_EvalObjEx"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkButton.c:782",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkButton.c:783",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::scale": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 12,
+      "optionStatus": {
+        "excluded": 2,
+        "generated": 9,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 9,
+      "subcommandEvidence": {
+        "complete": 3,
+        "option-mechanism": 2,
+        "partial": 4
+      },
+      "options": [
+        {
+          "name": "-command",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScale.c:55",
+          "why": ""
+        },
+        {
+          "name": "-variable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkScale.c:58",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables."
+        },
+        {
+          "name": "-orient",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScale.c:61",
+          "why": ""
+        },
+        {
+          "name": "-from",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScale.c:66",
+          "why": ""
+        },
+        {
+          "name": "-to",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScale.c:68",
+          "why": ""
+        },
+        {
+          "name": "-value",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScale.c:70",
+          "why": ""
+        },
+        {
+          "name": "-length",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScale.c:72",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScale.c:76",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkScale.c:80",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkScale.c:496",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkScale.c:497",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "coords",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkScale.c:498",
+          "reasons": [
+            "argument-count check is in an else branch (line 371)"
+          ]
+        },
+        {
+          "path": "get",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkScale.c:499",
+          "reasons": [
+            "argument-count check is in an else branch (line 282)",
+            "result type not determined (?scalePtr double)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkScale.c:500",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScale.c:501",
+          "reasons": []
+        },
+        {
+          "path": "set",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScale.c:502",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkScale.c:503",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScale.c:504",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::scrollbar": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 6,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 4,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 10,
+      "subcommandEvidence": {
+        "complete": 5,
+        "option-mechanism": 2,
+        "partial": 3
+      },
+      "options": [
+        {
+          "name": "-command",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScrollbar.c:36",
+          "why": ""
+        },
+        {
+          "name": "-orient",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkScrollbar.c:39",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkScrollbar.c:44",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkScrollbar.c:285",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkScrollbar.c:286",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "delta",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScrollbar.c:287",
+          "reasons": []
+        },
+        {
+          "path": "fraction",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScrollbar.c:288",
+          "reasons": []
+        },
+        {
+          "path": "get",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScrollbar.c:289",
+          "reasons": []
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkScrollbar.c:290",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScrollbar.c:291",
+          "reasons": []
+        },
+        {
+          "path": "set",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkScrollbar.c:292",
+          "reasons": [
+            "argument 0: no known conversion (passed to '')",
+            "argument 1: no known conversion (passed to '')"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkScrollbar.c:293",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkScrollbar.c:294",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::separator": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 5,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 3,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 6,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 2
+      },
+      "options": [
+        {
+          "name": "-orient",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSeparator.c:26",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkSeparator.c:31",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkSeparator.c:51",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkSeparator.c:52",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkSeparator.c:53",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkSeparator.c:54",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkSeparator.c:55",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkSeparator.c:56",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::sizegrip": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 4,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 2,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 6,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 2
+      },
+      "options": [
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkSeparator.c:88",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkSeparator.c:93",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkSeparator.c:94",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkSeparator.c:95",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkSeparator.c:96",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkSeparator.c:97",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkSeparator.c:98",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::spinbox": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 27,
+      "optionStatus": {
+        "excluded": 3,
+        "generated": 22,
+        "readonly": 1,
+        "unsupported": 1
+      },
+      "subcommandsDiscovered": 18,
+      "subcommandEvidence": {
+        "complete": 11,
+        "option-mechanism": 2,
+        "partial": 5
+      },
+      "options": [
+        {
+          "name": "-values",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:2016",
+          "why": ""
+        },
+        {
+          "name": "-from",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:2020",
+          "why": ""
+        },
+        {
+          "name": "-to",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:2023",
+          "why": ""
+        },
+        {
+          "name": "-increment",
+          "type": "DOUBLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:2026",
+          "why": ""
+        },
+        {
+          "name": "-format",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:2029",
+          "why": ""
+        },
+        {
+          "name": "-command",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:2033",
+          "why": ""
+        },
+        {
+          "name": "-wrap",
+          "type": "BOOLEAN",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:2036",
+          "why": ""
+        },
+        {
+          "name": "-exportselection",
+          "type": "BOOLEAN",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:166",
+          "why": ""
+        },
+        {
+          "name": "-font",
+          "type": "FONT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:169",
+          "why": ""
+        },
+        {
+          "name": "-invalidcommand",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:172",
+          "why": ""
+        },
+        {
+          "name": "-justify",
+          "type": "JUSTIFY",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:175",
+          "why": ""
+        },
+        {
+          "name": "-locale",
+          "type": "CUSTOM",
+          "status": "unsupported",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:178",
+          "why": "TK_OPTION_CUSTOM (TkLocaleOption): value semantics are defined by custom C code"
+        },
+        {
+          "name": "-placeholder",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:180",
+          "why": ""
+        },
+        {
+          "name": "-show",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:183",
+          "why": ""
+        },
+        {
+          "name": "-state",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:186",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:189",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-validate",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:192",
+          "why": ""
+        },
+        {
+          "name": "-validatecommand",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:195",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:198",
+          "why": ""
+        },
+        {
+          "name": "-xscrollcommand",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:201",
+          "why": "Script prefix to which Tk appends 'first last'; scrollbar wiring is not in the MVP."
+        },
+        {
+          "name": "-background",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:207",
+          "why": ""
+        },
+        {
+          "name": "-foreground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:210",
+          "why": ""
+        },
+        {
+          "name": "-placeholderforeground",
+          "type": "COLOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkEntry.c:213",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkEntry.c:218",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "bbox",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2084",
+          "reasons": []
+        },
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkEntry.c:2085",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkEntry.c:2086",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "delete",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:2087",
+          "reasons": [
+            "result delegated to DeleteChars"
+          ]
+        },
+        {
+          "path": "get",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2088",
+          "reasons": []
+        },
+        {
+          "path": "icursor",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2089",
+          "reasons": []
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:2090",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "index",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2091",
+          "reasons": []
+        },
+        {
+          "path": "insert",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:2092",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'InsertChars')",
+            "result delegated to InsertChars"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2093",
+          "reasons": []
+        },
+        {
+          "path": "selection clear",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1724",
+          "reasons": []
+        },
+        {
+          "path": "selection present",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1725",
+          "reasons": []
+        },
+        {
+          "path": "selection range",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:1726",
+          "reasons": []
+        },
+        {
+          "path": "set",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2095",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:2096",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2097",
+          "reasons": []
+        },
+        {
+          "path": "validate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkEntry.c:2098",
+          "reasons": []
+        },
+        {
+          "path": "xview",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkEntry.c:2099",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TtkScrollviewCommand"
+          ]
+        }
+      ]
+    },
+    "ttk::square": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 11,
+      "optionStatus": {
+        "excluded": 1,
+        "generated": 9,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 6,
+      "subcommandEvidence": {
+        "complete": 2,
+        "option-mechanism": 2,
+        "partial": 2
+      },
+      "options": [
+        {
+          "name": "-borderwidth",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSquare.c:53",
+          "why": ""
+        },
+        {
+          "name": "-foreground",
+          "type": "BORDER",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSquare.c:56",
+          "why": ""
+        },
+        {
+          "name": "-width",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSquare.c:60",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSquare.c:63",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSquare.c:67",
+          "why": ""
+        },
+        {
+          "name": "-relief",
+          "type": "RELIEF",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSquare.c:71",
+          "why": ""
+        },
+        {
+          "name": "-anchor",
+          "type": "ANCHOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkSquare.c:74",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkSquare.c:77",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkSquare.c:133",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkSquare.c:134",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkSquare.c:135",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkSquare.c:136",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkSquare.c:137",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkSquare.c:138",
+          "reasons": []
+        }
+      ]
+    },
+    "ttk::toggleswitch": {
+      "kind": "ttk",
+      "selected": false,
+      "optionsDiscovered": 13,
+      "optionStatus": {
+        "excluded": 3,
+        "generated": 9,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 11,
+      "subcommandEvidence": {
+        "complete": 3,
+        "option-mechanism": 2,
+        "partial": 6
+      },
+      "options": [
+        {
+          "name": "-command",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkToggleswitch.c:47",
+          "why": ""
+        },
+        {
+          "name": "-offvalue",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkToggleswitch.c:50",
+          "why": ""
+        },
+        {
+          "name": "-onvalue",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkToggleswitch.c:53",
+          "why": ""
+        },
+        {
+          "name": "-size",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkToggleswitch.c:56",
+          "why": ""
+        },
+        {
+          "name": "-text",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkToggleswitch.c:59",
+          "why": ""
+        },
+        {
+          "name": "-textvariable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkToggleswitch.c:62",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables. Use the -text accessor or the widget's get/set operations."
+        },
+        {
+          "name": "-underline",
+          "type": "INDEX",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkToggleswitch.c:65",
+          "why": ""
+        },
+        {
+          "name": "-variable",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkToggleswitch.c:67",
+          "why": "Names a global Tcl variable that Tk traces; the C API has no Tcl variables."
+        },
+        {
+          "name": "-width",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkToggleswitch.c:70",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkToggleswitch.c:74",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkToggleswitch.c:711",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkToggleswitch.c:712",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "get",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkToggleswitch.c:713",
+          "reasons": [
+            "argument-count check is in an else branch (line 535)",
+            "result type not determined (?tglswPtr double)"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkToggleswitch.c:714",
+          "reasons": [
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkToggleswitch.c:715",
+          "reasons": []
+        },
+        {
+          "path": "set",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkToggleswitch.c:716",
+          "reasons": []
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkToggleswitch.c:717",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkToggleswitch.c:718",
+          "reasons": []
+        },
+        {
+          "path": "switchstate",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkToggleswitch.c:719",
+          "reasons": [
+            "argument-count check is in an else branch (line 650)",
+            "result type not determined (boolean)"
+          ]
+        },
+        {
+          "path": "toggle",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkToggleswitch.c:720",
+          "reasons": [
+            "result delegated to TglswitchSwitchstateCommand"
+          ]
+        },
+        {
+          "path": "xcoord",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkToggleswitch.c:721",
+          "reasons": [
+            "argument-count check is in an else branch (line 697)"
+          ]
+        }
+      ]
+    },
+    "ttk::treeview": {
+      "kind": "ttk",
+      "selected": true,
+      "optionsDiscovered": 18,
+      "optionStatus": {
+        "excluded": 3,
+        "generated": 14,
+        "readonly": 1
+      },
+      "subcommandsDiscovered": 57,
+      "subcommandEvidence": {
+        "complete": 21,
+        "option-mechanism": 2,
+        "partial": 34
+      },
+      "options": [
+        {
+          "name": "-columns",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "schema",
+          "source": "generic/ttk/ttkTreeview.c:537",
+          "why": "TK_OPTION_STRING holding a Tcl list of column identifiers; ttkTreeview.c parses it with Tcl_ListObjGetElements."
+        },
+        {
+          "name": "-displaycolumns",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "schema",
+          "source": "generic/ttk/ttkTreeview.c:540",
+          "why": "TK_OPTION_STRING holding a Tcl list of column identifiers (or #all)."
+        },
+        {
+          "name": "-show",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "schema",
+          "source": "generic/ttk/ttkTreeview.c:543",
+          "why": "TK_OPTION_STRING holding a Tcl list of the words tree and headings."
+        },
+        {
+          "name": "-selectmode",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:547",
+          "why": ""
+        },
+        {
+          "name": "-selecttype",
+          "type": "STRING_TABLE",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:550",
+          "why": ""
+        },
+        {
+          "name": "-height",
+          "type": "PIXELS",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:554",
+          "why": ""
+        },
+        {
+          "name": "-padding",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:557",
+          "why": ""
+        },
+        {
+          "name": "-titlecolumns",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:560",
+          "why": ""
+        },
+        {
+          "name": "-titleitems",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:563",
+          "why": ""
+        },
+        {
+          "name": "-striped",
+          "type": "BOOLEAN",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:566",
+          "why": ""
+        },
+        {
+          "name": "-xscrollcommand",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkTreeview.c:570",
+          "why": "Script prefix to which Tk appends 'first last'; scrollbar wiring is not in the MVP."
+        },
+        {
+          "name": "-yscrollcommand",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkTreeview.c:573",
+          "why": "Script prefix to which Tk appends 'first last'; scrollbar wiring is not in the MVP."
+        },
+        {
+          "name": "-headingheight",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:577",
+          "why": ""
+        },
+        {
+          "name": "-rowheight",
+          "type": "INT",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkTreeview.c:580",
+          "why": ""
+        },
+        {
+          "name": "-takefocus",
+          "type": "STRING",
+          "status": "excluded",
+          "approach": "schema",
+          "source": "generic/ttk/ttkTreeview.c:584",
+          "why": "Value may be a Tcl script evaluated during keyboard traversal; exposing it as a plain string would let consumers inject Tcl code."
+        },
+        {
+          "name": "-cursor",
+          "type": "CURSOR",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:167",
+          "why": ""
+        },
+        {
+          "name": "-style",
+          "type": "STRING",
+          "status": "generated",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:169",
+          "why": ""
+        },
+        {
+          "name": "-class",
+          "type": "STRING",
+          "status": "readonly",
+          "approach": "extracted",
+          "source": "generic/ttk/ttkInit.c:171",
+          "why": ""
+        }
+      ],
+      "subcommands": [
+        {
+          "path": "after",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7413",
+          "reasons": [
+            "argument 0: objv[2] not referenced directly",
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "bbox",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7414",
+          "reasons": []
+        },
+        {
+          "path": "before",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7415",
+          "reasons": [
+            "argument 0: objv[2] not referenced directly",
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "cellfocus",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7416",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tcl_ListObjLength')"
+          ]
+        },
+        {
+          "path": "cellselection",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7417",
+          "reasons": [
+            "no argument-count guard"
+          ]
+        },
+        {
+          "path": "children",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7418",
+          "reasons": []
+        },
+        {
+          "path": "cget",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkTreeview.c:7419",
+          "reasons": [
+            "argument 0: no known conversion (passed to 'Tk_GetOptionValue')",
+            "result type not determined (?Tk_GetOptionValue)"
+          ]
+        },
+        {
+          "path": "collapse",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7420",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TreeviewCollapseExpand"
+          ]
+        },
+        {
+          "path": "column",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7421",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to ConfigureColumn, TtkEnumerateOptions, TtkGetOptionValue"
+          ]
+        },
+        {
+          "path": "configure",
+          "evidence": "option-mechanism",
+          "source": "generic/ttk/ttkTreeview.c:7422",
+          "reasons": [
+            "no argument-count guard",
+            "result type not determined (?result string)"
+          ]
+        },
+        {
+          "path": "current",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7423",
+          "reasons": [
+            "result type not determined (item list)"
+          ]
+        },
+        {
+          "path": "delete",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7424",
+          "reasons": []
+        },
+        {
+          "path": "depth",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7425",
+          "reasons": []
+        },
+        {
+          "path": "detach",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7426",
+          "reasons": []
+        },
+        {
+          "path": "detached",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7427",
+          "reasons": [
+            "argument 0: polymorphic argument (converted as: string, item)",
+            "result type not determined (?Tcl_NewObj boolean)"
+          ]
+        },
+        {
+          "path": "drag",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7428",
+          "reasons": []
+        },
+        {
+          "path": "drop",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7429",
+          "reasons": []
+        },
+        {
+          "path": "expand",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7430",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TreeviewCollapseExpand"
+          ]
+        },
+        {
+          "path": "exists",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7431",
+          "reasons": []
+        },
+        {
+          "path": "focus",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7432",
+          "reasons": []
+        },
+        {
+          "path": "haschildren",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7433",
+          "reasons": []
+        },
+        {
+          "path": "heading",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7434",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to ConfigureHeading, TtkEnumerateOptions, TtkGetOptionValue"
+          ]
+        },
+        {
+          "path": "hide",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7435",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TreeviewHideUnhide"
+          ]
+        },
+        {
+          "path": "id",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7436",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'FindItemByIndex')"
+          ]
+        },
+        {
+          "path": "identify",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7437",
+          "reasons": [
+            "argument-count check is not a simple 'if (objc ...)' guard (line 3600)",
+            "result type not determined (?Tcl_ObjPrintf item list string)"
+          ]
+        },
+        {
+          "path": "identifier",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7438",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'FindItemByIndex')"
+          ]
+        },
+        {
+          "path": "index",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7439",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'FindIndex')"
+          ]
+        },
+        {
+          "path": "insert",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7440",
+          "reasons": [
+            "variable number of arguments"
+          ]
+        },
+        {
+          "path": "instate",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7441",
+          "reasons": []
+        },
+        {
+          "path": "item",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7442",
+          "reasons": [
+            "variable number of arguments",
+            "result delegated to ConfigureItem, TtkEnumerateOptions, TtkGetOptionValue"
+          ]
+        },
+        {
+          "path": "move",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7443",
+          "reasons": [
+            "argument 1: polymorphic argument (converted as: enum, item)",
+            "argument 2: polymorphic argument (converted as: item, unknown)"
+          ]
+        },
+        {
+          "path": "next",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7444",
+          "reasons": []
+        },
+        {
+          "path": "parent",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7445",
+          "reasons": []
+        },
+        {
+          "path": "prev",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7446",
+          "reasons": []
+        },
+        {
+          "path": "range",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7447",
+          "reasons": [
+            "argument 0: objv[2] not referenced directly",
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly",
+            "argument 3: objv[5] not referenced directly",
+            "result type not determined (?GetBetweenList)"
+          ]
+        },
+        {
+          "path": "search",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7448",
+          "reasons": [
+            "variable number of arguments",
+            "result type not determined (?valObj list)"
+          ]
+        },
+        {
+          "path": "see",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7449",
+          "reasons": []
+        },
+        {
+          "path": "selection",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7450",
+          "reasons": [
+            "no argument-count guard"
+          ]
+        },
+        {
+          "path": "set",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7451",
+          "reasons": [
+            "accepted argument counts are not contiguous: 3 4 5 7 9 11",
+            "result type not determined (?resultObj)"
+          ]
+        },
+        {
+          "path": "size",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7452",
+          "reasons": [
+            "argument 0: objv[2] not referenced directly",
+            "argument 1: objv[3] not referenced directly",
+            "argument 2: objv[4] not referenced directly"
+          ]
+        },
+        {
+          "path": "sort",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7453",
+          "reasons": [
+            "variable number of arguments"
+          ]
+        },
+        {
+          "path": "state",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7454",
+          "reasons": [
+            "several argument-count forms (objc tested at line 700 before the guard)"
+          ]
+        },
+        {
+          "path": "style",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7455",
+          "reasons": []
+        },
+        {
+          "path": "tag add",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7398",
+          "reasons": []
+        },
+        {
+          "path": "tag bind",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7399",
+          "reasons": []
+        },
+        {
+          "path": "tag cell add",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7391",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'GetCellListFromObj')"
+          ]
+        },
+        {
+          "path": "tag cell has",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7392",
+          "reasons": [
+            "argument-count check is in an else branch (line 7118)",
+            "result type not determined (boolean list)"
+          ]
+        },
+        {
+          "path": "tag cell remove",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7393",
+          "reasons": [
+            "argument 1: no known conversion (passed to 'GetCellListFromObj')"
+          ]
+        },
+        {
+          "path": "tag configure",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7401",
+          "reasons": [
+            "variable number of arguments",
+            "result type not determined (?Ttk_TagOptionValue)"
+          ]
+        },
+        {
+          "path": "tag delete",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7402",
+          "reasons": []
+        },
+        {
+          "path": "tag has",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7403",
+          "reasons": [
+            "argument-count check is in an else branch (line 7047)",
+            "result type not determined (boolean list)"
+          ]
+        },
+        {
+          "path": "tag names",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7404",
+          "reasons": [
+            "result delegated to Ttk_EnumerateTags"
+          ]
+        },
+        {
+          "path": "tag remove",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7405",
+          "reasons": []
+        },
+        {
+          "path": "unhide",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7457",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TreeviewHideUnhide"
+          ]
+        },
+        {
+          "path": "visible",
+          "evidence": "complete",
+          "source": "generic/ttk/ttkTreeview.c:7458",
+          "reasons": []
+        },
+        {
+          "path": "xview",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7459",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TtkScrollviewCommand"
+          ]
+        },
+        {
+          "path": "yview",
+          "evidence": "partial",
+          "source": "generic/ttk/ttkTreeview.c:7460",
+          "reasons": [
+            "no argument-count guard",
+            "result delegated to TtkScrollviewCommand"
+          ]
+        }
+      ]
+    }
+  },
+  "geometry": {
+    "grid": {
+      "subcommands": [
+        {
+          "name": "anchor",
+          "handler": "GridAnchorCommand",
+          "deprecated": false
+        },
+        {
+          "name": "bbox",
+          "handler": "GridBboxCommand",
+          "deprecated": false
+        },
+        {
+          "name": "columnconfigure",
+          "handler": "GridRowColumnConfigureCommand",
+          "deprecated": false
+        },
+        {
+          "name": "configure",
+          "handler": "ConfigureContent",
+          "deprecated": false
+        },
+        {
+          "name": "content",
+          "handler": "GridContentCommand",
+          "deprecated": false
+        },
+        {
+          "name": "forget",
+          "handler": "GridForgetRemoveCommand",
+          "deprecated": false
+        },
+        {
+          "name": "info",
+          "handler": "GridInfoCommand",
+          "deprecated": false
+        },
+        {
+          "name": "location",
+          "handler": "GridLocationCommand",
+          "deprecated": false
+        },
+        {
+          "name": "propagate",
+          "handler": "GridPropagateCommand",
+          "deprecated": false
+        },
+        {
+          "name": "remove",
+          "handler": "GridForgetRemoveCommand",
+          "deprecated": false
+        },
+        {
+          "name": "rowconfigure",
+          "handler": "GridRowColumnConfigureCommand",
+          "deprecated": false
+        },
+        {
+          "name": "size",
+          "handler": "GridSizeCommand",
+          "deprecated": false
+        },
+        {
+          "name": "slaves",
+          "handler": "GridContentCommand",
+          "deprecated": true
+        }
+      ],
+      "optionHandlers": {
+        "GridRowColumnConfigureCommand": [
+          {
+            "name": "-minsize",
+            "type": "pixels",
+            "conversion": "Tk_GetPixelsFromObj",
+            "source": "generic/tkGrid.c:1224"
+          },
+          {
+            "name": "-pad",
+            "type": "pixels",
+            "conversion": "Tk_GetPixelsFromObj",
+            "source": "generic/tkGrid.c:1251"
+          },
+          {
+            "name": "-uniform",
+            "type": "string",
+            "conversion": "Tk_GetUid",
+            "source": "generic/tkGrid.c:1245"
+          },
+          {
+            "name": "-weight",
+            "type": "int",
+            "conversion": "Tcl_GetIntFromObj",
+            "source": "generic/tkGrid.c:1234"
+          }
+        ],
+        "ConfigureContent": [
+          {
+            "name": "-column",
+            "type": "int",
+            "conversion": "Tcl_GetIntFromObj",
+            "source": "generic/tkGrid.c:3234"
+          },
+          {
+            "name": "-columnspan",
+            "type": "int",
+            "conversion": "Tcl_GetIntFromObj",
+            "source": "generic/tkGrid.c:3247"
+          },
+          {
+            "name": "-in",
+            "type": "window",
+            "conversion": "TkGetWindowFromObj",
+            "source": "generic/tkGrid.c:3127"
+          },
+          {
+            "name": "-ipadx",
+            "type": "pixels",
+            "conversion": "Tk_GetPixelsFromObj",
+            "source": "generic/tkGrid.c:3291"
+          },
+          {
+            "name": "-ipady",
+            "type": "pixels",
+            "conversion": "Tk_GetPixelsFromObj",
+            "source": "generic/tkGrid.c:3302"
+          },
+          {
+            "name": "-padx",
+            "type": "padding",
+            "conversion": "TkParsePadAmount",
+            "source": "generic/tkGrid.c:3313"
+          },
+          {
+            "name": "-pady",
+            "type": "padding",
+            "conversion": "TkParsePadAmount",
+            "source": "generic/tkGrid.c:3319"
+          },
+          {
+            "name": "-row",
+            "type": "int",
+            "conversion": "Tcl_GetIntFromObj",
+            "source": "generic/tkGrid.c:3136"
+          },
+          {
+            "name": "-rowspan",
+            "type": "int",
+            "conversion": "Tcl_GetIntFromObj",
+            "source": "generic/tkGrid.c:3338"
+          },
+          {
+            "name": "-sticky",
+            "type": "sticky",
+            "conversion": "StringToSticky",
+            "source": "generic/tkGrid.c:3277"
+          }
+        ],
+        "GridContentCommand": [
+          {
+            "name": "-column",
+            "type": "unknown",
+            "conversion": "",
+            "source": ""
+          },
+          {
+            "name": "-row",
+            "type": "unknown",
+            "conversion": "",
+            "source": ""
+          }
+        ]
+      }
+    },
+    "pack": {
+      "subcommands": [
+        {
+          "name": "configure",
+          "handler": "ConfigureContent",
+          "deprecated": false
+        },
+        {
+          "name": "content",
+          "handler": "",
+          "deprecated": false
+        },
+        {
+          "name": "forget",
+          "handler": "",
+          "deprecated": false
+        },
+        {
+          "name": "info",
+          "handler": "",
+          "deprecated": false
+        },
+        {
+          "name": "propagate",
+          "handler": "",
+          "deprecated": false
+        },
+        {
+          "name": "slaves",
+          "handler": "",
+          "deprecated": true
+        }
+      ],
+      "optionHandlers": {
+        "ConfigureContent": [
+          {
+            "name": "-after",
+            "type": "window",
+            "conversion": "TkGetWindowFromObj",
+            "source": "generic/tkPack.c:1296"
+          },
+          {
+            "name": "-anchor",
+            "type": "anchor",
+            "conversion": "Tk_GetAnchorFromObj",
+            "source": "generic/tkPack.c:1317"
+          },
+          {
+            "name": "-before",
+            "type": "window",
+            "conversion": "TkGetWindowFromObj",
+            "source": "generic/tkPack.c:1324"
+          },
+          {
+            "name": "-expand",
+            "type": "boolean",
+            "conversion": "Tcl_GetBooleanFromObj",
+            "source": "generic/tkPack.c:1347"
+          },
+          {
+            "name": "-fill",
+            "type": "enum",
+            "conversion": "Tcl_GetString+strcmp",
+            "source": "generic/tkPack.c:1356"
+          },
+          {
+            "name": "-in",
+            "type": "window",
+            "conversion": "TkGetWindowFromObj",
+            "source": "generic/tkPack.c:1375"
+          },
+          {
+            "name": "-ipadx",
+            "type": "pixels",
+            "conversion": "Tk_GetPixelsFromObj",
+            "source": "generic/tkPack.c:1392"
+          },
+          {
+            "name": "-ipady",
+            "type": "pixels",
+            "conversion": "Tk_GetPixelsFromObj",
+            "source": "generic/tkPack.c:1403"
+          },
+          {
+            "name": "-padx",
+            "type": "padding",
+            "conversion": "TkParsePadAmount",
+            "source": "generic/tkPack.c:1414"
+          },
+          {
+            "name": "-pady",
+            "type": "padding",
+            "conversion": "TkParsePadAmount",
+            "source": "generic/tkPack.c:1420"
+          },
+          {
+            "name": "-side",
+            "type": "enum",
+            "conversion": "Tcl_GetIndexFromObj",
+            "source": "generic/tkPack.c:1426"
+          }
+        ]
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "level": "warning",
+      "where": "generic/tkWindow.c:186",
+      "message": "tkcmds entry present only on: macos win"
+    },
+    {
+      "level": "warning",
+      "where": "generic/tkWindow.c:187",
+      "message": "tkcmds entry present only on: macos win"
+    },
+    {
+      "level": "warning",
+      "where": "generic/tkWindow.c:188",
+      "message": "tkcmds entry present only on: macos win"
+    },
+    {
+      "level": "warning",
+      "where": "generic/tkWindow.c:189",
+      "message": "tkcmds entry present only on: macos win"
+    },
+    {
+      "level": "warning",
+      "where": "generic/tkWindow.c:190",
+      "message": "tkcmds entry present only on: macos win"
+    },
+    {
+      "level": "warning",
+      "where": "generic/ttk/ttkSquare.c:51",
+      "message": "option table SquareOptionSpecs depends on build configuration: {generic/ttk/ttkSquare.c:10: #if defined ( TTK_SQUARE_WIDGET ) || 1 (assumes undefined: TTK_SQUARE_WIDGET)}"
+    }
+  ]
+}
