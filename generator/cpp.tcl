@@ -499,7 +499,11 @@ proc ::cpp::EvalCond {toks where} {
 	    }
 	    set m [lindex $nx 1]
 	    set isdef [expr {[lookupIn $S(macros) $m end] ne {}}]
-	    if {!$isdef && $m ni $S(known)} { lappend assumed $m }
+	    if {!$isdef && $m ni $S(known)} {
+		lappend assumed $m
+		lappend t2 [list assumed $m [lindex $t 2]]
+		continue
+	    }
 	    lappend t2 [list num $isdef [lindex $t 2]]
 	    continue
 	}
@@ -513,8 +517,12 @@ proc ::cpp::EvalCond {toks where} {
     for {set i 0} {$i < $n} {incr i} {
 	lassign [lindex $exp $i] kind text
 	switch -- $kind {
+	    assumed {
+		append e " @A@"
+	    }
 	    id {
-		if {$text ni $S(known) && $text ni $assumed} { lappend assumed $text }
+		set isKnown [expr {$text in $S(known)}]
+		if {!$isKnown && $text ni $assumed} { lappend assumed $text }
 		# An undefined function-like name: treat the call as 0.
 		if {[lindex [lindex $exp $i+1] 1] eq "("} {
 		    set depth 0
@@ -524,7 +532,7 @@ proc ::cpp::EvalCond {toks where} {
 			if {$tx eq ")"} { incr depth -1; if {!$depth} break }
 		    }
 		}
-		append e " 0"
+		append e [expr {$isKnown ? " 0" : " @A@"}]
 	    }
 	    num {
 		if {![regexp -nocase {^(0x[0-9a-f]+|[0-9]+)[ul]*$} $text -> digits]} {
@@ -547,8 +555,16 @@ proc ::cpp::EvalCond {toks where} {
 	    default { Error "$where: unsupported token '$text' in #if" }
 	}
     }
-    if {[catch {expr $e} v]} {
+    # Assumed-undefined names evaluate to 0 (C semantics).  The assumption
+    # only matters if the result would differ with them defined (as 1);
+    # e.g. "#if defined(X) || 1" does not depend on X.
+    set e0 [string map {@A@ 0} $e]
+    set e1 [string map {@A@ 1} $e]
+    if {[catch {expr $e0} v]} {
 	Error "$where: cannot evaluate #if expression '[TokText $toks]': $v"
+    }
+    if {[llength $assumed] && ![catch {expr $e1} v1] && (($v1 != 0) == ($v != 0))} {
+	set assumed {}
     }
     return [list [expr {$v != 0}] $assumed]
 }

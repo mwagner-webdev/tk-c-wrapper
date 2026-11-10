@@ -113,6 +113,20 @@ test cpp-1.5 {unsupported directives fail} -setup {
     file delete -force $d
 }
 
+test cpp-1.6 {an assumption that cannot change the result is not recorded} -setup {
+    set d [file join [temporaryDirectory] cpp16]
+    file mkdir $d
+    set f [open $d/x.c w]
+    puts $f "#if defined(UNKNOWN_A) || 1\nint a;\n#endif\n#if defined(UNKNOWN_B)\nint b;\n#endif\nint c;"
+    close $f
+} -body {
+    set r [cpp::run $d/x.c [dict create name unix predefined {} known {} incpath {} keepHeaders {}] $d]
+    list [join [lmap t [dict get $r tokens] {lindex $t 1}] " "] [llength [dict get $r skips]] \
+	[string match *UNKNOWN_B* [lindex [dict get $r skips] 0 1]] [dict get $r conds]
+} -result {{int a ; int c ;} 1 1 {{}}} -cleanup {
+    file delete -force $d
+}
+
 # --------------------------------------------------------------- parser
 
 test parse-1.1 {nested initializers with comments and strings} -body {

@@ -1,0 +1,28 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends build-essential libx11-dev libxrender-dev xvfb zip
+      - name: Cache Tcl/Tk builds
+        uses: actions/cache@v4
+        with:
+          path: deps
+          key: tcltk-${{ hashFiles('tools/deps.sh') }}
+      - name: Build pinned Tcl/Tk 9.1.0
+        run: make deps
+      - name: Build library, bridge, examples
+        run: make
+      - name: Generated files are up to date
+        run: make check-generated
+      - name: tcltest suite (Xvfb)
+        run: make test
+      - name: Compatibility with Tk 9.0.4
+        run: make compat

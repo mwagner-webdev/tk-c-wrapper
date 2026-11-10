@@ -74,7 +74,7 @@ widget subcommand names from a string table.
 
 Approach: `extracted` = declarative tables only; `inferred` = evidence from function bodies;
 `schema` = an overlay supplied missing semantics.  Behaviourally tested = called successfully
-(status TKX_OK) by the tcltest suite, which also checks the result against Tk.
+(status TKX_OK) by the tcltest suite; most are also checked against what Tk itself reports.
 
 | group | functions | extracted | inferred | schema | behaviourally tested |
 | --- | --- | --- | --- | --- | --- |
@@ -97,4 +97,4 @@ Approach: `extracted` = declarative tables only; `inferred` = evidence from func
 
 ## Extraction diagnostics
 
-6 warnings (platform-specific entries, configuration-dependent tables); see `generated/coverage.json`.
+5 warnings (platform-specific entries, configuration-dependent tables); see `generated/coverage.json`.

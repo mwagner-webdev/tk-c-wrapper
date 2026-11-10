@@ -38,7 +38,9 @@ proc ::tcltest::cleanupTestsHook {} {
 runAllTests
 
 # Behavioural coverage of the generated functions (successful calls).
-if {[namespace exists ::tkx] && [llength [info commands ::tkx::fn_calls]]} {
+# Only meaningful when the display tests ran.
+if {[namespace exists ::tkx] && [llength [info commands ::tkx::fn_calls]]
+	&& [info exists env(DISPLAY)] && $env(DISPLAY) ne ""} {
     set calls [::tkx::fn_calls]
     set all [::tkx::fnlist]
     set called 0

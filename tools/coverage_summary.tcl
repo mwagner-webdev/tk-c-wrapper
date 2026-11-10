@@ -90,7 +90,7 @@ append md [row "**all classes**" [dict get $etot n] {*}$cells] "\n"
 append md "\n## Generated functions (selected classes and geometry managers)\n\n"
 append md "Approach: `extracted` = declarative tables only; `inferred` = evidence from function bodies;\n"
 append md "`schema` = an overlay supplied missing semantics.  Behaviourally tested = called successfully\n"
-append md "(status TKX_OK) by the tcltest suite, which also checks the result against Tk.\n\n"
+append md "(status TKX_OK) by the tcltest suite; most are also checked against what Tk itself reports.\n\n"
 append md [row group functions extracted inferred schema "behaviourally tested"] "\n"
 append md [row --- --- --- --- --- ---] "\n"
 set g [dict create]
