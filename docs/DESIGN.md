@@ -108,6 +108,10 @@ to handles, e.g. for `grid info -in` or `TK_OPTION_WINDOW` values.
   test bridge inside `tclsh`), `config->host_initialized_tcl` skips that
   step.  Tk's own options (`-name`, `-display`) are passed through `::argv`
   built as a list.
+- `TkxAppConfig.struct_size` versions the configuration struct.  Fields
+  that lie beyond the caller's `struct_size` (a program compiled against
+  an older `tkx.h`) read as unset; 0 means "the current layout"
+  (`lifecycle-1.6`).
 - Only one application exists at a time (Tk's model of one main window
   per interpreter, used here with one interpreter).  After
   `tkx_app_shutdown()` a new one may be created.

@@ -12,6 +12,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -423,6 +424,16 @@ AppInitCmd(void *cd, Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
 	if (strcmp(k, "-withdraw") == 0) {
 	    if (Tcl_GetBooleanFromObj(ip, objv[i + 1], &cfg.withdraw_main_window) != TCL_OK) {
 		return TCL_ERROR;
+	    }
+	} else if (strcmp(k, "-legacy_struct") == 0) {
+	    /* Simulate a caller compiled against an older, shorter config
+	     * struct that ends before withdraw_main_window. */
+	    int legacy;
+	    if (Tcl_GetBooleanFromObj(ip, objv[i + 1], &legacy) != TCL_OK) {
+		return TCL_ERROR;
+	    }
+	    if (legacy) {
+		cfg.struct_size = offsetof(TkxAppConfig, withdraw_main_window);
 	    }
 	} else if (strcmp(k, "-name") == 0) {
 	    cfg.app_name = Tcl_GetString(objv[i + 1]);

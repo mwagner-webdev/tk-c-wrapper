@@ -13,6 +13,7 @@
  */
 #include "tkx_internal.h"
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -802,12 +803,14 @@ tkx_app_init(const TkxAppConfig *config)
     if (tkx__interp != NULL) {
 	return tkx__error(TKX_ERR_ALREADY_INITIALIZED, "a tkx application already exists");
     }
-    if (config != NULL && config->struct_size != 0
-	    && config->struct_size < sizeof(size_t)) {
-	return tkx__arg_error("config->struct_size");
-    }
+    /* Fields beyond the caller's struct_size (an older tkx.h) read as unset;
+     * struct_size 0 means "the current layout". */
+#define CFG(field, unset) \
+    ((config != NULL && (config->struct_size == 0 || config->struct_size \
+	>= offsetof(TkxAppConfig, field) + sizeof(config->field))) \
+	? config->field : (unset))
     if (!findExecutableDone) {
-	if (config == NULL || !config->host_initialized_tcl) {
+	if (!CFG(host_initialized_tcl, 0)) {
 	    /* Not hosted by tclsh or another Tcl program: locate the Tcl
 	     * library, which Tcl 9 may keep in a zip archive attached to
 	     * libtcl (TclZipfs_AppHook also calls Tcl_FindExecutable). */
@@ -826,12 +829,12 @@ tkx_app_init(const TkxAppConfig *config)
     }
     /* Tk reads its command-line options from ::argv; build it as a list. */
     argv = Tcl_NewListObj(0, NULL);
-    if (config != NULL && config->app_name != NULL) {
+    if (CFG(app_name, NULL) != NULL) {
 	name = config->app_name;
     }
     Tcl_ListObjAppendElement(NULL, argv, Tcl_NewStringObj("-name", -1));
     Tcl_ListObjAppendElement(NULL, argv, Tcl_NewStringObj(name, -1));
-    if (config != NULL && config->display != NULL) {
+    if (CFG(display, NULL) != NULL) {
 	Tcl_ListObjAppendElement(NULL, argv, Tcl_NewStringObj("-display", -1));
 	Tcl_ListObjAppendElement(NULL, argv, Tcl_NewStringObj(config->display, -1));
     }
@@ -858,16 +861,12 @@ tkx_app_init(const TkxAppConfig *config)
 	tkx__error(TKX_ERR_TK, "callback initialisation failed");
 	goto fail;
     }
-    if (config != NULL && config->class_name != NULL) {
-	/* "tk appname" changes the name; the class of "." is fixed at
-	 * creation and follows the application name. */
-    }
     mw = Register(TKX_KIND_TOPLEVEL, ".");
     if (mw == NULL) {
 	goto fail;
     }
     mainWindowId = mw->id;
-    if (config != NULL && config->withdraw_main_window) {
+    if (CFG(withdraw_main_window, 0)) {
 	v[0] = Tcl_NewStringObj("wm", -1);
 	v[1] = Tcl_NewStringObj("withdraw", -1);
 	{

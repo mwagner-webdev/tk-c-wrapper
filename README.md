@@ -47,7 +47,7 @@ int main(void) {
 | Classes with generated C functions | `toplevel`, `frame`, `ttk::frame`, `ttk::label`, `ttk::button`, `ttk::entry`, `ttk::treeview` |
 | Geometry managers | `grid`, `pack` (option names and value types from Tk's parsers) |
 | Generated functions | 370: 235 from declarative tables, 86 inferred from function bodies, 49 with a schema overlay |
-| Tests | tcltest, 151 tests. Tk 9.1.0: 151 passed. Tk 9.0.4: 147 passed, 4 skipped (9.1-only features). Every generated function is called successfully by at least one test; most results are compared with what Tk itself reports (`cget`, `grid info`, `winfo`). |
+| Tests | tcltest, 152 tests. Tk 9.1.0: 152 passed. Tk 9.0.4: 148 passed, 4 skipped (9.1-only features). Every generated function is called successfully by at least one test; most results are compared with what Tk itself reports (`cget`, `grid info`, `winfo`). |
 
 The numbers come from `docs/COVERAGE_TABLES.md` (generated) and test runs; see
 [docs/COVERAGE.md](docs/COVERAGE.md).

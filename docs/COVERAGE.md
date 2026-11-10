@@ -48,18 +48,24 @@ counted as passed.
 
 | run | total | passed | skipped | failed | generated functions called |
 |---|---|---|---|---|---|
-| Tk 9.1.0 (`make test`) | 151 | 151 | 0 | 0 | 370 / 370 |
-| Tk 9.0.4, API generated from 9.0.4 (`make compat`) | 151 | 147 | 4 (`tk91`: 9.1-only features) | 0 | 359 / 359 |
-| no display (`make test-headless`) | 151 | 56 | 95 (`display`) | 0 | — |
+| Tk 9.1.0 (`make test`) | 152 | 152 | 0 | 0 | 370 / 370 |
+| Tk 9.0.4, API generated from 9.0.4 (`make compat`) | 152 | 148 | 4 (`tk91`: 9.1-only features) | 0 | 359 / 359 |
+| no display (`make test-headless`) | 152 | 56 | 96 (`display`) | 0 | — |
 
 | file | tests | covers |
 |---|---|---|
 | `generator.test` | 48 | lexer, preprocessor (platform configs, assumptions, errors), parser, tier-A extraction on fixtures (formatting, comments, macros, aliases, defaults, inheritance), unsupported constructs failing visibly (5 kinds), tier-B evidence (complete, optional, polymorphic, multi-form), facts from the real Tk sources, overlay drift detection, deterministic regeneration, no drift against committed files, no absolute paths/timestamps, coverage-report consistency |
-| `handles.test` | 20 | lifecycle (before init, double init, shutdown/re-init, main window destroyed, quit), null/garbage/stale/wrong-kind handles, handle layout, slot reuse with new generations, 200× allocate/destroy, deletion through Tk itself, descendant invalidation, error messages and reset, empty values, thread contract and posting |
+| `handles.test` | 21 | lifecycle (before init, double init, shutdown/re-init, main window destroyed, quit, config struct versioning), null/garbage/stale/wrong-kind handles, handle layout, slot reuse with new generations, 200× allocate/destroy, deletion through Tk itself, descendant invalidation, error messages and reset, empty values, thread contract and posting |
 | `widgets.test` | 34 | creation of every class, **data-driven round trip of every generated setter/getter (and unset) checked against Tk's `cget`**, read-only getters, Unicode (BMP and astral), entry/button/treeview operations, shared ttk `state`/`instate`/`style`, generic property interface (and refusal of script/variable options), generic invocation (literal words; refusal list), no generated function takes a script |
 | `layout.test` | 18 | grid placement, every grid option through `grid info`, column/row weights, minsize, spanning, external/internal padding, propagation, size/bbox/anchor/uniform/pad, forget/remove, relayout after configuration change, Tk's errors (mixed managers, bad values), every pack option, side/fill/expand geometry, `-before`/`-after` ordering, pack propagation, **the same layout through tkx and through plain Tcl/Tk gives identical requested sizes** |
 | `callbacks.test` | 22 | delivery, list-built trampoline, replacement and clearing release exactly once, removal, release on widget destruction, a callback destroying its own widget, a callback removing itself, reentrant calls, disabled buttons, stale trampolines, key presses through Tk's own bindings, virtual/mouse/key event fields, `<<TreeviewSelect>>`, rebinding, invalid sequences, `after` and cancellation, release at shutdown |
 | `abi.test` | 9 | headers compile without Tcl/Tk (C99 and C++), no Tcl/Tk types in declarations, every prototype exported and nothing else, 64-bit handles and stable codes, generated version equals the source tree's `TK_PATCH_LEVEL` and the runtime Tk version, the standalone examples run, the examples contain no Tcl |
+
+**Reproducibility check.**  A fresh clone of commit `2963e00` was built
+from nothing with `make deps && make && make check-generated && make test`
+(Tcl/Tk downloaded, verified and compiled; library, bridge and examples
+built; no generated-file drift).  All 151 tests passed; the one test added
+later (`lifecycle-1.6`) is included in the numbers above.
 
 Geometry assertions compare sizes relative to each other (e.g. "the extra
 space is shared 1:3") or use widgets with fixed pixel sizes.  The only

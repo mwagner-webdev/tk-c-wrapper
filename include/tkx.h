@@ -111,7 +111,7 @@ TKX_API void tkx_string_list_free(TkxStringList *list);
 typedef struct TkxAppConfig {
     size_t struct_size;        /* sizeof(TkxAppConfig), for ABI evolution */
     const char *app_name;      /* Tk application name (default "tkx") */
-    const char *class_name;    /* class of the main window (default from name) */
+    /* The class of the main window is derived from app_name by Tk. */
     const char *display;       /* X11 display; NULL = $DISPLAY */
     int withdraw_main_window;  /* nonzero: start with the main window hidden */
     int host_initialized_tcl;  /* nonzero: the process already initialised the

@@ -43,6 +43,17 @@ test lifecycle-1.5 {quit stops the run loop state} -constraints display -body {
     set r
 } -result 0 -cleanup { tkx_stop }
 
+test lifecycle-1.6 {config fields beyond the caller's struct_size are ignored} -constraints display -body {
+    # (Runs after earlier inits, so the Tcl library is already located.)
+    tkx::app_init -withdraw 1 -legacy_struct 1
+    set legacy [tkx_tk wm state .]
+    tkx::app_shutdown
+    tkx::app_init -withdraw 1
+    set current [tkx_tk wm state .]
+    tkx::app_shutdown
+    list $legacy $current
+} -result {normal withdrawn} -cleanup { tkx_stop }
+
 # ------------------------------------------------------------- handles
 
 test handle-1.1 {null and garbage handles are invalid} -constraints display -setup {
