@@ -1200,10 +1200,6 @@ TKX_API TkxStatus tkx_ttk_treeview_style(TkxId widget, char **out);
  * [inferred] generic/ttk/ttkTreeview.c:7398; generic/ttk/ttkTreeview.c:7152 */
 TKX_API TkxStatus tkx_ttk_treeview_tag_add(TkxId widget, const char *tagName, const char *const *items, size_t items_count);
 
-/* Tk: $w tag bind tagName ?sequence? ?script?
- * [inferred] generic/ttk/ttkTreeview.c:7399; generic/ttk/ttkTreeview.c:6892 */
-TKX_API TkxStatus tkx_ttk_treeview_tag_bind(TkxId widget, const char *tagName, const char *sequence, const char *script, char **out);
-
 /* Tk: $w tag delete tagName
  * [inferred] generic/ttk/ttkTreeview.c:7402; generic/ttk/ttkTreeview.c:6981 */
 TKX_API TkxStatus tkx_ttk_treeview_tag_delete(TkxId widget, const char *tagName);
@@ -1536,10 +1532,6 @@ TKX_API TkxStatus tkx_grid(TkxId widget, int row, int column);
  * [inferred] generic/tkPack.c:1216; generic/tkPack.c:1296 */
 TKX_API TkxStatus tkx_pack_set_after(TkxId widget, TkxId value);
 
-/* Value of -after from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack).
- * [inferred] generic/tkPack.c:1216; generic/tkPack.c:1296 */
-TKX_API TkxStatus tkx_pack_get_after(TkxId widget, TkxId *out);
-
 /* Tk: pack configure $w -anchor value (Tk_GetAnchorFromObj)
  * [inferred] generic/tkPack.c:1216; generic/tkPack.c:1317 */
 TKX_API TkxStatus tkx_pack_set_anchor(TkxId widget, TkxAnchor value);
@@ -1551,10 +1543,6 @@ TKX_API TkxStatus tkx_pack_get_anchor(TkxId widget, TkxAnchor *out);
 /* Tk: pack configure $w -before value (TkGetWindowFromObj)
  * [inferred] generic/tkPack.c:1216; generic/tkPack.c:1324 */
 TKX_API TkxStatus tkx_pack_set_before(TkxId widget, TkxId value);
-
-/* Value of -before from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack).
- * [inferred] generic/tkPack.c:1216; generic/tkPack.c:1324 */
-TKX_API TkxStatus tkx_pack_get_before(TkxId widget, TkxId *out);
 
 /* Tk: pack configure $w -expand value (Tcl_GetBooleanFromObj)
  * [inferred] generic/tkPack.c:1216; generic/tkPack.c:1347 */

@@ -483,6 +483,8 @@ proc ::tkx::gen::CommandFunctions {cmd prefix kindMask cls} {
 	if {$path in $done || $path in {cget configure}} continue
 	set ev [dict get $c evidence]
 	if {$ev eq {} || [dict get $ev status] ne "complete"} continue
+	# Never expose an argument that Tk evaluates as Tcl code.
+	if {[dict exists $ev takesScript] && [dict get $ev takesScript]} continue
 	lassign [dict get $ev arity] mn mx
 	set params {}
 	set ok 1
@@ -552,6 +554,14 @@ proc ::tkx::gen::GeometryFunctions {mgr} {
 		result none approach inferred \
 		prov [list [dict get $h src] [dict get $o src]] option $name \
 		doc "Tk: $mgr configure \$w $name value ([dict get $o conv])"]
+	# A getter only if the info subcommand reports the option (it must
+	# appear as a literal in info's implementation; pack's -after and
+	# -before are placement directives that info never returns).
+	set infoLits [dict get $subs $infoSub literals]
+	if {$name ni $infoLits} {
+	    lappend ::tkx::gen::geoSkipped [list $mgr $name "set-only: not reported by '$mgr $infoSub'"]
+	    continue
+	}
 	AddFunc [dict create name "tkx_${mgr}_get_$id" kind geometry-info class $mgr \
 		target 0 params {} \
 		words [list [list cmd "::$mgr"] [list lit $infoSub] [list path]] \
@@ -1084,6 +1094,9 @@ proc ::tkx::gen::Build {irIn} {
 	foreach sc [dict get $cls commands] {
 	    set ev [dict get $sc evidence]
 	    set stt [expr {$ev eq {} ? "classic-table" : [dict get $ev status]}]
+	    if {$ev ne {} && [dict exists $ev takesScript] && [dict get $ev takesScript]} {
+		set stt "script-argument"
+	    }
 	    if {[join [dict get $sc path]] in {cget configure}} { set stt option-mechanism }
 	    dict incr evc $stt
 	    lappend cmdRows [::tkx::json::obj [list path [::tkx::json::s [join [dict get $sc path]]] \
@@ -1209,7 +1222,13 @@ proc ::tkx::gen::CoverageJson {} {
 	    }
 	    lappend hs $h [list arr $os]
 	}
-	lappend geo $mgr [::tkx::json::obj [list subcommands [list arr $subs] optionHandlers [::tkx::json::obj $hs]]]
+	set skipped {}
+	foreach sk $::tkx::gen::geoSkipped {
+	    if {[lindex $sk 0] eq $mgr} {
+		lappend skipped [::tkx::json::obj [list option [::tkx::json::s [lindex $sk 1]] reason [::tkx::json::s [lindex $sk 2]]]]
+	    }
+	}
+	lappend geo $mgr [::tkx::json::obj [list subcommands [list arr $subs] optionHandlers [::tkx::json::obj $hs] notGenerated [list arr $skipped]]]
     }
     set diags {}
     foreach d [dict get $ir diagnostics] {

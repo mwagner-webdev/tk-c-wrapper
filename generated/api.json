@@ -4094,35 +4094,6 @@
       "doc": "Tk: $w tag add tagName items"
     },
     {
-      "name": "tkx_ttk_treeview_tag_bind",
-      "group": "ttk::treeview",
-      "kind": "command",
-      "approach": "inferred",
-      "params": [
-        {
-          "name": "tagName",
-          "type": "tag",
-          "optional": false
-        },
-        {
-          "name": "sequence",
-          "type": "string",
-          "optional": true
-        },
-        {
-          "name": "script",
-          "type": "string",
-          "optional": true
-        }
-      ],
-      "result": "string",
-      "provenance": [
-        "generic/ttk/ttkTreeview.c:7399",
-        "generic/ttk/ttkTreeview.c:6892"
-      ],
-      "doc": "Tk: $w tag bind tagName ?sequence? ?script?"
-    },
-    {
       "name": "tkx_ttk_treeview_tag_delete",
       "group": "ttk::treeview",
       "kind": "command",
@@ -5677,19 +5648,6 @@
       "doc": "Tk: pack configure $w -after value (TkGetWindowFromObj)"
     },
     {
-      "name": "tkx_pack_get_after",
-      "group": "pack",
-      "kind": "geometry-info",
-      "approach": "inferred",
-      "params": [],
-      "result": "window",
-      "provenance": [
-        "generic/tkPack.c:1216",
-        "generic/tkPack.c:1296"
-      ],
-      "doc": "Value of -after from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
-    },
-    {
       "name": "tkx_pack_set_anchor",
       "group": "pack",
       "kind": "geometry",
@@ -5739,19 +5697,6 @@
         "generic/tkPack.c:1324"
       ],
       "doc": "Tk: pack configure $w -before value (TkGetWindowFromObj)"
-    },
-    {
-      "name": "tkx_pack_get_before",
-      "group": "pack",
-      "kind": "geometry-info",
-      "approach": "inferred",
-      "params": [],
-      "result": "window",
-      "provenance": [
-        "generic/tkPack.c:1216",
-        "generic/tkPack.c:1324"
-      ],
-      "doc": "Value of -before from 'pack info $w' (TKX_ERR_EMPTY if not managed by pack)."
     },
     {
       "name": "tkx_pack_set_expand",

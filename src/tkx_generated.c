@@ -5615,40 +5615,6 @@ argfail:
     return tkx_last_error();
 }
 
-TkxStatus tkx_ttk_treeview_tag_bind(TkxId widget, const char *tagName, const char *sequence, const char *script, char **out)
-{
-    TkxWidget *w;
-    TkxStatus st;
-    Tcl_Obj *objv[12];
-    int objc = 0;
-    Tcl_Obj *v = NULL;
-    st = tkx__widget(widget, TKX__KINDBIT(TKX_KIND_TTK_TREEVIEW), &w);
-    if (st != TKX_OK) return st;
-    if (tagName == NULL) return tkx__arg_error("tagName");
-    if (out == NULL) return tkx__arg_error("out");
-    if (sequence == NULL && script != NULL) return tkx__arg_error("script given without sequence");
-    objv[objc++] = tkx__str("tag");
-    objv[objc++] = tkx__str("bind");
-    if ((objv[objc] = tkx__str(tagName)) == NULL) goto argfail;
-    objc++;
-    if (sequence != NULL) {
-        if ((objv[objc] = tkx__str(sequence)) == NULL) goto argfail;
-        objc++;
-    }
-    if (script != NULL) {
-        if ((objv[objc] = tkx__str(script)) == NULL) goto argfail;
-        objc++;
-    }
-    st = tkx__widget_call(w, objc, objv, &v);
-    if (st != TKX_OK) return st;
-    st = tkx__to_string(v, out);
-    Tcl_DecrRefCount(v);
-    return st;
-argfail:
-    tkx__discard(objc, objv);
-    return tkx_last_error();
-}
-
 TkxStatus tkx_ttk_treeview_tag_delete(TkxId widget, const char *tagName)
 {
     TkxWidget *w;
@@ -7605,35 +7571,6 @@ argfail:
     return tkx_last_error();
 }
 
-TkxStatus tkx_pack_get_after(TkxId widget, TkxId *out)
-{
-    TkxWidget *w;
-    TkxStatus st;
-    Tcl_Obj *objv[8];
-    int objc = 0;
-    Tcl_Obj *v = NULL;
-    st = tkx__widget(widget, 0, &w);
-    if (st != TKX_OK) return st;
-    if (out == NULL) return tkx__arg_error("out");
-    objv[objc++] = tkx__str("::pack");
-    objv[objc++] = tkx__str("info");
-    objv[objc++] = w->path;
-    st = tkx__invoke(objc, objv, &v);
-    if (st != TKX_OK) return st;
-    {
-        Tcl_Obj *d = v;
-        st = tkx__dict_get(d, "-after", &v);
-        Tcl_DecrRefCount(d);
-        if (st != TKX_OK) return st;
-    }
-    st = tkx__to_window(v, out);
-    Tcl_DecrRefCount(v);
-    return st;
-argfail:
-    tkx__discard(objc, objv);
-    return tkx_last_error();
-}
-
 TkxStatus tkx_pack_set_anchor(TkxId widget, TkxAnchor value)
 {
     TkxWidget *w;
@@ -7699,35 +7636,6 @@ TkxStatus tkx_pack_set_before(TkxId widget, TkxId value)
     if ((objv[objc] = tkx__window(value)) == NULL) goto argfail;
     objc++;
     st = tkx__invoke(objc, objv, NULL);
-    return st;
-argfail:
-    tkx__discard(objc, objv);
-    return tkx_last_error();
-}
-
-TkxStatus tkx_pack_get_before(TkxId widget, TkxId *out)
-{
-    TkxWidget *w;
-    TkxStatus st;
-    Tcl_Obj *objv[8];
-    int objc = 0;
-    Tcl_Obj *v = NULL;
-    st = tkx__widget(widget, 0, &w);
-    if (st != TKX_OK) return st;
-    if (out == NULL) return tkx__arg_error("out");
-    objv[objc++] = tkx__str("::pack");
-    objv[objc++] = tkx__str("info");
-    objv[objc++] = w->path;
-    st = tkx__invoke(objc, objv, &v);
-    if (st != TKX_OK) return st;
-    {
-        Tcl_Obj *d = v;
-        st = tkx__dict_get(d, "-before", &v);
-        Tcl_DecrRefCount(d);
-        if (st != TKX_OK) return st;
-    }
-    st = tkx__to_window(v, out);
-    Tcl_DecrRefCount(v);
     return st;
 argfail:
     tkx__discard(objc, objv);

@@ -198,6 +198,24 @@ test grid-1.10 {layout updates after a configuration change} -constraints displa
     expr {$w2 > $w1}
 } -result 1
 
+test grid-1.11 {all row/column slot accessors agree with Tk} -constraints display -body {
+    set t [newtop]
+    set c [tkx::fn tkx_frame_create $t]
+    tkx::fn tkx_grid $c 0 0
+    tkx::fn tkx_grid [fr $c] 0 0
+    set fails {}
+    foreach slot {rowconfigure columnconfigure} {
+	foreach {opt v} {weight 2 minsize 15 pad 3 uniform u1} {
+	    tkx::fn tkx_grid_${slot}_$opt $c 0 $v
+	    set got [tkx::fn tkx_grid_${slot}_get_$opt $c 0]
+	    set tk [tkx_tk grid $slot [tkx_path $c] 0 -$opt]
+	    if {$got ne $v || $tk ne $v} { lappend fails "$slot $opt: $got Tk $tk" }
+	}
+    }
+    tkx::destroy $t
+    set fails
+} -result {}
+
 test grid-2.1 {Tk rejects mixing grid and pack in one container} -constraints display -body {
     set t [newtop]
     set a [mklabel $t a]; set b [mklabel $t b]
@@ -265,11 +283,13 @@ test pack-1.2 {every pack option round-trips; ordering with -before/-after} -con
     set order [tkx_tk pack content [tkx_path $t]]
     lappend fails [expr {[lsearch $order [tkx_path $b]] > [lsearch $order [tkx_path $a]]}]
     tkx::fn tkx_pack_set_in $b $c
+    # -after/-before are placement directives that "pack info" never
+    # reports, so the generator emits no getters for them.
     lappend fails [expr {[tkx::fn tkx_pack_get_in $b] == $c}] \
-	[tkx_status {tkx::fn tkx_pack_get_after $b}] [tkx_status {tkx::fn tkx_pack_get_before $b}]
+	[expr {"tkx_pack_get_after" in [tkx::fnlist]}] [expr {"tkx_pack_get_before" in [tkx::fnlist]}]
     tkx::destroy $t
     set fails
-} -result {1 1 1 TKX_ERR_EMPTY TKX_ERR_EMPTY}
+} -result {1 1 1 0 0}
 
 test pack-1.3 {pack propagation and forget} -constraints display -body {
     set t [newtop]

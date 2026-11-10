@@ -886,6 +886,26 @@ proc ::tkx::resolve::GeometryManager {mgr} {
 	dict set handlers $h [dict create table [dict get $tbl name] \
 		src [dict get $tbl src] options $opts]
     }
+    # String literals produced by each subcommand (handler body, or the
+    # inline case block): tells which options "info" reports.
+    foreach i [lsearch -all -exact [lmap s $subs {dict get $s name}] info] {
+	set s [lindex $subs $i]
+	set lits {}
+	if {[dict get $s handler] ne ""} {
+	    set hu [RefUnit [FuncUnit [dict get $s handler] $rel]]
+	    set toks [FuncBody $hu [dict get $s handler]]
+	} else {
+	    set toks {}
+	    foreach blk [MemberBlocks $body [dict get $s enumMember]] {
+		lappend toks {*}[lrange $body {*}$blk]
+	    }
+	}
+	foreach t $toks {
+	    if {[lindex $t 0] eq "str"} { lappend lits [clex::strvalue [lindex $t 1]] }
+	}
+	dict set s literals [lsort -unique $lits]
+	lset subs $i $s
+    }
     return [dict create command $mgr func $func src $src \
 	    subcommandTable [dict get $sub name] subcommandSrc [dict get $sub src] \
 	    subcommands $subs handlers $handlers]

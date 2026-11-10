@@ -3,22 +3,22 @@
     "tk": "9.1.0",
     "tcl": "9.1.0"
   },
-  "generatedFunctions": 373,
+  "generatedFunctions": 370,
   "functionsByApproach": {
     "extracted": 235,
-    "inferred": 89,
+    "inferred": 86,
     "schema": 49
   },
   "functionsByGroup": {
     "frame": 31,
     "grid": 45,
-    "pack": 26,
+    "pack": 24,
     "toplevel": 33,
     "ttk::button": 33,
     "ttk::entry": 43,
     "ttk::frame": 22,
     "ttk::label": 50,
-    "ttk::treeview": 90
+    "ttk::treeview": 89
   },
   "classes": {
     "frame": {
@@ -455,9 +455,10 @@
       },
       "subcommandsDiscovered": 7,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 3
+        "partial": 3,
+        "script-argument": 1
       },
       "options": [
         {
@@ -611,7 +612,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkButton.c:387",
           "reasons": []
         },
@@ -650,9 +651,10 @@
       },
       "subcommandsDiscovered": 7,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 3
+        "partial": 3,
+        "script-argument": 1
       },
       "options": [
         {
@@ -822,7 +824,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkButton.c:599",
           "reasons": []
         },
@@ -862,9 +864,10 @@
       },
       "subcommandsDiscovered": 19,
       "subcommandEvidence": {
-        "complete": 11,
+        "complete": 10,
         "option-mechanism": 2,
-        "partial": 6
+        "partial": 6,
+        "script-argument": 1
       },
       "options": [
         {
@@ -1132,7 +1135,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkEntry.c:1968",
           "reasons": []
         },
@@ -1203,9 +1206,10 @@
       },
       "subcommandsDiscovered": 17,
       "subcommandEvidence": {
-        "complete": 10,
+        "complete": 9,
         "option-mechanism": 2,
-        "partial": 5
+        "partial": 5,
+        "script-argument": 1
       },
       "options": [
         {
@@ -1440,7 +1444,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkEntry.c:1797",
           "reasons": []
         },
@@ -1504,9 +1508,10 @@
       },
       "subcommandsDiscovered": 6,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 2
+        "partial": 2,
+        "script-argument": 1
       },
       "options": [
         {
@@ -1612,7 +1617,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkFrame.c:54",
           "reasons": []
         },
@@ -1643,9 +1648,10 @@
       },
       "subcommandsDiscovered": 6,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 2
+        "partial": 2,
+        "script-argument": 1
       },
       "options": [
         {
@@ -1847,7 +1853,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkButton.c:281",
           "reasons": []
         },
@@ -1878,9 +1884,10 @@
       },
       "subcommandsDiscovered": 6,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 2
+        "partial": 2,
+        "script-argument": 1
       },
       "options": [
         {
@@ -2018,7 +2025,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkFrame.c:54",
           "reasons": []
         },
@@ -2049,9 +2056,10 @@
       },
       "subcommandsDiscovered": 6,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 2
+        "partial": 2,
+        "script-argument": 1
       },
       "options": [
         {
@@ -2196,7 +2204,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkButton.c:849",
           "reasons": []
         },
@@ -2236,9 +2244,10 @@
       },
       "subcommandsDiscovered": 14,
       "subcommandEvidence": {
-        "complete": 3,
+        "complete": 2,
         "option-mechanism": 2,
-        "partial": 9
+        "partial": 9,
+        "script-argument": 1
       },
       "options": [
         {
@@ -2371,7 +2380,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkNotebook.c:1286",
           "reasons": []
         },
@@ -2425,9 +2434,10 @@
       },
       "subcommandsDiscovered": 12,
       "subcommandEvidence": {
-        "complete": 3,
+        "complete": 2,
         "option-mechanism": 2,
-        "partial": 7
+        "partial": 7,
+        "script-argument": 1
       },
       "options": [
         {
@@ -2544,7 +2554,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkPanedwindow.c:902",
           "reasons": []
         },
@@ -2599,9 +2609,10 @@
       },
       "subcommandsDiscovered": 9,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 5
+        "partial": 5,
+        "script-argument": 1
       },
       "options": [
         {
@@ -2771,7 +2782,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkProgress.c:528",
           "reasons": []
         },
@@ -2828,9 +2839,10 @@
       },
       "subcommandsDiscovered": 7,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 3
+        "partial": 3,
+        "script-argument": 1
       },
       "options": [
         {
@@ -2992,7 +3004,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkButton.c:780",
           "reasons": []
         },
@@ -3031,9 +3043,10 @@
       },
       "subcommandsDiscovered": 9,
       "subcommandEvidence": {
-        "complete": 3,
+        "complete": 2,
         "option-mechanism": 2,
-        "partial": 4
+        "partial": 4,
+        "script-argument": 1
       },
       "options": [
         {
@@ -3180,7 +3193,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkScale.c:501",
           "reasons": []
         },
@@ -3217,9 +3230,10 @@
       },
       "subcommandsDiscovered": 10,
       "subcommandEvidence": {
-        "complete": 5,
+        "complete": 4,
         "option-mechanism": 2,
-        "partial": 3
+        "partial": 3,
+        "script-argument": 1
       },
       "options": [
         {
@@ -3319,7 +3333,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkScrollbar.c:291",
           "reasons": []
         },
@@ -3359,9 +3373,10 @@
       },
       "subcommandsDiscovered": 6,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 2
+        "partial": 2,
+        "script-argument": 1
       },
       "options": [
         {
@@ -3435,7 +3450,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkSeparator.c:54",
           "reasons": []
         },
@@ -3466,9 +3481,10 @@
       },
       "subcommandsDiscovered": 6,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 2
+        "partial": 2,
+        "script-argument": 1
       },
       "options": [
         {
@@ -3534,7 +3550,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkSeparator.c:96",
           "reasons": []
         },
@@ -3566,9 +3582,10 @@
       },
       "subcommandsDiscovered": 18,
       "subcommandEvidence": {
-        "complete": 11,
+        "complete": 10,
         "option-mechanism": 2,
-        "partial": 5
+        "partial": 5,
+        "script-argument": 1
       },
       "options": [
         {
@@ -3859,7 +3876,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkEntry.c:2093",
           "reasons": []
         },
@@ -3929,9 +3946,10 @@
       },
       "subcommandsDiscovered": 6,
       "subcommandEvidence": {
-        "complete": 2,
+        "complete": 1,
         "option-mechanism": 2,
-        "partial": 2
+        "partial": 2,
+        "script-argument": 1
       },
       "options": [
         {
@@ -4053,7 +4071,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkSquare.c:136",
           "reasons": []
         },
@@ -4084,9 +4102,10 @@
       },
       "subcommandsDiscovered": 11,
       "subcommandEvidence": {
-        "complete": 3,
+        "complete": 2,
         "option-mechanism": 2,
-        "partial": 6
+        "partial": 6,
+        "script-argument": 1
       },
       "options": [
         {
@@ -4233,7 +4252,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkToggleswitch.c:715",
           "reasons": []
         },
@@ -4295,9 +4314,10 @@
       },
       "subcommandsDiscovered": 57,
       "subcommandEvidence": {
-        "complete": 21,
+        "complete": 19,
         "option-mechanism": 2,
-        "partial": 34
+        "partial": 34,
+        "script-argument": 2
       },
       "options": [
         {
@@ -4665,7 +4685,7 @@
         },
         {
           "path": "instate",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkTreeview.c:7441",
           "reasons": []
         },
@@ -4789,7 +4809,7 @@
         },
         {
           "path": "tag bind",
-          "evidence": "complete",
+          "evidence": "script-argument",
           "source": "generic/ttk/ttkTreeview.c:7399",
           "reasons": []
         },
@@ -5064,7 +5084,8 @@
             "source": ""
           }
         ]
-      }
+      },
+      "notGenerated": []
     },
     "pack": {
       "subcommands": [
@@ -5168,7 +5189,17 @@
             "source": "generic/tkPack.c:1426"
           }
         ]
-      }
+      },
+      "notGenerated": [
+        {
+          "option": "-after",
+          "reason": "set-only: not reported by 'pack info'"
+        },
+        {
+          "option": "-before",
+          "reason": "set-only: not reported by 'pack info'"
+        }
+      ]
     }
   },
   "diagnostics": [

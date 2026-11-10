@@ -391,5 +391,74 @@ test call-1.2 {cget/configure and script-taking subcommands are refused} -constr
 	[tkx_status {tkx::call $e nosuch}]
 } -result {TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED TKX_ERR_UNSUPPORTED}
 
+# ------------------------------- read-only getters and shared ttk commands
+
+test readonly-1.1 {every getter without a setter agrees with Tk's cget} -constraints display -body {
+    set fails {}
+    set done {}
+    dict for {fn info} [infos] {
+	if {[dict get $info kind] ne "getter" || [dict get $info sub] ne ""} continue
+	if {[string map {_get_ _set_} $fn] in [tkx::fnlist]} continue
+	set group [dict get $info group]
+	set option [dict get $info option]
+	set w [expr {$group eq "toplevel" ? [tkx::fn tkx_toplevel_create 0] : [make_widget $group [tkx::main_window]]}]
+	set got [tkx::fn $fn $w]
+	set tk [tkx_tk [tkx_path $w] cget $option]
+	if {$got ne $tk} { lappend fails "$fn: $got vs Tk $tk" }
+	lappend done $fn
+	tkx::destroy $w
+    }
+    list [expr {[llength $done] >= 15}] $fails
+} -result {1 {}}
+
+test ttkcommon-1.1 {state, instate and style for every ttk class} -constraints display -body {
+    set fails {}
+    foreach {cls style} {ttk_frame TFrame ttk_label TLabel ttk_button TButton ttk_entry TEntry ttk_treeview Treeview} {
+	set w [tkx::fn tkx_${cls}_create [tkx::main_window]]
+	set changed [tkx::fn tkx_${cls}_state_set $w {disabled}]
+	set now [tkx::fn tkx_${cls}_state_get $w]
+	set in [tkx::fn tkx_${cls}_instate $w disabled]
+	set st [tkx::fn tkx_${cls}_style $w]
+	set tkst [tkx_tk [tkx_path $w] state]
+	if {$changed ne "!disabled" || "disabled" ni $now || $in != 1 || $st ne $style || $tkst ne $now} {
+	    lappend fails "$cls: $changed / $now / $in / $st / Tk $tkst"
+	}
+	tkx::destroy $w
+    }
+    set fails
+} -result {}
+
+test treeview-2.1 {detach, visible, tag delete, column drag/drop} -constraints display -body {
+    set t [tkx::fn tkx_ttk_treeview_create [tkx::main_window]]
+    tkx::fn tkx_ttk_treeview_set_columns $t {a b}
+    tkx::fn tkx_grid $t 0 0
+    set i [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    set j [tkx::fn tkx_ttk_treeview_insert $t {} end $::tkx::omit]
+    tkx_settle
+    set vis [tkx::fn tkx_ttk_treeview_visible $t $i]
+    tkx::fn tkx_ttk_treeview_detach $t [list $i]
+    set after [list [tkx::fn tkx_ttk_treeview_children $t {}] [tkx::fn tkx_ttk_treeview_exists $t $i]]
+    tkx::fn tkx_ttk_treeview_tag_add $t hot [list $j]
+    tkx::fn tkx_ttk_treeview_tag_delete $t hot
+    set tags [tkx::fn tkx_ttk_treeview_item_get_tags $t $j]
+    tkx::fn tkx_ttk_treeview_drag $t a 300
+    tkx::fn tkx_ttk_treeview_drop $t
+    tkx::fn tkx_grid_forget $t
+    list $vis [expr {$after eq [list [list $j] 1]}] $tags
+} -result {1 1 {}}
+
+test security-1.1 {no generated function takes a Tcl script} -constraints bridge -body {
+    set bad {}
+    foreach fn [tkx::fnlist] {
+	set info [tkx::fninfo $fn]
+	foreach p [dict get $info params] {
+	    if {[lindex $p 1] eq "script" || [string match -nocase *script* [lindex $p 0]]} {
+		lappend bad $fn
+	    }
+	}
+    }
+    list $bad [expr {"tkx_ttk_treeview_tag_bind" in [tkx::fnlist]}]
+} -result {{} 0}
+
 tkx_stop
 cleanupTests

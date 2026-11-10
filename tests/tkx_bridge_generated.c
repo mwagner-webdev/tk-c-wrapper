@@ -3558,26 +3558,6 @@ static int b_tkx_ttk_treeview_tag_add(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *co
     return TCL_OK;
 }
 
-static int b_tkx_ttk_treeview_tag_bind(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
-{
-    TkxId wid;
-    TkxStatus st;
-    const char *tagName;
-    const char *sequence = NULL;
-    const char *script = NULL;
-    char *out = NULL;
-    if (objc < 2) { Tcl_SetObjResult(ip, Tcl_NewStringObj("wrong # args", -1)); return TCL_ERROR; }
-    if (tkxb_get_id(ip, objv[0], &wid) != TCL_OK) return TCL_ERROR;
-    tagName = Tcl_GetString(objv[1]);
-    if (objc > 2 && !tkxb_is_omitted(objv[2])) sequence = Tcl_GetString(objv[2]);
-    if (objc > 3 && !tkxb_is_omitted(objv[3])) script = Tcl_GetString(objv[3]);
-    st = tkx_ttk_treeview_tag_bind(wid, tagName, sequence, script, &out);
-    if (st != TKX_OK) return tkxb_status(ip, st);
-    Tcl_SetObjResult(ip, Tcl_NewStringObj(out, -1));
-    tkx_free(out);
-    return TCL_OK;
-}
-
 static int b_tkx_ttk_treeview_tag_delete(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
 {
     TkxId wid;
@@ -4754,19 +4734,6 @@ static int b_tkx_pack_set_after(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const ob
     return TCL_OK;
 }
 
-static int b_tkx_pack_get_after(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
-{
-    TkxId wid;
-    TkxStatus st;
-    TkxId out = 0;
-    if (objc < 1) { Tcl_SetObjResult(ip, Tcl_NewStringObj("wrong # args", -1)); return TCL_ERROR; }
-    if (tkxb_get_id(ip, objv[0], &wid) != TCL_OK) return TCL_ERROR;
-    st = tkx_pack_get_after(wid, &out);
-    if (st != TKX_OK) return tkxb_status(ip, st);
-    Tcl_SetObjResult(ip, Tcl_NewWideIntObj((Tcl_WideInt)out));
-    return TCL_OK;
-}
-
 static int b_tkx_pack_set_anchor(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
 {
     TkxId wid;
@@ -4803,19 +4770,6 @@ static int b_tkx_pack_set_before(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const o
     if (tkxb_get_id(ip, objv[1], &value) != TCL_OK) return TCL_ERROR;
     st = tkx_pack_set_before(wid, value);
     if (st != TKX_OK) return tkxb_status(ip, st);
-    return TCL_OK;
-}
-
-static int b_tkx_pack_get_before(Tcl_Interp *ip, Tcl_Size objc, Tcl_Obj *const objv[])
-{
-    TkxId wid;
-    TkxStatus st;
-    TkxId out = 0;
-    if (objc < 1) { Tcl_SetObjResult(ip, Tcl_NewStringObj("wrong # args", -1)); return TCL_ERROR; }
-    if (tkxb_get_id(ip, objv[0], &wid) != TCL_OK) return TCL_ERROR;
-    st = tkx_pack_get_before(wid, &out);
-    if (st != TKX_OK) return tkxb_status(ip, st);
-    Tcl_SetObjResult(ip, Tcl_NewWideIntObj((Tcl_WideInt)out));
     return TCL_OK;
 }
 
@@ -5168,9 +5122,7 @@ const TkxbFunc tkxb_generated[] = {
     {"tkx_grid_size", b_tkx_grid_size, "kind geometry group grid option {} sub {} result list params {} approach schema"},
     {"tkx_pack", b_tkx_pack, "kind geometry group pack option {} sub {} result none params {} approach schema"},
     {"tkx_pack_forget", b_tkx_pack_forget, "kind geometry group pack option {} sub {} result none params {} approach schema"},
-    {"tkx_pack_get_after", b_tkx_pack_get_after, "kind geometry-info group pack option -after sub {} result window params {} approach inferred"},
     {"tkx_pack_get_anchor", b_tkx_pack_get_anchor, "kind geometry-info group pack option -anchor sub {} result enum:TkxAnchor params {} approach inferred"},
-    {"tkx_pack_get_before", b_tkx_pack_get_before, "kind geometry-info group pack option -before sub {} result window params {} approach inferred"},
     {"tkx_pack_get_expand", b_tkx_pack_get_expand, "kind geometry-info group pack option -expand sub {} result bool params {} approach inferred"},
     {"tkx_pack_get_fill", b_tkx_pack_get_fill, "kind geometry-info group pack option -fill sub {} result enum:TkxPackFill params {} approach inferred"},
     {"tkx_pack_get_in", b_tkx_pack_get_in, "kind geometry-info group pack option -in sub {} result window params {} approach inferred"},
@@ -5459,7 +5411,6 @@ const TkxbFunc tkxb_generated[] = {
     {"tkx_ttk_treeview_state_set", b_tkx_ttk_treeview_state_set, "kind command group ttk::treeview option {} sub {} result statespec params {{spec statespec 0}} approach schema"},
     {"tkx_ttk_treeview_style", b_tkx_ttk_treeview_style, "kind command group ttk::treeview option {} sub {} result string params {} approach inferred"},
     {"tkx_ttk_treeview_tag_add", b_tkx_ttk_treeview_tag_add, "kind command group ttk::treeview option {} sub {} result none params {{tagName tag 0} {items itemlist 0}} approach inferred"},
-    {"tkx_ttk_treeview_tag_bind", b_tkx_ttk_treeview_tag_bind, "kind command group ttk::treeview option {} sub {} result string params {{tagName tag 0} {sequence string 1} {script string 1}} approach inferred"},
     {"tkx_ttk_treeview_tag_delete", b_tkx_ttk_treeview_tag_delete, "kind command group ttk::treeview option {} sub {} result none params {{tagName tag 0}} approach inferred"},
     {"tkx_ttk_treeview_tag_remove", b_tkx_ttk_treeview_tag_remove, "kind command group ttk::treeview option {} sub {} result none params {{tagName tag 0} {items itemlist 1}} approach inferred"},
     {"tkx_ttk_treeview_visible", b_tkx_ttk_treeview_visible, "kind command group ttk::treeview option {} sub {} result bool params {{item item 0}} approach inferred"},
